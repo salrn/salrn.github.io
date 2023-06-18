@@ -1,6 +1,3 @@
-# salrn.github.io
-Portfolio for Salami Ninja
+# Salami epoc Portfolio
 
-![Uploading resource club (2).png…]()
-
-uuhuh
+Welcome to this epic Portfolio.
