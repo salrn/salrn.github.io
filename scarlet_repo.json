@@ -69,17 +69,18 @@
         "twitter": "https://twitter.com/MiRO92"
     },
     {
-      "name": "Spotilife V1.8",
-      "version": "1.8",
-      "down": "https://github.com/SpotCompiled/SpotilifeC/releases/download/v1.2.3/SpotilifeC.v1.2.3_v8.6.42.ipa",
-      "dev": "yodaluca23"
-      "icon": "https://salrn.github.io/Spotify_App_Logo.svg.png",
+      "name": "uYouiiii",
+      "version": "3.0",
+      "down": "https://miro92.com/repo/depictions/com.miro.uyou/iPA/YouTube_18.14.1_uYou_3.0.ipa",
+      "dev": "MIRO92",
       "category": "Tweaked Apps",
-      "description": "Tweaked Version of Spotify. Works really great!",
-      "bundleID": "com.yodaluca23.spotilifec.dupe",
+      "description": "The best tweak for the YouTube app",
+      "bundleID": "com.google.ios.youtube",
+      "appstore": "com.google.ios.youtube",
       "enableBackup": true,
       "contact": {
-        "web": "https://github.com/SpotCompiled/SpotilifeC",
+        "web": "https://miro92.com",
+        "twitter": "https://twitter.com/MiRO92"
       }
     }
   ],
