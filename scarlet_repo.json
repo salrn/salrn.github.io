@@ -1,6 +1,6 @@
 {
   "META": {
-    "repoName": "Salami’s Repo [TESTING]",
+    "repoName": "Salami’s Repo [Unfinished Beta]",
     "repoIcon": "https://salrn.github.io/IMG_2992.JPG"
   },
   "Tweaked": [
@@ -67,6 +67,19 @@
       "contact": {
         "web": "https://miro92.com",
         "twitter": "https://twitter.com/MiRO92"
+    },
+    {
+      "name": "Spotilife V1.8",
+      "version": "1.8",
+      "down": "https://github.com/SpotCompiled/SpotilifeC/releases/download/v1.2.3/SpotilifeC.v1.2.3_v8.6.42.ipa",
+      "dev": "yodaluca23"
+      "icon": "https://salrn.github.io/Spotify_App_Logo.svg.png",
+      "category": "Tweaked Apps",
+      "description": "Tweaked Version of Spotify. Works really great!",
+      "bundleID": "com.yodaluca23.spotilifec.dupe",
+      "enableBackup": true,
+      "contact": {
+        "web": "https://github.com/SpotCompiled/SpotilifeC",
       }
     }
   ],
@@ -90,7 +103,7 @@
       }
     }
   ],
-  "Macdirtycow": [
+  "MacDirtyCow Tweaks": [
     {
       "name": "Cowabunga",
       "version": "10.3.2",
@@ -119,7 +132,7 @@
       "dev": "haxi0",
       "icon": "https://raw.githubusercontent.com/haxi0/KillMyOTA/master/KillMyOTA-modified.png",
       "category": "Macdirtycow",
-      "description": "OTA Killer for iOS 15.0 - 16.1.2",
+      "description": "OTA (Auto Update) Killer for iOS 15.0 - 16.1.2",
       "bundleID": "org.haxi0.KillMyOTA",
       "contact": {
         "web": "https://haxi0-dev.com/",
@@ -179,7 +192,7 @@
       "dev": "BomberFish",
       "icon": "https://raw.githubusercontent.com/BomberFish/Whitelist/main/img/icon.png",
       "category": "Macdirtycow",
-      "description": "Jailed iOS app to un-blacklist all enterprise-signed apps",
+      "description": "Jailed iOS app to un-blacklist all enterprise-signed apps (iOS 15-16.1.2",
       "bundleID": "ca.bomberfish.Whitelist",
       "contact": {
         "web": "https://bomberfish.ca/",
