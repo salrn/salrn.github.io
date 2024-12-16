@@ -32,6 +32,29 @@
           "image": "https://via.placeholder.com/250x150",
           "guide": "Open and view photos with Photo Viewer."
         }
+        {
+          "name": "Photo Viewer",
+          "description": "View images in high resolution.",
+          "image": "https://via.placeholder.com/250x150",
+          "guide": "Open and view photos with Photo Viewer."
+        }
+      ]
+    }
+    {
+      "name": "Tab 3",
+      "items": [
+        {
+          "name": "Video Editor",
+          "description": "A tool to edit videos quickly.",
+          "image": "https://via.placeholder.com/250x150",
+          "guide": "Use the Video Editor to add effects, cut, and merge videos."
+        },
+        {
+          "name": "Photo Viewer",
+          "description": "View images in high resolution.",
+          "image": "https://via.placeholder.com/250x150",
+          "guide": "Open and view photos with Photo Viewer."
+        }
       ]
     }
   ]
