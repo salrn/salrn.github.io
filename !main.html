@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Download Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #ffffff;
+        }
+        /* Search bar */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+        .search-bar input {
+            padding: 8px;
+            width: 300px;
+            border: none;
+            border-radius: 4px;
+            background-color: #444;
+            color: white;
+        }
+        .search-bar input::placeholder {
+            color: #aaa;
+        }
+        /* Tabs Section */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #222;
+            padding: 10px 0;
+        }
+        .tab {
+            color: white;
+            background-color: #333;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 5px;
+            border-radius: 4px;
+        }
+        .tab.active {
+            background-color: #555;
+        }
+        .tab:hover {
+            background-color: #444;
+        }
+        /* Card Section */
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .cards.hidden {
+            display: none;
+        }
+        .card {
+            background: #1e1e1e;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+            margin: 15px;
+            padding: 15px;
+            width: 250px;
+            text-align: center;
+        }
+        .card img {
+            width: 100%;
+            border-radius: 5px;
+        }
+        .card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #ffffff;
+        }
+        .card p {
+            color: #aaa;
+            font-size: 14px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            background-color: #444;
+            padding: 10px 15px;
+            border-radius: 4px;
+        }
+        .btn:hover {
+            background-color: #555;
+        }
+        /* Guide Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            color: white;
+            width: 300px;
+        }
+        .modal p {
+            margin: 0 0 20px;
+            color: #ddd;
+        }
+        .close-btn {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .close-btn:hover {
+            background-color: #666;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const searchInput = document.querySelector('.search-bar input');
+            const tabsContainer = document.querySelector('.tabs');
+            const contentContainer = document.querySelector('body');
+            const modal = document.querySelector('.modal');
+            const overlay = document.querySelector('.overlay');
+
+            let activeSection;
+
+            // Load JSON Data
+            const response = await fetch('info.json');
+            const data = await response.json();
+            const { tabs } = data;
+
+            function createTabs() {
+                tabs.forEach((tab, index) => {
+                    const tabBtn = document.createElement('button');
+                    tabBtn.className = `tab ${index === 0 ? 'active' : ''}`;
+                    tabBtn.textContent = tab.name;
+                    tabBtn.dataset.section = `section${index}`;
+                    tabsContainer.appendChild(tabBtn);
+
+                    const section = document.createElement('div');
+                    section.className = `cards ${index === 0 ? '' : 'hidden'}`;
+                    section.id = `section${index}`;
+                    contentContainer.appendChild(section);
+
+                    tab.items.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        card.innerHTML = `
+                            <img src="${item.image}" alt="${item.name}">
+                            <h3>${item.name}</h3>
+                            <p>${item.description}</p>
+                            <div class="btn-container">
+                                <a href="#" class="btn download-btn">Download</a>
+                                <button class="btn guide-btn">Guide</button>
+                            </div>
+                        `;
+                        section.appendChild(card);
+
+                        const guideBtn = card.querySelector('.guide-btn');
+                        guideBtn.addEventListener('click', () => showModal(item.guide));
+                    });
+                });
+            }
+
+            function showModal(guideText) {
+                modal.querySelector('p').textContent = guideText;
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+
+            document.querySelector('.close-btn').addEventListener('click', () => {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+
+            tabsContainer.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('tab')) return;
+
+                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+
+                document.querySelectorAll('.cards').forEach(section => section.classList.add('hidden'));
+                activeSection = document.getElementById(e.target.dataset.section);
+                activeSection.classList.remove('hidden');
+            });
+
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase();
+                const cards = activeSection.querySelectorAll('.card');
+                cards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    card.style.display = title.includes(query) ? '' : 'none';
+                });
+            });
+
+            createTabs();
+            activeSection = document.querySelector('.cards');
+        });
+    </script>
+</head>
+<body>
+    <!-- Header with Search Bar -->
+    <div class="header">
+        <h2>File Search</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Search in current tab...">
+        </div>
+    </div>
+
+    <!-- Tabs Section -->
+    <div class="tabs"></div>
+
+    <!-- Guide Modal -->
+    <div class="overlay"></div>
+    <div class="modal">
+        <p>Guide content here</p>
+        <button class="close-btn">Close</button>
+    </div>
+</body>
+</html>
