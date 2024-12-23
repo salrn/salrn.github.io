@@ -12,7 +12,6 @@
             background-color: #121212;
             color: #ffffff;
         }
-        /* Search bar */
         .header {
             display: flex;
             justify-content: space-between;
@@ -32,7 +31,6 @@
         .search-bar input::placeholder {
             color: #aaa;
         }
-        /* Tabs Section */
         .tabs {
             display: flex;
             justify-content: center;
@@ -55,7 +53,6 @@
         .tab:hover {
             background-color: #444;
         }
-        /* Card Section */
         .cards {
             display: flex;
             flex-wrap: wrap;
@@ -104,7 +101,6 @@
         .btn:hover {
             background-color: #555;
         }
-        /* Guide Modal */
         .modal {
             display: none;
             position: fixed;
@@ -155,7 +151,6 @@
 
             let activeSection;
 
-            // Load JSON Data
             const response = await fetch('info.json');
             const data = await response.json();
             const { tabs } = data;
@@ -181,7 +176,7 @@
                             <h3>${item.name}</h3>
                             <p>${item.description}</p>
                             <div class="btn-container">
-                                <a href="#" class="btn download-btn">Download</a>
+                                <a href="${item.download}" class="btn download-btn" download>Download</a>
                                 <button class="btn guide-btn">Guide</button>
                             </div>
                         `;
@@ -230,7 +225,6 @@
     </script>
 </head>
 <body>
-    <!-- Header with Search Bar -->
     <div class="header">
         <h2>File Search</h2>
         <div class="search-bar">
@@ -238,10 +232,8 @@
         </div>
     </div>
 
-    <!-- Tabs Section -->
     <div class="tabs"></div>
 
-    <!-- Guide Modal -->
     <div class="overlay"></div>
     <div class="modal">
         <p>Guide content here</p>
