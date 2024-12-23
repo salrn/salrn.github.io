@@ -26,14 +26,14 @@
           "name": "Samsung 300K",
           "description": "Boot your Samsung device into Download-Mode incase it is stuck in a boot loop. (Old Version)",
           "guide": "Turn off device (unplug battery or fully drain battery), open the tool, connect to PC, then do instructions as told in Program.",
-          "image": "https://via.placeholder.com/250",
+          "image": "https://salrn.github.io/publicfiles/sm300kimg.png",
           "download": "https://salrn.github.io/publicfiles/Samsung 300K Tool.7z"
         },
         {
           "name": "Samsung 350K",
           "description": "Boot your Samsung device into Download-Mode incase it is stuck in a boot loop.",
           "guide": "Turn off device, plug in into PC, open program, Click button.",
-          "image": "https://via.placeholder.com/250",
+          "image": "https://salrn.github.io/publicfiles/sm350kimg.png",
           "download": "https://salrn.github.io/publicfiles/Samsung-350K.zip"
         }
       ]
