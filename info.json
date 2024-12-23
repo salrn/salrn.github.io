@@ -4,63 +4,37 @@
       "name": "Tab 1",
       "items": [
         {
-          "name": "File Manager",
-          "description": "A sleek file manager for Windows.",
-          "image": "https://via.placeholder.com/250x150",
-          "guide": "This is a guide for the File Manager. Use it to manage your files efficiently."
-          "download": "https://via.placeholder.com/250x150",
+          "name": "Item 1",
+          "description": "Description for item 1.",
+          "guide": "Guide for item 1.",
+          "image": "https://via.placeholder.com/250",
+          "download": "https://example.com/download1.zip"
         },
         {
-          "name": "Music Player",
-          "description": "A lightweight music player.",
-          "image": "https://via.placeholder.com/250x150",
-          "guide": "The Music Player lets you play MP3 and WAV files."
-          "download": "https://via.placeholder.com/250x150",
+          "name": "Item 2",
+          "description": "Description for item 2.",
+          "guide": "Guide for item 2.",
+          "image": "https://via.placeholder.com/250",
+          "download": "https://example.com/download2.zip"
         }
       ]
     },
     {
-      "name": "Android Tools",
+      "name": "Tab 2",
       "items": [
         {
-          "name": "Samsung 300K Tool",
-          "description": "Enter Download-Mode incase your device is stuck in a bootloop. (Old Version)",
-          "image": "https://via.placeholder.com/250x150",
-          "guide": "Turn off your phone. Connect to Computer. Open 300K tool. Boot up device and let the program do its magic."
-          "download": "https://via.placeholder.com/250x150",
+          "name": "Item 3",
+          "description": "Description for item 3.",
+          "guide": "Guide for item 3.",
+          "image": "https://via.placeholder.com/250",
+          "download": "https://example.com/download3.zip"
         },
         {
-          "name": "Samsung 350K Tool",
-          "description": "Enter Download-Mode incase your device is stuck in a bootloop. Updated Version of the 300K Tool.",
-          "image": "https://via.placeholder.com/250x150",
-          "guide": "Same as 300K tool."
-          "download": "https://via.placeholder.com/250x150",
-        }
-        {
-          "name": "Photo Viewer",
-          "description": "View images in high resolution.",
-          "image": "https://via.placeholder.com/250x150",
-          "guide": "Open and view photos with Photo Viewer."
-          "download": "https://via.placeholder.com/250x150",
-        }
-      ]
-    }
-    {
-      "name": "Tab 3",
-      "items": [
-        {
-          "name": "Video Editor",
-          "description": "A tool to edit videos quickly.",
-          "image": "https://via.placeholder.com/250x150",
-          "guide": "Use the Video Editor to add effects, cut, and merge videos."
-          "download": "https://via.placeholder.com/250x150",
-        },
-        {
-          "name": "Photo Viewer",
-          "description": "View images in high resolution.",
-          "image": "https://via.placeholder.com/250x150",
-          "guide": "Open and view photos with Photo Viewer."
-          "download": "https://via.placeholder.com/250x150",
+          "name": "Item 4",
+          "description": "Description for item 4.",
+          "guide": "Guide for item 4.",
+          "image": "https://via.placeholder.com/250",
+          "download": "https://example.com/download4.zip"
         }
       ]
     }
