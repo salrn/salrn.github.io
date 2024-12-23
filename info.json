@@ -37,6 +37,25 @@
           "download": "https://salrn.github.io/publicfiles/Samsung-350K.zip"
         }
       ]
+    },
+    {
+      "name": "Drum Kits",
+      "items": [
+        {
+          "name": "##ceolifestyle Drum Kit (@hshsmarian)",
+          "description": "Ripsquad and Bladee typa drum kit.. #ceolifestyle",
+          "guide": "No available guide.",
+          "image": "-",
+          "download": "https://www.dropbox.com/scl/fi/g65ycez1cynjxt3s44res/hshsmarian-kit-ceolifestyle.zip?rlkey=90d2ul4w45v5vzjyyn7x2poh2&st=lso81let&dl=1"
+        },
+        {
+          "name": "IceDancer Official Drum Kit (by Ripsquadd)",
+          "description": "Contains various sounds used in the Album Icedancer by Bladee, it no longer is available for purchase.",
+          "guide": "No available guide.",
+          "image": "-",
+          "download": "https://www.dropbox.com/scl/fi/ztkrq521rvrytobg5eeu4/OFFICIAL-ICEDANCER-DRUM-KIT-RIPSQUADD.zip?rlkey=d4ea7p50hqlvzs9pmh2r45nmr&st=83mscksh&dl=1"
+        }
+      ]
     }
   ]
 }
