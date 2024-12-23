@@ -20,21 +20,21 @@
       ]
     },
     {
-      "name": "Tab 2",
+      "name": "Android Tools",
       "items": [
         {
-          "name": "Item 3",
-          "description": "Description for item 3.",
-          "guide": "Guide for item 3.",
+          "name": "Samsung 300K",
+          "description": "Boot your Samsung device into Download-Mode incase it is stuck in a boot loop. (Old Version)",
+          "guide": "Turn off device (unplug battery or fully drain battery), open the tool, connect to PC, then do instructions as told in Program.",
           "image": "https://via.placeholder.com/250",
-          "download": "https://example.com/download3.zip"
+          "download": "https://salrn.github.io/publicfiles/Samsung 300K Tool.7z"
         },
         {
-          "name": "Item 4",
-          "description": "Description for item 4.",
-          "guide": "Guide for item 4.",
+          "name": "Samsung 350K",
+          "description": "Boot your Samsung device into Download-Mode incase it is stuck in a boot loop.",
+          "guide": "Turn off device, plug in into PC, open program, Click button.",
           "image": "https://via.placeholder.com/250",
-          "download": "https://example.com/download4.zip"
+          "download": "https://salrn.github.io/publicfiles/Samsung-350K.zip"
         }
       ]
     }
