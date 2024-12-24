@@ -12,7 +12,6 @@ return
 ; Define the function for the OK button
 OkButton:
     Gui, Destroy ; Close the GUI when the OK button is pressed
-    ; Add your script logic to run after pressing OK here
     MsgBox, The script is now running! ; For demonstration purposes
 return
 
