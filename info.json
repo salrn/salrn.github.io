@@ -77,6 +77,25 @@
           "download": "https://www.dropbox.com/scl/fi/hs191bgmjyzmeiva5cjq5/kyd.and.cambria-YeatxKanKan-DrumxLoopKit.zip?rlkey=nh3slmhz2kd88ffr3x8l1owfn&st=ffzoqbko&dl=1"
         }
       ]
-    }
+    },
+    {
+      "name": "Macros",
+      "items": [
+        {
+          "name": "Minecraft Sprint Reset Macro",
+          "description": "The first hit while sprinting has a increased knockback, this Macro Resets your sprint after clicking.",
+          "guide": "AHK",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/SprintReset_MC.ahk"
+        },
+        {
+          "name": "Microsoft Store Mouse going out of Window fixer",
+          "description": "No description available.",
+          "guide": "AHK",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/MicrosoftStoreMouseFixerBySalami Ninja.ahk"
+        }
+      ]
+    },
   ]
 }
