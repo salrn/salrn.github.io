@@ -1,14 +1,14 @@
 {
   "tabs": [
     {
-      "name": "Tab 1",
+      "name": "Utilities",
       "items": [
         {
-          "name": "Item 1",
-          "description": "Description for item 1.",
-          "guide": "Guide for item 1.",
-          "image": "https://via.placeholder.com/250",
-          "download": "https://example.com/download1.zip"
+          "name": "OP Autoclicker 2.1",
+          "description": "No BS. Regular Auto Clicker, limited to 50 CPS",
+          "guide": "Open App, select your Hotkey by pressing onto Hotkey setting, set your settings for the autoclicker, and press the Hotkey.",
+          "image": "https://salrn.github.io/publicfiles/opclicker.png",
+          "download": "https://salrn.github.io/publicfiles/AutoClicker.exe"
         },
         {
           "name": "Item 2",
