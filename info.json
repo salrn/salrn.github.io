@@ -35,6 +35,13 @@
           "guide": "Turn off device, plug in into PC, open program, Click button.",
           "image": "https://salrn.github.io/publicfiles/sm350kimg.png",
           "download": "https://salrn.github.io/publicfiles/Samsung-350K.zip"
+        },
+        {
+          "name": "UnlockTool",
+          "description": "(Version: 2024.12.22.0) FRP Unlock your device incase you forgot it! Snatched from unlocktool.net",
+          "guide": "Guide by unlocktool.net (Slashes are inverted); Please uninstall Flexihub (EUsbHubFilter). Find name driver error (C:/Windows/System32/drivers - Delete or move onto your Desktop). Open Registry Editor - HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Class/{36fc9e60-c465-11cf-8056-444553540000} delete UpperFilters ",
+          "image": "https://salrn.github.io/publicfiles/gsmunlockttoolico.png",
+          "download": "https://update.unlocktool.net/uploads/UnlockTool-2024-12-22-0.exe"
         }
       ]
     },
