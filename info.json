@@ -53,7 +53,7 @@
         {
           "name": "Qualcomm Ports Driver + QDLoader 9008 HS USB Driver Setup",
           "description": "Driver required incase you want to connect your Qualcomm device in EDM with your PC.",
-          "guide": "HS USB Driver has a regular setup. For the Ports driver, you need to open up Device Manager, right click the Qualcomm device, (Which may have a warning symbol on it or be named Unknown Device) press on update drivers, and then press Search on my device. Select the folder with the Qualcomm Ports Driver.")",
+          "guide": "HS USB Driver has a regular setup. For the Ports driver, you need to open up Device Manager, right click the Qualcomm device, (Which may have a warning symbol on it or be named Unknown Device) press on update drivers, and then press Search on my device. Select the folder with the Qualcomm Ports Driver.)",
           "image": "https://salrn.github.io/publicfiles/New Project (36).png",
           "download": "https://www.dropbox.com/scl/fi/0pu99os2koqczlno3sn6c/Qualcomm_PortsDriver-QDLoader_HS-USB_DriverSetup.rar?rlkey=rhjyu1cuc4ighb0gtysjx0oky&st=9wv9ubiz&dl=1"
         }
