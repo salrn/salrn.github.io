@@ -42,6 +42,20 @@
           "guide": "Guide by unlocktool.net (Slashes are inverted); Please uninstall Flexihub (EUsbHubFilter). Find name driver error (C:/Windows/System32/drivers - Delete or move onto your Desktop). Open Registry Editor - HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Class/{36fc9e60-c465-11cf-8056-444553540000} delete UpperFilters ",
           "image": "https://salrn.github.io/publicfiles/gsmunlockttoolico.png",
           "download": "https://update.unlocktool.net/uploads/UnlockTool-2024-12-22-0.exe"
+        },
+        {
+          "name": "Samsung USB Driver 1.7.61",
+          "description": "The Driver necessary if you want to connect your Samsung Device to your PC.",
+          "guide": "Just install. Installation may take long.",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://developer.samsung.com/sdp/file/de97d0ea-da03-46a4-b35d-346d37a878e0"
+        },
+        {
+          "name": "Qualcomm Ports Driver + QDLoader 9008 HS USB Driver Setup",
+          "description": "Driver required incase you want to connect your Qualcomm device in EDM with your PC.",
+          "guide": "HS USB Driver has a regular setup. For the Ports driver, you need to open up Device Manager, right click the Qualcomm device, (Which may have a warning symbol on it or be named Unknown Device) press on update drivers, and then press Search on my device. Select the folder with the Qualcomm Ports Driver.")",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://www.dropbox.com/scl/fi/0pu99os2koqczlno3sn6c/Qualcomm_PortsDriver-QDLoader_HS-USB_DriverSetup.rar?rlkey=rhjyu1cuc4ighb0gtysjx0oky&st=9wv9ubiz&dl=1"
         }
       ]
     },
