@@ -11,7 +11,7 @@
           "download": "https://salrn.github.io/publicfiles/AutoClicker.exe"
         },
         {
-          "name": "Item 2",
+          "name": "",
           "description": "Description for item 2.",
           "guide": "Guide for item 2.",
           "image": "https://via.placeholder.com/250",
@@ -122,6 +122,18 @@
           "guide": "AHK",
           "image": "https://salrn.github.io/publicfiles/New Project (36).png",
           "download": "https://salrn.github.io/publicfiles/MicrosoftStoreMouseFixerBySalami Ninja.ahk"
+        }
+      ]
+    }
+    {
+      "name": "Others",
+      "items": [
+        {
+          "name": "ripsquad - 29211 yy (WAV FILE) rare exclusive",
+          "description": "on youtube: https://www.youtube.com/watch?v=mPEijxg-0BA&t  end is slightly shortened for whatever reason",
+          "guide": "No available guide.",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://www.dropbox.com/scl/fi/2d0baxe3a2g4hs034p2i9/29211-yy.wav?rlkey=ytm3a30x0eehaz7niihl6g34o&st=540n3r6z&dl=1"
         }
       ]
     }
