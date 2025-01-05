@@ -9,13 +9,6 @@
           "guide": "Open App, select your Hotkey by pressing onto Hotkey setting, set your settings for the autoclicker, and press the Hotkey.",
           "image": "https://salrn.github.io/publicfiles/opclicker.png",
           "download": "https://salrn.github.io/publicfiles/AutoClicker.exe"
-        },
-        {
-          "name": "",
-          "description": "Description for item 2.",
-          "guide": "Guide for item 2.",
-          "image": "https://via.placeholder.com/250",
-          "download": "https://example.com/download2.zip"
         }
       ]
     },
@@ -49,6 +42,34 @@
           "guide": "Just install. Installation may take long.",
           "image": "https://salrn.github.io/publicfiles/New Project (36).png",
           "download": "https://developer.samsung.com/sdp/file/de97d0ea-da03-46a4-b35d-346d37a878e0"
+        },
+        {
+          "name": "Samsung Odin v3.09",
+          "description": "Flash your Samsung Device to fix any issues regarding the firmware, or modify it. [This version is meant for old Samsung Devices!]",
+          "guide": "Import firmware by selecting them individually on the right side. Then just flash the device. If you want to use a Custom Recovery, please disable Auto-Reboot",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/Odin_v3.09.zip"
+        },
+        {
+          "name": "Samsung Odin v3.13.1",
+          "description": "Flash your Samsung Device to fix any issues regarding the firmware, or modify it.",
+          "guide": "Import firmware by selecting them individually on the right side. Then just flash the device. If you want to use a Custom Recovery, please disable Auto-Reboot",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/Odin3_v3.13.1.zip"
+        },
+        {
+          "name": "Samsung Odin v3.13.3 [3B] Patched",
+          "description": "Flash your Samsung Device to fix any issues regarding the firmware, or modify it. This is a patched version, more info here; https://xdaforums.com/t/patched-odin-3-13-1.3762572/",
+          "guide": "Import firmware by selecting them individually on the right side. Then just flash the device. If you want to use a Custom Recovery, please disable Auto-Reboot",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/Odin3 v3.13.3_3B_PatcheD.zip"
+        },
+        {
+          "name": "Samsung Odin v3.14.1",
+          "description": "Flash your Samsung Device to fix any issues regarding the firmware, or modify it.",
+          "guide": "Import firmware by selecting them individually on the right side. Then just flash the device. If you want to use a Custom Recovery, please disable Auto-Reboot",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/Odin3 v3.14.1.zip"
         },
         {
           "name": "Qualcomm Ports Driver + QDLoader 9008 HS USB Driver Setup",
