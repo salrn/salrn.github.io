@@ -72,6 +72,13 @@
           "download": "https://salrn.github.io/publicfiles/Odin3 v3.14.1.zip"
         },
         {
+          "name": "Frija v2.0.23364.3",
+          "description": "Download Firmware to use on your Samsung Device. Official Github Page; https://github.com/SlackingVeteran/frija",
+          "guide": "Enter information such as Serial Number/IMEI and Country code to download the latest official firmware that is supported to be flashed normaly.",
+          "image": "https://salrn.github.io/publicfiles/New Project (39).png",
+          "download": "https://salrn.github.io/publicfiles/Frija_v2.0.23364.3.zip"
+        },
+        {
           "name": "Qualcomm Ports Driver + QDLoader 9008 HS USB Driver Setup",
           "description": "Driver required incase you want to connect your Qualcomm device in EDM with your PC.",
           "guide": "HS USB Driver has a regular setup. For the Ports driver, you need to open up Device Manager, right click the Qualcomm device, (Which may have a warning symbol on it or be named Unknown Device) press on update drivers, and then press Search on my device. Select the folder with the Qualcomm Ports Driver.)",
