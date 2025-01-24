@@ -9,6 +9,13 @@
           "guide": "Open App, select your Hotkey by pressing onto Hotkey setting, set your settings for the autoclicker, and press the Hotkey.",
           "image": "https://salrn.github.io/publicfiles/opclicker.png",
           "download": "https://salrn.github.io/publicfiles/AutoClicker.exe"
+        },
+        {
+          "name": "WindowsImageTool",
+          "description": "Add NVMe or USB 3.0 Drivers to your Windows installation (example; Windows 7)",
+          "guide": "Extract folder; open WindowsImageTool.exe, Make sure your Windows 7 USB Stick is plugged in, Select [None-Add USB drivers] in Source Path. Choose Windows 7 USB installation disk in Destination Path. Click [Start] to run and [Close] when the procedure is done.",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/brix_utility_windowsimagetool.zip"
         }
       ]
     },
