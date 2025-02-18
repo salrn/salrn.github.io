@@ -14,11 +14,28 @@
         }
         .header {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             background-color: #333;
             padding: 10px 20px;
             color: white;
+            gap: 15px;
+        }
+        .spinning-logo {
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .search-bar {
+            margin-left: auto;
         }
         .search-bar input {
             padding: 8px;
@@ -233,6 +250,7 @@
 </head>
 <body>
     <div class="header">
+        <img src="/path-to-your-image.png" alt="Logo" class="spinning-logo">
         <h2>salami's website - file search</h2>
         <div class="search-bar">
             <input type="text" placeholder="Search in current tab...">
