@@ -20,7 +20,7 @@
       ]
     },
     {
-      "name": "Android Tools",
+      "name": "Mobile Tools",
       "items": [
         {
           "name": "Samsung 300K",
@@ -84,6 +84,20 @@
           "guide": "Enter information such as Serial Number/IMEI and Country code to download the latest official firmware that is supported to be flashed normaly.",
           "image": "https://salrn.github.io/publicfiles/New Project (39).png",
           "download": "https://salrn.github.io/publicfiles/Frija_v2.0.23364.3.zip"
+        },
+        {
+          "name": "MagicCFG 1.2.1",
+          "description": "Modify your Serial Number and more in purple rain using this tool.",
+          "guide": "First, register devices ECID on https://frpfile.com/magiccfg/. Then, set your Windows/MacOS Time to Vietnam to avoid server issues and restart PC. Enter DFU and follow instructions on MagicCFG. Depending on your device, restarting may require you to fully reflash firmware again. Some iPhone Models require a special type of cable to work in purple mode which I wont get into here.",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/MagicCFG_v1.2.1.exe.7z"
+        },
+        {
+          "name": "MagicCFG 1.2.1B",
+          "description": "Modify your Serial Number and more in purple rain using this tool.",
+          "guide": "First, register devices ECID on https://frpfile.com/magiccfg/. Then, set your Windows/MacOS Time to Vietnam to avoid server issues and restart PC. Enter DFU and follow instructions on MagicCFG. Depending on your device, restarting may require you to fully reflash firmware again. Some iPhone Models require a special type of cable to work in purple mode which I wont get into here.",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/MagicCFG_v1.2.1b.exe.7z"
         },
         {
           "name": "Qualcomm Ports Driver + QDLoader 9008 HS USB Driver Setup",
