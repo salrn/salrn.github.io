@@ -7,6 +7,8 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
 
 -- Create ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
@@ -22,7 +24,7 @@ MainFrame.Position = UDim2.new(0.5, -125, 0.5, -95)
 MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 MainFrame.BorderSizePixel = 0
 MainFrame.Active = true
-MainFrame.Draggable = true
+-- Remove Draggable property since we're using custom drag script
 MainFrame.Parent = ScreenGui
 
 -- Create title
@@ -106,13 +108,6 @@ local function teleportToObject()
         return
     end
     
-    -- Find the object with the specified name in the Mine folder
-    local targetObject = mineFolder:FindFirstChild(objectName)
-    if not targetObject then
-        print("Error: Object named '" .. objectName .. "' not found in the Mine folder.")
-        return
-    end
-    
     -- Make sure the player character exists
     local character = Player.Character
     if not character then
@@ -120,37 +115,94 @@ local function teleportToObject()
         return
     end
     
-    -- Teleport the player to the object
     local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-    if humanoidRootPart then
-        -- Get position to teleport to
+    if not humanoidRootPart then
+        print("Error: HumanoidRootPart not found.")
+        return
+    end
+    
+    -- Find all objects with the specified name in the Mine folder
+    local matchingObjects = {}
+    
+    -- Function to recursively search for objects with matching names
+    local function findMatchingObjects(parent)
+        for _, obj in pairs(parent:GetChildren()) do
+            if obj.Name == objectName then
+                table.insert(matchingObjects, obj)
+            end
+            findMatchingObjects(obj) -- Search recursively
+        end
+    end
+    
+    findMatchingObjects(mineFolder)
+    
+    if #matchingObjects == 0 then
+        print("Error: No objects named '" .. objectName .. "' found in the Mine folder.")
+        return
+    end
+    
+    -- Find the nearest object if there are multiple matches
+    local nearestObject = nil
+    local shortestDistance = math.huge
+    
+    for _, obj in ipairs(matchingObjects) do
+        -- Get position of the object
         local targetPosition
         
-        -- Check if the target has a primary part or is a part itself
-        if targetObject:IsA("Model") and targetObject.PrimaryPart then
-            targetPosition = targetObject.PrimaryPart.Position
-        elseif targetObject:IsA("BasePart") then
-            targetPosition = targetObject.Position
+        if obj:IsA("Model") and obj.PrimaryPart then
+            targetPosition = obj.PrimaryPart.Position
+        elseif obj:IsA("BasePart") then
+            targetPosition = obj.Position
         else
             -- Try to find any part in the object
-            local anyPart = targetObject:FindFirstChildWhichIsA("BasePart")
+            local anyPart = obj:FindFirstChildWhichIsA("BasePart", true)
             if anyPart then
                 targetPosition = anyPart.Position
             else
-                print("Error: Cannot find a valid position in the target object.")
-                return
+                -- Skip this object if we can't find a position
+                continue
             end
         end
         
-        -- Add a small Y offset to prevent getting stuck in the object
-        targetPosition = targetPosition + Vector3.new(0, 3, 0)
+        -- Calculate distance
+        local distance = (targetPosition - humanoidRootPart.Position).Magnitude
         
-        -- Teleport
-        humanoidRootPart.CFrame = CFrame.new(targetPosition)
-        print("Teleported to " .. objectName)
-    else
-        print("Error: HumanoidRootPart not found.")
+        -- Update nearest object if this one is closer
+        if distance < shortestDistance then
+            nearestObject = obj
+            shortestDistance = distance
+        end
     end
+    
+    if not nearestObject then
+        print("Error: Could not find a valid object to teleport to.")
+        return
+    end
+    
+    -- Get position to teleport to
+    local targetPosition
+    
+    if nearestObject:IsA("Model") and nearestObject.PrimaryPart then
+        targetPosition = nearestObject.PrimaryPart.Position
+    elseif nearestObject:IsA("BasePart") then
+        targetPosition = nearestObject.Position
+    else
+        -- Try to find any part in the object
+        local anyPart = nearestObject:FindFirstChildWhichIsA("BasePart", true)
+        if anyPart then
+            targetPosition = anyPart.Position
+        else
+            print("Error: Cannot find a valid position in the target object.")
+            return
+        end
+    end
+    
+    -- Add a small Y offset to prevent getting stuck in the object
+    targetPosition = targetPosition + Vector3.new(0, 3, 0)
+    
+    -- Teleport
+    humanoidRootPart.CFrame = CFrame.new(targetPosition)
+    print("Teleported to " .. objectName .. " (Distance: " .. math.floor(shortestDistance) .. " studs)")
 end
 
 -- Connect button click event
@@ -181,5 +233,48 @@ end
 
 -- Connect to RenderStepped to update coordinates in real-time
 RunService.RenderStepped:Connect(updateCoordinates)
+
+-- Custom drag script implementation
+local dragToggle = nil
+local dragInput = nil
+local dragStart = nil
+local dragInfo = TweenInfo.new(0.1)
+local dragPos = nil
+
+local function updateInput(input)
+    local delta = input.Position - dragStart
+    local position = UDim2.new(dragPos.X.Scale, dragPos.X.Offset + delta.X, dragPos.Y.Scale, dragPos.Y.Offset + delta.Y)
+    TweenService:Create(MainFrame, dragInfo, {Position = position}):Play()
+end
+
+local function dragInputBegan(input)
+    if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UserInputService:GetFocusedTextBox() == nil then
+        dragToggle = true
+        dragStart = input.Position
+        dragPos = MainFrame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragToggle = false
+            end
+        end)
+    end
+end
+
+local function dragInputChanged(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end
+
+local function userInputChanged(input, gameProcessedEvent)
+    if input == dragInput and dragToggle then
+        updateInput(input)
+    end
+end
+
+-- Connect drag events
+MainFrame.InputBegan:Connect(dragInputBegan)
+MainFrame.InputChanged:Connect(dragInputChanged)
+UserInputService.InputChanged:Connect(userInputChanged)
 
 print("Teleport GUI loaded successfully. Type an object name and click 'Teleport' to go to it.")
