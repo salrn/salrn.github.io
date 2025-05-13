@@ -13,7 +13,9 @@ local PartName = Instance.new("TextLabel")
 local AmountFound = Instance.new("TextLabel")
 local Go = Instance.new("TextButton")
 local TextLabel = Instance.new("TextLabel")
+local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
 local MinuteTime = Instance.new("TextLabel")
+local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
 
 --Properties:
 
@@ -22,7 +24,7 @@ Frame.BackgroundColor3 = Color3.fromRGB(77, 77, 77)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
 Frame.Position = UDim2.new(0.299715936, 0, 0.261996329, 0)
-Frame.Size = UDim2.new(0, 563, 0, 342)
+Frame.Size = UDim2.new(0.335718542, 0, 0.425373137, 0)
 
 Add.Name = "Add"
 Add.Parent = Frame
@@ -125,6 +127,9 @@ TextLabel.TextSize = 14.000
 TextLabel.TextWrapped = true
 TextLabel.TextXAlignment = Enum.TextXAlignment.Left
 
+UITextSizeConstraint.Parent = TextLabel
+UITextSizeConstraint.MaxTextSize = 17
+
 MinuteTime.Name = "MinuteTime"
 MinuteTime.Parent = Frame
 MinuteTime.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -141,9 +146,12 @@ MinuteTime.TextSize = 14.000
 MinuteTime.TextWrapped = true
 MinuteTime.TextXAlignment = Enum.TextXAlignment.Right
 
+UITextSizeConstraint_2.Parent = MinuteTime
+UITextSizeConstraint_2.MaxTextSize = 17
+
 -- Scripts:
 
-local function AVMASVH_fake_script() -- Frame.DragScript 
+local function JWQD_fake_script() -- Frame.DragScript 
 	local script = Instance.new('LocalScript', Frame)
 
 	--Not made by me, check out this video: https://www.youtube.com/watch?v=z25nyNBG7Js&t=22s
@@ -186,8 +194,8 @@ local function AVMASVH_fake_script() -- Frame.DragScript
 	end)
 	
 end
-coroutine.wrap(AVMASVH_fake_script)()
-local function EGSL_fake_script() -- Add.ScriptYouAreEditing 
+coroutine.wrap(JWQD_fake_script)()
+local function UWHRHYE_fake_script() -- Add.ScriptYouAreEditing 
 	local script = Instance.new('LocalScript', Add)
 
 	local Players = game:GetService("Players")
@@ -310,8 +318,8 @@ local function EGSL_fake_script() -- Add.ScriptYouAreEditing
 	coroutine.wrap(refreshPartCounts)()
 	
 end
-coroutine.wrap(EGSL_fake_script)()
-local function JAASS_fake_script() -- Go.LocalScript 
+coroutine.wrap(UWHRHYE_fake_script)()
+local function DYZIMYX_fake_script() -- Go.LocalScript 
 	local script = Instance.new('LocalScript', Go)
 
 	-- LocalScript for the Go button
@@ -361,8 +369,8 @@ local function JAASS_fake_script() -- Go.LocalScript
 		end
 	end)
 end
-coroutine.wrap(JAASS_fake_script)()
-local function OEYS_fake_script() -- MinuteTime.LocalScript 
+coroutine.wrap(DYZIMYX_fake_script)()
+local function VUIQH_fake_script() -- MinuteTime.LocalScript 
 	local script = Instance.new('LocalScript', MinuteTime)
 
 	local minuteTimeLabel = script.Parent
@@ -376,4 +384,4 @@ local function OEYS_fake_script() -- MinuteTime.LocalScript
 	
 	
 end
-coroutine.wrap(OEYS_fake_script)()
+coroutine.wrap(VUIQH_fake_script)()
