@@ -3,7 +3,6 @@
 
 -- Instances:
 
-local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local Add = Instance.new("TextButton")
 local TextBox = Instance.new("TextBox")
@@ -14,13 +13,11 @@ local PartName = Instance.new("TextLabel")
 local AmountFound = Instance.new("TextLabel")
 local Go = Instance.new("TextButton")
 local TextLabel = Instance.new("TextLabel")
+local MinuteTime = Instance.new("TextLabel")
 
 --Properties:
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-Frame.Parent = ScreenGui
+Frame.Parent = game.StarterGui.ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(77, 77, 77)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Frame.BorderSizePixel = 0
@@ -128,9 +125,25 @@ TextLabel.TextSize = 14.000
 TextLabel.TextWrapped = true
 TextLabel.TextXAlignment = Enum.TextXAlignment.Left
 
+MinuteTime.Name = "MinuteTime"
+MinuteTime.Parent = Frame
+MinuteTime.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+MinuteTime.BackgroundTransparency = 1.000
+MinuteTime.BorderColor3 = Color3.fromRGB(0, 0, 0)
+MinuteTime.BorderSizePixel = 0
+MinuteTime.Position = UDim2.new(0.634103, 0, 0, 0)
+MinuteTime.Size = UDim2.new(0, 200, 0, 17)
+MinuteTime.Font = Enum.Font.Unknown
+MinuteTime.Text = "Azure Mines GUI"
+MinuteTime.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinuteTime.TextScaled = true
+MinuteTime.TextSize = 14.000
+MinuteTime.TextWrapped = true
+MinuteTime.TextXAlignment = Enum.TextXAlignment.Right
+
 -- Scripts:
 
-local function CEGSO_fake_script() -- Frame.DragScript 
+local function YFFO_fake_script() -- Frame.DragScript 
 	local script = Instance.new('LocalScript', Frame)
 
 	--Not made by me, check out this video: https://www.youtube.com/watch?v=z25nyNBG7Js&t=22s
@@ -173,11 +186,10 @@ local function CEGSO_fake_script() -- Frame.DragScript
 	end)
 	
 end
-coroutine.wrap(CEGSO_fake_script)()
-local function WLAQWE_fake_script() -- Add.ScriptYouAreEditing 
+coroutine.wrap(YFFO_fake_script)()
+local function UDWTZKT_fake_script() -- Add.ScriptYouAreEditing 
 	local script = Instance.new('LocalScript', Add)
 
-	-- Enhanced Part Search Script for the ScreenGui
 	local Players = game:GetService("Players")
 	local player = Players.LocalPlayer
 	
@@ -187,10 +199,8 @@ local function WLAQWE_fake_script() -- Add.ScriptYouAreEditing
 	local objectsFrame = frame.Objects
 	local template = objectsFrame.Template
 	
-	-- Hide the template
 	template.Visible = false
 	
-	-- Function to find parts by name in the Mine folder
 	local function findParts(partName)
 		local parts = {}
 		local mineFolder = workspace:FindFirstChild("Mine")
@@ -206,41 +216,29 @@ local function WLAQWE_fake_script() -- Add.ScriptYouAreEditing
 		return parts
 	end
 	
-	-- Function to create a new entry for a part
 	local function createPartEntry(partName, partsFound)
-		-- Clone the template
 		local newEntry = template:Clone()
 		newEntry.Name = partName
 		newEntry.Visible = true
-	
-		-- Update the TextLabels
 		newEntry.PartName.Text = partName
 		newEntry.AmountFound.Text = tostring(#partsFound)
-	
-		-- Parent the new entry to the objects frame
 		newEntry.Parent = objectsFrame
-	
 		return newEntry
 	end
 	
-	-- Add button functionality
 	addButton.MouseButton1Click:Connect(function()
-		local partName = textBox.Text:gsub("^%s*(.-)%s*$", "%1") -- Trim whitespace
+		local partName = textBox.Text:gsub("^%s*(.-)%s*$", "%1")
 	
 		if partName ~= "" then
 			local partsFound = findParts(partName)
 	
-			-- Check if entry already exists
 			if objectsFrame:FindFirstChild(partName) then
-				-- Update existing entry
 				local existingEntry = objectsFrame:FindFirstChild(partName)
 				existingEntry.AmountFound.Text = tostring(#partsFound)
 			else
-				-- Create new entry
 				if #partsFound > 0 then
 					createPartEntry(partName, partsFound)
 				else
-					-- Optional: Show feedback when no parts are found
 					textBox.Text = "No parts found: " .. partName
 					wait(1.5)
 					textBox.Text = ""
@@ -248,34 +246,85 @@ local function WLAQWE_fake_script() -- Add.ScriptYouAreEditing
 				end
 			end
 	
-			-- Clear the text box
 			textBox.Text = ""
 		end
 	end)
 	
-	-- Optional: Refresh part counts periodically
-	local function refreshPartCounts()
-		while wait(5) do -- Update every 5 seconds
-			for _, entry in pairs(objectsFrame:GetChildren()) do
-				if entry:IsA("Frame") and entry ~= template then
-					local partName = entry.Name
-					local updatedParts = findParts(partName)
-					entry.AmountFound.Text = tostring(#updatedParts)
+	local lastUpdateTimes = {}
+	local totalStoneCount = 0
+	local lastRescanStoneMilestone = 0
+	local lastRescanTime = 0
 	
-					-- Remove entry if no parts left
-					if #updatedParts == 0 then
-						entry:Destroy()
+	local function rescanMineFolder()
+		local mineFolder = workspace:FindFirstChild("Mine")
+		if mineFolder then
+			local uniqueNames = {}
+			for _, part in pairs(mineFolder:GetDescendants()) do
+				if part:IsA("BasePart") then
+					uniqueNames[part.Name] = true
+				end
+			end
+	
+			for partName in pairs(uniqueNames) do
+				if not objectsFrame:FindFirstChild(partName) then
+					local found = findParts(partName)
+					if #found > 0 then
+						createPartEntry(partName, found)
 					end
 				end
 			end
 		end
 	end
 	
-	-- Start the refresh loop
+	local function refreshPartCounts()
+		rescanMineFolder()
+		lastRescanTime = tick()
+	
+		while true do
+			local currentTime = tick()
+	
+			for _, entry in pairs(objectsFrame:GetChildren()) do
+				if entry:IsA("Frame") and entry ~= template then
+					local partName = entry.Name
+					local interval = (partName:lower() == "stone") and 50 or 5
+					local lastUpdated = lastUpdateTimes[partName] or 0
+	
+					if currentTime - lastUpdated >= interval then
+						local updatedParts = findParts(partName)
+						entry.AmountFound.Text = tostring(#updatedParts)
+						lastUpdateTimes[partName] = currentTime
+	
+						if partName:lower() == "stone" then
+							totalStoneCount += #updatedParts
+						end
+	
+						if #updatedParts == 0 then
+							lastUpdateTimes[partName] = nil
+							entry:Destroy()
+						end
+					end
+				end
+			end
+	
+			if math.floor(totalStoneCount / 5000) > lastRescanStoneMilestone then
+				lastRescanStoneMilestone = math.floor(totalStoneCount / 5000)
+				rescanMineFolder()
+			end
+	
+			if currentTime - lastRescanTime >= 60 then
+				lastRescanTime = currentTime
+				rescanMineFolder()
+			end
+	
+			wait(1)
+		end
+	end
+	
 	coroutine.wrap(refreshPartCounts)()
+	
 end
-coroutine.wrap(WLAQWE_fake_script)()
-local function JCNCSVI_fake_script() -- Go.LocalScript 
+coroutine.wrap(UDWTZKT_fake_script)()
+local function VGICK_fake_script() -- Go.LocalScript 
 	local script = Instance.new('LocalScript', Go)
 
 	-- LocalScript for the Go button
@@ -325,4 +374,19 @@ local function JCNCSVI_fake_script() -- Go.LocalScript
 		end
 	end)
 end
-coroutine.wrap(JCNCSVI_fake_script)()
+coroutine.wrap(VGICK_fake_script)()
+local function ALGKGMG_fake_script() -- MinuteTime.LocalScript 
+	local script = Instance.new('LocalScript', MinuteTime)
+
+	local minuteTimeLabel = script.Parent
+	
+	while true do
+		for i = 60, 0, -1 do
+			minuteTimeLabel.Text = tostring(i)
+			task.wait(1)
+		end
+	end
+	
+	
+end
+coroutine.wrap(ALGKGMG_fake_script)()
