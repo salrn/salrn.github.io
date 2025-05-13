@@ -1,8 +1,10 @@
 -- TeleportGUI Script
 -- This script creates a draggable GUI with a text input and execute button
 -- The player can enter an object name and teleport to it if it exists in the "Mine" folder
+-- Also displays current player coordinates
 
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
@@ -15,8 +17,8 @@ ScreenGui.Parent = PlayerGui
 -- Create main frame
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 250, 0, 150)
-MainFrame.Position = UDim2.new(0.5, -125, 0.5, -75)
+MainFrame.Size = UDim2.new(0, 250, 0, 190) -- Increased height to accommodate coordinates
+MainFrame.Position = UDim2.new(0.5, -125, 0.5, -95)
 MainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 MainFrame.BorderSizePixel = 0
 MainFrame.Active = true
@@ -75,6 +77,20 @@ ExecuteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 ExecuteButton.Font = Enum.Font.SourceSansBold
 ExecuteButton.TextSize = 16
 ExecuteButton.Parent = MainFrame
+
+-- Create coordinates display
+local CoordinatesLabel = Instance.new("TextLabel")
+CoordinatesLabel.Name = "CoordinatesLabel"
+CoordinatesLabel.Size = UDim2.new(1, -20, 0, 30)
+CoordinatesLabel.Position = UDim2.new(0, 10, 0, 145)
+CoordinatesLabel.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+CoordinatesLabel.BorderColor3 = Color3.fromRGB(100, 100, 100)
+CoordinatesLabel.Text = "Position: X: 0, Y: 0, Z: 0"
+CoordinatesLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+CoordinatesLabel.Font = Enum.Font.SourceSans
+CoordinatesLabel.TextSize = 14
+CoordinatesLabel.TextXAlignment = Enum.TextXAlignment.Left
+CoordinatesLabel.Parent = MainFrame
 
 -- Function to teleport the player
 local function teleportToObject()
@@ -146,5 +162,24 @@ TextBox.FocusLost:Connect(function(enterPressed)
         teleportToObject()
     end
 end)
+
+-- Update coordinates display
+local function updateCoordinates()
+    local character = Player.Character
+    if not character then return end
+    
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then return end
+    
+    local position = humanoidRootPart.Position
+    local roundedX = math.floor(position.X * 10) / 10
+    local roundedY = math.floor(position.Y * 10) / 10
+    local roundedZ = math.floor(position.Z * 10) / 10
+    
+    CoordinatesLabel.Text = "Position: X: " .. roundedX .. ", Y: " .. roundedY .. ", Z: " .. roundedZ
+end
+
+-- Connect to RenderStepped to update coordinates in real-time
+RunService.RenderStepped:Connect(updateCoordinates)
 
 print("Teleport GUI loaded successfully. Type an object name and click 'Teleport' to go to it.")
