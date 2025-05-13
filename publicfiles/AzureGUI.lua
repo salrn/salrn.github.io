@@ -58,7 +58,7 @@ Objects.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Objects.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Objects.BorderSizePixel = 0
 Objects.Position = UDim2.new(0, 0, 0.0497076027, 0)
-Objects.Size = UDim2.new(0, 563, 0, 274)
+Objects.Size = UDim2.new(1, 0, 0.801169574, 0)
 
 UIListLayout.Parent = Objects
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -151,7 +151,7 @@ UITextSizeConstraint_2.MaxTextSize = 17
 
 -- Scripts:
 
-local function JWQD_fake_script() -- Frame.DragScript 
+local function ENEI_fake_script() -- Frame.DragScript 
 	local script = Instance.new('LocalScript', Frame)
 
 	--Not made by me, check out this video: https://www.youtube.com/watch?v=z25nyNBG7Js&t=22s
@@ -194,8 +194,8 @@ local function JWQD_fake_script() -- Frame.DragScript
 	end)
 	
 end
-coroutine.wrap(JWQD_fake_script)()
-local function UWHRHYE_fake_script() -- Add.ScriptYouAreEditing 
+coroutine.wrap(ENEI_fake_script)()
+local function LAYY_fake_script() -- Add.ScriptYouAreEditing 
 	local script = Instance.new('LocalScript', Add)
 
 	local Players = game:GetService("Players")
@@ -250,30 +250,8 @@ local function UWHRHYE_fake_script() -- Add.ScriptYouAreEditing
 	local refreshIntervals = {}
 	local totalStoneCount = 0
 	local lastRescanStoneMilestone = 0
-	local lastRescanTime = 0
-	
-	local function rescanMineFolder()
-		local mineFolder = workspace:FindFirstChild("Mine")
-		if mineFolder then
-			local uniqueNames = {}
-			for _, part in pairs(mineFolder:GetDescendants()) do
-				if part:IsA("BasePart") then
-					uniqueNames[part.Name] = true
-				end
-			end
-			for partName in pairs(uniqueNames) do
-				if not objectsFrame:FindFirstChild(partName) then
-					local found = findParts(partName)
-					createPartEntry(partName, found)
-				end
-			end
-		end
-	end
 	
 	local function refreshPartCounts()
-		rescanMineFolder()
-		lastRescanTime = tick()
-	
 		while true do
 			local currentTime = tick()
 	
@@ -301,16 +279,6 @@ local function UWHRHYE_fake_script() -- Add.ScriptYouAreEditing
 				end
 			end
 	
-			if math.floor(totalStoneCount / 5000) > lastRescanStoneMilestone then
-				lastRescanStoneMilestone = math.floor(totalStoneCount / 5000)
-				rescanMineFolder()
-			end
-	
-			if currentTime - lastRescanTime >= 60 then
-				lastRescanTime = currentTime
-				rescanMineFolder()
-			end
-	
 			wait(1)
 		end
 	end
@@ -318,8 +286,8 @@ local function UWHRHYE_fake_script() -- Add.ScriptYouAreEditing
 	coroutine.wrap(refreshPartCounts)()
 	
 end
-coroutine.wrap(UWHRHYE_fake_script)()
-local function DYZIMYX_fake_script() -- Go.LocalScript 
+coroutine.wrap(LAYY_fake_script)()
+local function GHUBG_fake_script() -- Go.LocalScript 
 	local script = Instance.new('LocalScript', Go)
 
 	-- LocalScript for the Go button
@@ -369,8 +337,8 @@ local function DYZIMYX_fake_script() -- Go.LocalScript
 		end
 	end)
 end
-coroutine.wrap(DYZIMYX_fake_script)()
-local function VUIQH_fake_script() -- MinuteTime.LocalScript 
+coroutine.wrap(GHUBG_fake_script)()
+local function YEEYPVZ_fake_script() -- MinuteTime.LocalScript 
 	local script = Instance.new('LocalScript', MinuteTime)
 
 	local minuteTimeLabel = script.Parent
@@ -384,4 +352,4 @@ local function VUIQH_fake_script() -- MinuteTime.LocalScript
 	
 	
 end
-coroutine.wrap(VUIQH_fake_script)()
+coroutine.wrap(YEEYPVZ_fake_script)()
