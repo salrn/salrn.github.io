@@ -143,7 +143,7 @@ MinuteTime.TextXAlignment = Enum.TextXAlignment.Right
 
 -- Scripts:
 
-local function YFFO_fake_script() -- Frame.DragScript 
+local function AVMASVH_fake_script() -- Frame.DragScript 
 	local script = Instance.new('LocalScript', Frame)
 
 	--Not made by me, check out this video: https://www.youtube.com/watch?v=z25nyNBG7Js&t=22s
@@ -186,8 +186,8 @@ local function YFFO_fake_script() -- Frame.DragScript
 	end)
 	
 end
-coroutine.wrap(YFFO_fake_script)()
-local function UDWTZKT_fake_script() -- Add.ScriptYouAreEditing 
+coroutine.wrap(AVMASVH_fake_script)()
+local function EGSL_fake_script() -- Add.ScriptYouAreEditing 
 	local script = Instance.new('LocalScript', Add)
 
 	local Players = game:GetService("Players")
@@ -204,7 +204,6 @@ local function UDWTZKT_fake_script() -- Add.ScriptYouAreEditing
 	local function findParts(partName)
 		local parts = {}
 		local mineFolder = workspace:FindFirstChild("Mine")
-	
 		if mineFolder then
 			for _, part in pairs(mineFolder:GetDescendants()) do
 				if part:IsA("BasePart") and part.Name:lower() == partName:lower() then
@@ -212,7 +211,6 @@ local function UDWTZKT_fake_script() -- Add.ScriptYouAreEditing
 				end
 			end
 		end
-	
 		return parts
 	end
 	
@@ -228,29 +226,20 @@ local function UDWTZKT_fake_script() -- Add.ScriptYouAreEditing
 	
 	addButton.MouseButton1Click:Connect(function()
 		local partName = textBox.Text:gsub("^%s*(.-)%s*$", "%1")
-	
 		if partName ~= "" then
 			local partsFound = findParts(partName)
-	
 			if objectsFrame:FindFirstChild(partName) then
 				local existingEntry = objectsFrame:FindFirstChild(partName)
 				existingEntry.AmountFound.Text = tostring(#partsFound)
 			else
-				if #partsFound > 0 then
-					createPartEntry(partName, partsFound)
-				else
-					textBox.Text = "No parts found: " .. partName
-					wait(1.5)
-					textBox.Text = ""
-					return
-				end
+				createPartEntry(partName, partsFound)
 			end
-	
 			textBox.Text = ""
 		end
 	end)
 	
 	local lastUpdateTimes = {}
+	local refreshIntervals = {}
 	local totalStoneCount = 0
 	local lastRescanStoneMilestone = 0
 	local lastRescanTime = 0
@@ -264,13 +253,10 @@ local function UDWTZKT_fake_script() -- Add.ScriptYouAreEditing
 					uniqueNames[part.Name] = true
 				end
 			end
-	
 			for partName in pairs(uniqueNames) do
 				if not objectsFrame:FindFirstChild(partName) then
 					local found = findParts(partName)
-					if #found > 0 then
-						createPartEntry(partName, found)
-					end
+					createPartEntry(partName, found)
 				end
 			end
 		end
@@ -286,8 +272,8 @@ local function UDWTZKT_fake_script() -- Add.ScriptYouAreEditing
 			for _, entry in pairs(objectsFrame:GetChildren()) do
 				if entry:IsA("Frame") and entry ~= template then
 					local partName = entry.Name
-					local interval = (partName:lower() == "stone") and 50 or 5
 					local lastUpdated = lastUpdateTimes[partName] or 0
+					local interval = refreshIntervals[partName] or 3
 	
 					if currentTime - lastUpdated >= interval then
 						local updatedParts = findParts(partName)
@@ -299,8 +285,9 @@ local function UDWTZKT_fake_script() -- Add.ScriptYouAreEditing
 						end
 	
 						if #updatedParts == 0 then
-							lastUpdateTimes[partName] = nil
-							entry:Destroy()
+							refreshIntervals[partName] = 3
+						else
+							refreshIntervals[partName] = 5
 						end
 					end
 				end
@@ -323,8 +310,8 @@ local function UDWTZKT_fake_script() -- Add.ScriptYouAreEditing
 	coroutine.wrap(refreshPartCounts)()
 	
 end
-coroutine.wrap(UDWTZKT_fake_script)()
-local function VGICK_fake_script() -- Go.LocalScript 
+coroutine.wrap(EGSL_fake_script)()
+local function JAASS_fake_script() -- Go.LocalScript 
 	local script = Instance.new('LocalScript', Go)
 
 	-- LocalScript for the Go button
@@ -374,8 +361,8 @@ local function VGICK_fake_script() -- Go.LocalScript
 		end
 	end)
 end
-coroutine.wrap(VGICK_fake_script)()
-local function ALGKGMG_fake_script() -- MinuteTime.LocalScript 
+coroutine.wrap(JAASS_fake_script)()
+local function OEYS_fake_script() -- MinuteTime.LocalScript 
 	local script = Instance.new('LocalScript', MinuteTime)
 
 	local minuteTimeLabel = script.Parent
@@ -389,4 +376,4 @@ local function ALGKGMG_fake_script() -- MinuteTime.LocalScript
 	
 	
 end
-coroutine.wrap(ALGKGMG_fake_script)()
+coroutine.wrap(OEYS_fake_script)()
