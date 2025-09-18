@@ -165,17 +165,21 @@
             text-align: center;
             padding: 20px;
             margin-bottom: 10px;
+            width: 100%;
+            display: block;
         }
         .section-header h2 {
             color: #ffffff;
             font-size: 28px;
             font-weight: bold;
             margin: 0 0 10px 0;
+            text-align: center;
         }
         .section-header p {
             color: #aaa;
             font-size: 16px;
             margin: 0;
+            text-align: center;
         }
             text-align: center;
             padding: 10px;
@@ -210,10 +214,13 @@
                 const allSection = document.createElement('div');
                 allSection.className = 'cards';
                 allSection.id = 'sectionAll';
+                allSection.style.display = 'block';
                 allSection.innerHTML = `
                     <div class="section-header">
                         <h2>All Downloads</h2>
                         <p>Browse through all available tools, utilities, and downloads in one place</p>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center;">
                     </div>
                 `;
                 contentContainer.appendChild(allSection);
@@ -238,7 +245,8 @@
 
                         // Also add card to "All" section
                         const allCard = createCard(item);
-                        allSection.appendChild(allCard);
+                        const cardContainer = allSection.querySelector('div[style*="display: flex"]');
+                        cardContainer.appendChild(allCard);
                     });
                 });
             }
