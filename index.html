@@ -243,8 +243,25 @@
             const searchInput = document.querySelector('.search-bar input');
             const tabsContainer = document.querySelector('.tabs');
             const contentContainer = document.querySelector('body');
-            const modal = document.querySelector('.modal');
-            const overlay = document.querySelector('.overlay');
+            
+            // Wait for DOM elements to be available
+            let modal, overlay;
+            
+            function initModalElements() {
+                modal = document.querySelector('.modal');
+                overlay = document.querySelector('.overlay');
+                
+                if (modal && overlay) {
+                    // Add close button event listener
+                    const closeBtn = document.querySelector('.close-btn');
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', () => {
+                            modal.classList.remove('show');
+                            overlay.classList.remove('show');
+                        });
+                    }
+                }
+            }
 
             let activeSection;
             let randomTitle = "All Downloads"; // Default fallback title
@@ -317,6 +334,22 @@
                 });
             }
 
+            function showModal(guideText) {
+                if (!modal || !overlay) {
+                    console.error('Modal elements not found');
+                    return;
+                }
+                
+                const modalText = modal.querySelector('p');
+                if (modalText) {
+                    modalText.textContent = guideText;
+                }
+                
+                // Add show classes to trigger animations
+                modal.classList.add('show');
+                overlay.classList.add('show');
+            }
+
             function createCard(item) {
                 const card = document.createElement('div');
                 card.className = 'card';
@@ -331,24 +364,13 @@
                 `;
 
                 const guideBtn = card.querySelector('.guide-btn');
-                guideBtn.addEventListener('click', () => showModal(item.guide));
+                guideBtn.addEventListener('click', () => {
+                    console.log('Guide button clicked:', item.guide); // Debug log
+                    showModal(item.guide);
+                });
 
                 return card;
             }
-
-            function showModal(guideText) {
-                modal.querySelector('p').textContent = guideText;
-                
-                // Add show classes to trigger animations
-                modal.classList.add('show');
-                overlay.classList.add('show');
-            }
-
-            document.querySelector('.close-btn').addEventListener('click', () => {
-                // Remove show classes to trigger fade out
-                modal.classList.remove('show');
-                overlay.classList.remove('show');
-            });
 
             tabsContainer.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('tab')) return;
@@ -372,6 +394,9 @@
 
             createTabs();
             activeSection = document.querySelector('#sectionAll');
+            
+            // Initialize modal elements after everything is created
+            initModalElements();
         });
     </script>
 </head>
