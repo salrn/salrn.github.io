@@ -20,7 +20,7 @@
         {
           "name": "NVIDIA Mods/Mats Update to 400.184 from 367.38.1",
           "description": "Update your Nvidia Mats USB Stick to 400.184 by replacing a few files on the flashed USB.",
-          "guide": "Just flash to USB Stick to use. Guides are available on YT.",
+          "guide": "Go inside mods / 367.38.1 and paste/replace the files in there. Will function like 400.184 but seem like 367.38.1",
           "image": "https://salrn.github.io/publicfiles/New Project (36).png",
           "download": "https://www.dropbox.com/scl/fi/8p8pnwvmiwfloexycye83/mm.zip?rlkey=5swutnfroqombdx6itk8kztfr&st=k5xibn6h&dl=1"
         },
@@ -190,4 +190,5 @@
     }
   ]
 }
+
 
