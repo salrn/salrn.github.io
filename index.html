@@ -33,15 +33,6 @@
             0% {
                 transform: rotateY(0deg) rotateX(0deg);
             }
-            //25% {
-              //  transform: rotateY(90deg) rotateX(0deg);
-            //}
-            //50% {
-              //  transform: rotateY(180deg) rotateX(0deg);
-            //}
-            //75% {
-              //  transform: rotateY(270deg) rotateX(0deg);
-            //}
            100% {
                 transform: rotateY(360deg) rotateX(0deg);
             }
@@ -103,6 +94,7 @@
         .card img {
             width: 100%;
             border-radius: 5px;
+            box-shadow: 0 66px 0 0 rgba(0, 0, 0, 0.7);
         }
         .card h3 {
             font-size: 18px;
@@ -192,36 +184,61 @@
             const { tabs } = data;
 
             function createTabs() {
+                // Create "All" tab first
+                const allTab = document.createElement('button');
+                allTab.className = 'tab active';
+                allTab.textContent = 'All';
+                allTab.dataset.section = 'sectionAll';
+                tabsContainer.appendChild(allTab);
+
+                // Create "All" section
+                const allSection = document.createElement('div');
+                allSection.className = 'cards';
+                allSection.id = 'sectionAll';
+                contentContainer.appendChild(allSection);
+
+                // Create individual tabs and sections
                 tabs.forEach((tab, index) => {
                     const tabBtn = document.createElement('button');
-                    tabBtn.className = `tab ${index === 0 ? 'active' : ''}`;
+                    tabBtn.className = 'tab';
                     tabBtn.textContent = tab.name;
                     tabBtn.dataset.section = `section${index}`;
                     tabsContainer.appendChild(tabBtn);
 
                     const section = document.createElement('div');
-                    section.className = `cards ${index === 0 ? '' : 'hidden'}`;
+                    section.className = 'cards hidden';
                     section.id = `section${index}`;
                     contentContainer.appendChild(section);
 
                     tab.items.forEach(item => {
-                        const card = document.createElement('div');
-                        card.className = 'card';
-                        card.innerHTML = `
-                            <img src="${item.image}" alt="${item.name}">
-                            <h3>${item.name}</h3>
-                            <p>${item.description}</p>
-                            <div class="btn-container">
-                                <a href="${item.download}" class="btn download-btn" download>Download</a>
-                                <button class="btn guide-btn">Guide</button>
-                            </div>
-                        `;
+                        // Create card for individual section
+                        const card = createCard(item);
                         section.appendChild(card);
 
-                        const guideBtn = card.querySelector('.guide-btn');
-                        guideBtn.addEventListener('click', () => showModal(item.guide));
+                        // Also add card to "All" section
+                        const allCard = createCard(item);
+                        allSection.appendChild(allCard);
                     });
                 });
+            }
+
+            function createCard(item) {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <h3>${item.name}</h3>
+                    <p>${item.description}</p>
+                    <div class="btn-container">
+                        <a href="${item.download}" class="btn download-btn" download>Download</a>
+                        <button class="btn guide-btn">Guide</button>
+                    </div>
+                `;
+
+                const guideBtn = card.querySelector('.guide-btn');
+                guideBtn.addEventListener('click', () => showModal(item.guide));
+
+                return card;
             }
 
             function showModal(guideText) {
@@ -256,7 +273,7 @@
             });
 
             createTabs();
-            activeSection = document.querySelector('.cards');
+            activeSection = document.querySelector('#sectionAll');
         });
     </script>
 </head>
@@ -282,4 +299,3 @@
     </div>
 </body>
 </html>
-
