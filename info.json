@@ -204,18 +204,12 @@
           "guide": "text file available with a guide there.",
           "image": "https://salrn.github.io/publicfiles/New Project (36).png",
           "download": "https://salrn.github.io/publicfiles/SprintReset_MC.ahk"
-        },
-        {
-          "name": "Microsoft Store Mouse going out of Window fixer",
-          "description": "No description available.",
-          "guide": "AHK",
-          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
-          "download": "https://salrn.github.io/publicfiles/MicrosoftStoreMouseFixerBySalami Ninja.ahk"
         }
       ]
     }
   ]
 }
+
 
 
 
