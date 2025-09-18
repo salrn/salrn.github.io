@@ -215,6 +215,7 @@
             margin: 0;
             text-align: center;
         }
+        .footer {
             text-align: center;
             padding: 10px;
             background-color: #222;
@@ -231,10 +232,26 @@
             const overlay = document.querySelector('.overlay');
 
             let activeSection;
+            let randomTitle = "All Downloads"; // Default fallback title
+
+            // Load random title from titles.json
+            async function loadRandomTitle() {
+                try {
+                    const titlesResponse = await fetch('titles.json');
+                    const titlesData = await titlesResponse.json();
+                    const randomIndex = Math.floor(Math.random() * titlesData.titles.length);
+                    randomTitle = titlesData.titles[randomIndex];
+                } catch (error) {
+                    console.warn('Could not load titles.json, using default title');
+                }
+            }
 
             const response = await fetch('info.json');
             const data = await response.json();
             const { tabs } = data;
+
+            // Load the random title first
+            await loadRandomTitle();
 
             function createTabs() {
                 // Create "All" tab first
@@ -244,13 +261,13 @@
                 allTab.dataset.section = 'sectionAll';
                 tabsContainer.appendChild(allTab);
 
-                // Create "All" section with header
+                // Create "All" section with header using the random title
                 const allSection = document.createElement('div');
                 allSection.className = 'cards';
                 allSection.id = 'sectionAll';
                 allSection.innerHTML = `
                     <div class="section-header">
-                        <h2>All Downloads</h2>
+                        <h2>${randomTitle}</h2>
                         <p>Browse through available tools, utilities, and downloads related to tech in one place, without any worries.</p>
                     </div>
                     <div class="card-container"></div>
@@ -362,4 +379,3 @@
     </div>
 </body>
 </html>
-
