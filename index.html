@@ -7,6 +7,12 @@
     <link rel="icon" href="https://salrn.github.io/publicfiles/rs.png" type="image/png">
     <title>mirza's website</title>
     <style>
+        @font-face {
+            font-family: 'Eurostile';
+            src: url('https://salrn.github.io/publicfiles/eurostile.TTF') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -40,16 +46,19 @@
         .search-bar {
             margin-left: auto;
         }
-        .search-bar input {
-            padding: 8px;
-            width: 300px;
-            border: none;
-            border-radius: 4px;
-            background-color: #444;
-            color: white;
-        }
+    .search-bar input {
+        padding: 8px;
+        width: 300px;
+        border: none;
+        border-radius: 4px;
+        background-color: #444;
+        color: white;
+        font-family: 'Eurostile', Arial, sans-serif;
+    }
+
         .search-bar input::placeholder {
             color: #aaa;
+            font-family: 'Eurostile', Arial, sans-serif;
         }
         .tabs {
             display: flex;
@@ -349,3 +358,4 @@
     </div>
 </body>
 </html>
+
