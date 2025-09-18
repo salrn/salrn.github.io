@@ -78,6 +78,12 @@
             flex-wrap: wrap;
             justify-content: center;
             padding: 20px;
+            flex-direction: column;
+        }
+        .cards .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .cards.hidden {
             display: none;
@@ -214,14 +220,12 @@
                 const allSection = document.createElement('div');
                 allSection.className = 'cards';
                 allSection.id = 'sectionAll';
-                allSection.style.display = 'block';
                 allSection.innerHTML = `
                     <div class="section-header">
                         <h2>All Downloads</h2>
                         <p>Browse through all available tools, utilities, and downloads in one place</p>
                     </div>
-                    <div style="display: flex; flex-wrap: wrap; justify-content: center;">
-                    </div>
+                    <div class="card-container"></div>
                 `;
                 contentContainer.appendChild(allSection);
 
@@ -236,17 +240,19 @@
                     const section = document.createElement('div');
                     section.className = 'cards hidden';
                     section.id = `section${index}`;
+                    section.innerHTML = '<div class="card-container"></div>';
                     contentContainer.appendChild(section);
 
                     tab.items.forEach(item => {
                         // Create card for individual section
                         const card = createCard(item);
-                        section.appendChild(card);
+                        const sectionContainer = section.querySelector('.card-container');
+                        sectionContainer.appendChild(card);
 
                         // Also add card to "All" section
                         const allCard = createCard(item);
-                        const cardContainer = allSection.querySelector('div[style*="display: flex"]');
-                        cardContainer.appendChild(allCard);
+                        const allContainer = allSection.querySelector('.card-container');
+                        allContainer.appendChild(allCard);
                     });
                 });
             }
