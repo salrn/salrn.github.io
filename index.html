@@ -94,7 +94,7 @@
         .card img {
             width: 100%;
             border-radius: 5px;
-            box-shadow: 0 0 66px 0 rgba(0, 0, 0, 0.7);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
         }
         .card h3 {
             font-size: 18px;
@@ -161,7 +161,22 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
-        .footer {
+        .section-header {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 10px;
+        }
+        .section-header h2 {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+        }
+        .section-header p {
+            color: #aaa;
+            font-size: 16px;
+            margin: 0;
+        }
             text-align: center;
             padding: 10px;
             background-color: #222;
@@ -191,10 +206,16 @@
                 allTab.dataset.section = 'sectionAll';
                 tabsContainer.appendChild(allTab);
 
-                // Create "All" section
+                // Create "All" section with header
                 const allSection = document.createElement('div');
                 allSection.className = 'cards';
                 allSection.id = 'sectionAll';
+                allSection.innerHTML = `
+                    <div class="section-header">
+                        <h2>All Downloads</h2>
+                        <p>Browse through all available tools, utilities, and downloads in one place</p>
+                    </div>
+                `;
                 contentContainer.appendChild(allSection);
 
                 // Create individual tabs and sections
