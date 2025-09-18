@@ -155,11 +155,10 @@
             transform: translateY(-2px);
         }
         .modal {
-            display: none;
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -40%);
             background: #333;
             padding: 20px;
             border-radius: 8px;
@@ -168,17 +167,14 @@
             color: white;
             width: 300px;
             opacity: 0;
+            visibility: hidden;
             transition: all 0.4s ease;
         }
         
         .modal.show {
             opacity: 1;
+            visibility: visible;
             transform: translate(-50%, -50%);
-        }
-        
-        .modal.hide {
-            opacity: 0;
-            transform: translate(-50%, -40%);
         }
         .modal p {
             margin: 0 0 20px;
@@ -198,7 +194,6 @@
             transform: translateY(-2px);
         }
         .overlay {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -207,11 +202,13 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 999;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            visibility: hidden;
+            transition: all 0.4s ease;
         }
         
         .overlay.show {
             opacity: 1;
+            visibility: visible;
         }
         .section-header {
             text-align: center;
@@ -342,35 +339,15 @@
             function showModal(guideText) {
                 modal.querySelector('p').textContent = guideText;
                 
-                // Set initial position (slightly lower) and show modal
-                modal.style.display = 'block';
-                modal.style.transform = 'translate(-50%, -40%)';
-                modal.style.opacity = '0';
-                overlay.style.display = 'block';
-                overlay.style.opacity = '0';
-                
-                // Force reflow to ensure initial styles are applied
-                modal.offsetHeight;
-                
                 // Add show classes to trigger animations
-                setTimeout(() => {
-                    modal.classList.add('show');
-                    overlay.classList.add('show');
-                }, 10);
+                modal.classList.add('show');
+                overlay.classList.add('show');
             }
 
             document.querySelector('.close-btn').addEventListener('click', () => {
-                // Add hide class and remove show class
+                // Remove show classes to trigger fade out
                 modal.classList.remove('show');
-                modal.classList.add('hide');
                 overlay.classList.remove('show');
-                
-                // Wait for animation to complete before hiding
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                    overlay.style.display = 'none';
-                    modal.classList.remove('hide');
-                }, 400);
             });
 
             tabsContainer.addEventListener('click', (e) => {
