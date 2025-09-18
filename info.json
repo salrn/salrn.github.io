@@ -11,6 +11,20 @@
           "download": "https://salrn.github.io/publicfiles/AutoClicker.exe"
         },
         {
+          "name": "NVIDIA Mods/Mats Image file / 367.38.1",
+          "description": "Test which VRAM/DRAM is faulty on your Nvidia GPU Using the MATS Test tool.",
+          "guide": "Just flash to USB Stick to use. Guides are available on YT.",
+          "image": "https://salrn.github.io/publicfiles/mats_1kimg.png",
+          "download": "https://www.dropbox.com/scl/fi/0qtw5bvsjtn6bcq431ar9/mats.img?rlkey=o6q77f25a5rvc6353irjaqnae&st=b8wxykta&dl=1"
+        },
+        {
+          "name": "NVIDIA Mods/Mats Update to 400.184 from 367.38.1",
+          "description": "Update your Nvidia Mats USB Stick to 400.184 by replacing a few files on the flashed USB.",
+          "guide": "Just flash to USB Stick to use. Guides are available on YT.",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://www.dropbox.com/scl/fi/8p8pnwvmiwfloexycye83/mm.zip?rlkey=5swutnfroqombdx6itk8kztfr&st=k5xibn6h&dl=1"
+        },
+        {
           "name": "WindowsImageTool",
           "description": "Add NVMe or USB 3.0 Drivers to your Windows installation (example; Windows 7)",
           "guide": "Extract folder; open WindowsImageTool.exe, Make sure your Windows 7 USB Stick is plugged in, Select [None-Add USB drivers] in Source Path. Choose Windows 7 USB installation disk in Destination Path. Click [Start] to run and [Close] when the procedure is done.",
@@ -176,3 +190,4 @@
     }
   ]
 }
+
