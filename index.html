@@ -244,7 +244,6 @@
             const tabsContainer = document.querySelector('.tabs');
             const contentContainer = document.querySelector('body');
             
-            // Wait for DOM elements to be available
             let modal, overlay;
             
             function initModalElements() {
@@ -252,7 +251,6 @@
                 overlay = document.querySelector('.overlay');
                 
                 if (modal && overlay) {
-                    // Add close button event listener
                     const closeBtn = document.querySelector('.close-btn');
                     if (closeBtn) {
                         closeBtn.addEventListener('click', () => {
@@ -264,9 +262,8 @@
             }
 
             let activeSection;
-            let randomTitle = "All Downloads"; // Default fallback title
-
-            // Load random title from titles.json
+            let randomTitle = "All Downloads";
+            
             async function loadRandomTitle() {
                 try {
                     const titlesResponse = await fetch('titles.json');
@@ -281,19 +278,16 @@
             const response = await fetch('info.json');
             const data = await response.json();
             const { tabs } = data;
-
-            // Load the random title first
+            
             await loadRandomTitle();
 
             function createTabs() {
-                // Create "All" tab first
                 const allTab = document.createElement('button');
                 allTab.className = 'tab active';
                 allTab.textContent = 'All';
                 allTab.dataset.section = 'sectionAll';
                 tabsContainer.appendChild(allTab);
-
-                // Create "All" section with header using the random title
+                
                 const allSection = document.createElement('div');
                 allSection.className = 'cards';
                 allSection.id = 'sectionAll';
@@ -305,8 +299,7 @@
                     <div class="card-container"></div>
                 `;
                 contentContainer.appendChild(allSection);
-
-                // Create individual tabs and sections
+                
                 tabs.forEach((tab, index) => {
                     const tabBtn = document.createElement('button');
                     tabBtn.className = 'tab';
@@ -321,12 +314,10 @@
                     contentContainer.appendChild(section);
 
                     tab.items.forEach(item => {
-                        // Create card for individual section
                         const card = createCard(item);
                         const sectionContainer = section.querySelector('.card-container');
                         sectionContainer.appendChild(card);
-
-                        // Also add card to "All" section
+                        
                         const allCard = createCard(item);
                         const allContainer = allSection.querySelector('.card-container');
                         allContainer.appendChild(allCard);
@@ -345,7 +336,6 @@
                     modalText.textContent = guideText;
                 }
                 
-                // Add show classes to trigger animations
                 modal.classList.add('show');
                 overlay.classList.add('show');
             }
@@ -365,7 +355,7 @@
 
                 const guideBtn = card.querySelector('.guide-btn');
                 guideBtn.addEventListener('click', () => {
-                    console.log('Guide button clicked:', item.guide); // Debug log
+                    // console.log('Guide button clicked:', item.guide); // Debug log
                     showModal(item.guide);
                 });
 
@@ -395,7 +385,6 @@
             createTabs();
             activeSection = document.querySelector('#sectionAll');
             
-            // Initialize modal elements after everything is created
             initModalElements();
         });
     </script>
@@ -422,3 +411,4 @@
     </div>
 </body>
 </html>
+
