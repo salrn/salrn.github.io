@@ -117,11 +117,12 @@
             position: absolute;
             z-index: 0;
             inset: 0;
+            backdrop-filter: blur(3px);
             overflow: hidden;
         }
         
         .card .liquidGlass-effect {
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 70%);
+            filter: url(#glass-distortion);
         }
         .liquidGlass-tint {
             z-index: 1;
@@ -131,7 +132,7 @@
         }
         
         .card .liquidGlass-tint {
-            background: linear-gradient(135deg, rgba(100, 100, 100, 0.6), rgba(60, 60, 60, 0.6));
+            background: rgba(0, 0, 0, 0.4);
         }
         .liquidGlass-shine {
             position: absolute;
@@ -230,9 +231,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -40%);
-            background: transparent;
-            padding: 0;
-            border-radius: 12px;
+            background: #333;
+            padding: 20px;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             z-index: 1000;
             color: white;
@@ -240,27 +241,6 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s ease;
-            overflow: hidden;
-        }
-        
-        .modal.liquidGlass-wrapper {
-            border-radius: 12px;
-        }
-        
-        .modal.liquidGlass-wrapper > div {
-            border-radius: 12px;
-        }
-        
-        .modal .liquidGlass-effect {
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 70%);
-        }
-        
-        .modal .liquidGlass-tint {
-            background: linear-gradient(135deg, rgba(80, 80, 80, 0.7), rgba(50, 50, 50, 0.7));
-        }
-        
-        .modal .liquidGlass-content {
-            padding: 20px;
         }
         
         .modal.show {
@@ -492,15 +472,40 @@
             activeSection = document.querySelector('#sectionAll');
             
             initModalElements();
+            
+            // Intersection Observer for performance optimization
+            const observerOptions = {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.01
+            };
+            
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const glassEffect = entry.target.querySelector('.card > .liquidGlass-effect');
+                    if (glassEffect) {
+                        if (entry.isIntersecting) {
+                            glassEffect.style.filter = 'url(#glass-distortion)';
+                        } else {
+                            glassEffect.style.filter = 'none';
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all cards
+            document.querySelectorAll('.card').forEach(card => {
+                cardObserver.observe(card);
+            });
         });
     </script>
 </head>
 <body>
-    <svg style="position: absolute; width: 0; height: 0; display: none;">
+    <svg style="position: absolute; width: 0; height: 0;">
         <defs>
-            <filter id="glass-distortion" color-interpolation-filters="sRGB">
-                <feTurbulence type="fractalNoise" baseFrequency="0.01 0.003" numOctaves="3" result="warp" seed="2" />
-                <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="20" in="SourceGraphic" in2="warp" />
+            <filter id="glass-distortion">
+                <feTurbulence type="fractalNoise" baseFrequency="0.01 0.003" numOctaves="5" result="warp" />
+                <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
             </filter>
         </defs>
     </svg>
@@ -516,14 +521,9 @@
     <div class="tabs"></div>
 
     <div class="overlay"></div>
-    <div class="modal liquidGlass-wrapper">
-        <div class="liquidGlass-effect"></div>
-        <div class="liquidGlass-tint"></div>
-        <div class="liquidGlass-shine"></div>
-        <div class="liquidGlass-content">
-            <p>Guide content here</p>
-            <button class="close-btn">Close</button>
-        </div>
+    <div class="modal">
+        <p>Guide content here</p>
+        <button class="close-btn">Close</button>
     </div>
 
     <div class="footer">
