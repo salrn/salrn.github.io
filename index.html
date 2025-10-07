@@ -130,6 +130,10 @@
             inset: 0;
             background: rgba(255, 255, 255, 0.15);
         }
+        
+        .card .liquidGlass-tint {
+            background: rgba(0, 0, 0, 0.4);
+        }
         .liquidGlass-shine {
             position: absolute;
             inset: 0;
@@ -468,6 +472,31 @@
             activeSection = document.querySelector('#sectionAll');
             
             initModalElements();
+            
+            // Intersection Observer for performance optimization
+            const observerOptions = {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.01
+            };
+            
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const glassEffect = entry.target.querySelector('.card > .liquidGlass-effect');
+                    if (glassEffect) {
+                        if (entry.isIntersecting) {
+                            glassEffect.style.filter = 'url(#glass-distortion)';
+                        } else {
+                            glassEffect.style.filter = 'none';
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all cards
+            document.querySelectorAll('.card').forEach(card => {
+                cardObserver.observe(card);
+            });
         });
     </script>
 </head>
