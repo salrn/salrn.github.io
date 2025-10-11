@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mirza's personal website - Choose between file browser and portfolio">
+    <link rel="icon" href="https://salrn.github.io/publicfiles/rs.png" type="image/png">
+    <title>mirza's website</title>
+    <style>
+        @font-face {
+            font-family: 'Eurostile';
+            src: url('https://salrn.github.io/publicfiles/eurostile.TTF') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Eurostile', Arial, sans-serif;
+            min-height: 100vh;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80') center/cover no-repeat;
+        }
+        
+        /* Dark overlay frame */
+        .overlay-frame {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 0;
+        }
+        
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding-left: 5%;
+            padding-top: 8%;
+        }
+        
+        /* Logo section */
+        .logo-section {
+            text-align: left;
+            margin-bottom: 40px;
+        }
+        
+        .spinning-logo {
+            width: 80px;
+            height: 80px;
+            animation: spin3d 6s infinite ease-in-out;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin3d {
+            0% {
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+            50% {
+                transform: rotateY(180deg) rotateX(10deg);
+            }
+            100% {
+                transform: rotateY(360deg) rotateX(0deg);
+            }
+        }
+        
+        .logo-section h1 {
+            font-size: 36px;
+            font-weight: 600;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8),
+                         0 4px 10px rgba(0, 0, 0, 0.8);
+            letter-spacing: 3px;
+        }
+        
+        /* Buttons container */
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: stretch;
+        }
+        
+        .selection-button {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 12px 30px;
+            width: 320px;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        
+        .selection-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .selection-button:hover::before {
+            left: 100%;
+        }
+        
+        .selection-button:hover {
+            transform: translateX(-10px) scale(1.05);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+                        0 0 30px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .button-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .button-icon {
+            font-size: 32px;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+        
+        .button-text {
+            flex: 1;
+        }
+        
+        .button-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .button-description {
+            font-size: 13px;
+            color: #ccc;
+            display: block;
+            line-height: 1.4;
+        }
+        
+        .button-arrow {
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+        
+        .selection-button:hover .button-arrow {
+            transform: translateX(5px);
+        }
+        
+        /* Footer note */
+        .footer-note {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            text-align: center;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                align-items: center;
+                padding-right: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .logo-section h1 {
+                font-size: 32px;
+            }
+            
+            .spinning-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .selection-button {
+                width: 100%;
+                max-width: 380px;
+                padding: 20px 25px;
+            }
+            
+            .button-icon {
+                font-size: 36px;
+            }
+            
+            .button-title {
+                font-size: 22px;
+            }
+            
+            .overlay-frame {
+                height: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="overlay-frame"></div>
+    
+    <div class="container">
+        <div class="logo-section">
+            <img src="https://salrn.github.io/publicfiles/rs.png" alt="Logo" class="spinning-logo">
+            <h1>mirza's website</h1>
+        </div>
+        
+        <div class="buttons-container">
+            <a href="files.html" class="selection-button">
+                <div class="button-content">
+                    <div class="button-icon">📁</div>
+                    <div class="button-text">
+                        <span class="button-title">File Browser</span>
+                        <span class="button-description">Browse and download tools & resources</span>
+                    </div>
+                    <div class="button-arrow">→</div>
+                </div>
+            </a>
+            
+            <a href="portfolio.html" class="selection-button">
+                <div class="button-content">
+                    <div class="button-icon">💼</div>
+                    <div class="button-text">
+                        <span class="button-title">Portfolio</span>
+                        <span class="button-description">Explore my projects & experience</span>
+                    </div>
+                    <div class="button-arrow">→</div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <div class="footer-note">
+        Press Ctrl+F5 to refresh if updates don't appear
+    </div>
+</body>
+</html>
