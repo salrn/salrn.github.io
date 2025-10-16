@@ -308,6 +308,24 @@
             color: #aaa;
             font-size: 14px;
         }
+        .tab-group-header {
+            width: 100%;
+            text-align: left;
+            padding: 30px 15px 5px 15px;
+            margin-top: 0;
+        }
+        .tab-group-header:first-child {
+            padding-top: 10px;
+        }
+        .tab-group-header h3 {
+            color: #888;
+            font-size: 13px;
+            font-weight: normal;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
@@ -371,7 +389,7 @@
                 `;
                 contentContainer.appendChild(allSection);
                 
-            tabs.forEach((tab, index) => {
+                tabs.forEach((tab, index) => {
                     const tabBtn = document.createElement('button');
                     tabBtn.className = 'tab';
                     tabBtn.textContent = tab.name;
@@ -384,7 +402,7 @@
                     section.innerHTML = '<div class="card-container"></div>';
                     contentContainer.appendChild(section);
 
-                    // claude chet gipiti copi peyst
+                    // Add tab group header to "All" section
                     const allContainer = allSection.querySelector('.card-container');
                     const tabGroupHeader = document.createElement('div');
                     tabGroupHeader.className = 'tab-group-header';
@@ -511,6 +529,3 @@
     </div>
 </body>
 </html>
-
-
-
