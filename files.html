@@ -371,7 +371,7 @@
                 `;
                 contentContainer.appendChild(allSection);
                 
-                tabs.forEach((tab, index) => {
+            tabs.forEach((tab, index) => {
                     const tabBtn = document.createElement('button');
                     tabBtn.className = 'tab';
                     tabBtn.textContent = tab.name;
@@ -384,13 +384,19 @@
                     section.innerHTML = '<div class="card-container"></div>';
                     contentContainer.appendChild(section);
 
+                    // tab group header
+                    const allContainer = allSection.querySelector('.card-container');
+                    const tabGroupHeader = document.createElement('div');
+                    tabGroupHeader.className = 'tab-group-header';
+                    tabGroupHeader.innerHTML = `<h3>${tab.name}</h3>`;
+                    allContainer.appendChild(tabGroupHeader);
+
                     tab.items.forEach(item => {
                         const card = createCard(item);
                         const sectionContainer = section.querySelector('.card-container');
                         sectionContainer.appendChild(card);
                         
                         const allCard = createCard(item);
-                        const allContainer = allSection.querySelector('.card-container');
                         allContainer.appendChild(allCard);
                     });
                 });
@@ -505,4 +511,5 @@
     </div>
 </body>
 </html>
+
 
