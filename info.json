@@ -11,6 +11,13 @@
           "download": "https://salrn.github.io/publicfiles/AutoClicker.exe"
         },
         {
+          "name": "Arduino HID",
+          "description": "Make your mouse work via Leonadro 3",
+          "guide": "Open ino file in Arduino IDE, flash onto your Leonardo 3 with Host Shield and plug in your mouse to test. If it doesnt work, check the repo; https://github.com/SunOner/HID_Arduino",
+          "image": "https://salrn.github.io/publicfiles/leo3+uhs.png",
+          "download": "https://github.com/SunOner/HID_Arduino/archive/refs/heads/main.zip"
+        },
+        {
           "name": "NVIDIA Mods/Mats Image file / 367.38.1",
           "description": "Test which VRAM/DRAM is faulty on your Nvidia GPU Using the MATS Test tool.",
           "guide": "Just flash to USB Stick to use. Guides are available on YT.",
@@ -209,6 +216,7 @@
     }
   ]
 }
+
 
 
 
