@@ -44,6 +44,13 @@
           "guide": "Extract folder; open WindowsImageTool.exe, Make sure your Windows 7 USB Stick is plugged in, Select [None-Add USB drivers] in Source Path. Choose Windows 7 USB installation disk in Destination Path. Click [Start] to run and [Close] when the procedure is done.",
           "image": "https://salrn.github.io/publicfiles/New Project (36).png",
           "download": "https://salrn.github.io/publicfiles/brix_utility_windowsimagetool.zip"
+        },
+        {
+          "name": "TakeOwnershipPro",
+          "description": "Take Ownership over files, to successfully delete, modify or replace them.",
+          "guide": "Right-Click on a file and then select TakeOwnershipPro",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/publicfiles/TakeOwnershipPro.exe"
         }
       ]
     },
@@ -208,7 +215,7 @@
         {
           "name": "Minecraft Bedrock for Windows Patch",
           "description": "def not free minecraft bedrock vro trust me",
-          "guide": "text file available with a guide there.",
+          "guide": "text file available with a guide there. TAKE OWNERSHIP TO THE FILES USING TAKEOWNERSHIPPRO YOU ARE GOING TO REPLACE BEFORE REPLACING THEM!!! You can download TakeOwnershipPro in the Utilities Tab.",
           "image": "https://salrn.github.io/publicfiles/New Project (36).png",
           "download": "https://salrn.github.io/publicfiles/Minecraft MOD.rar"
         }
@@ -228,6 +235,7 @@
     }
   ]
 }
+
 
 
 
