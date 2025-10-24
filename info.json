@@ -213,9 +213,22 @@
           "download": "https://salrn.github.io/publicfiles/SprintReset_MC.ahk"
         }
       ]
+    },
+    {
+      "name": "3D Prints",
+      "items": [
+        {
+          "name": "DER S1 Seaview ITX PC Case",
+          "description": "Based of the Tiying S1 which is only availiable in China.",
+          "guide": "No availiable guide.",
+          "image": "https://salrn.github.io/publicfiles/ders1.png",
+          "download": "https://salrn.github.io/publicfiles/DER+Case+S1+V2.0-20251005T090155Z-1-001.zip"
+        }
+      ]
     }
   ]
 }
+
 
 
 
