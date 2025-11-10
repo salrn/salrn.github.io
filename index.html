@@ -637,17 +637,23 @@
                             richPresence.className = 'rich-presence active';
                             document.getElementById('activityHeader').textContent = 'PLAYING A GAME';
                             
+                            const activityImageEl = document.getElementById('activityImage');
                             if (activity.assets && activity.assets.large_image) {
                                 let imageUrl = activity.assets.large_image;
                                 if (imageUrl.startsWith('mp:')) {
                                     imageUrl = `https://media.discordapp.net/${imageUrl.replace('mp:', '')}`;
-                                } else if (!imageUrl.startsWith('http')) {
+                                } else if (imageUrl.startsWith('http')) {
+                                    imageUrl = imageUrl;
+                                } else {
                                     imageUrl = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${imageUrl}.png`;
                                 }
-                                document.getElementById('activityImage').src = imageUrl;
-                                document.getElementById('activityImage').style.display = 'block';
+                                activityImageEl.src = imageUrl;
+                                activityImageEl.style.display = 'block';
+                                activityImageEl.onerror = () => {
+                                    activityImageEl.style.display = 'none';
+                                };
                             } else {
-                                document.getElementById('activityImage').style.display = 'none';
+                                activityImageEl.style.display = 'none';
                             }
                             
                             document.getElementById('activityName').textContent = activity.name || 'Unknown';
@@ -658,15 +664,23 @@
                             richPresence.className = 'rich-presence spotify-activity active';
                             document.getElementById('activityHeader').textContent = 'LISTENING TO';
                             
+                            const activityImageEl = document.getElementById('activityImage');
                             if (activity.assets && activity.assets.large_image) {
                                 let imageUrl = activity.assets.large_image;
-                                if (!imageUrl.startsWith('http')) {
+                                if (imageUrl.startsWith('mp:')) {
+                                    imageUrl = `https://media.discordapp.net/${imageUrl.replace('mp:', '')}`;
+                                } else if (imageUrl.startsWith('http')) {
+                                    imageUrl = imageUrl;
+                                } else {
                                     imageUrl = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${imageUrl}.png`;
                                 }
-                                document.getElementById('activityImage').src = imageUrl;
-                                document.getElementById('activityImage').style.display = 'block';
+                                activityImageEl.src = imageUrl;
+                                activityImageEl.style.display = 'block';
+                                activityImageEl.onerror = () => {
+                                    activityImageEl.style.display = 'none';
+                                };
                             } else {
-                                document.getElementById('activityImage').style.display = 'none';
+                                activityImageEl.style.display = 'none';
                             }
                             
                             document.getElementById('activityName').textContent = activity.name || 'Unknown';
