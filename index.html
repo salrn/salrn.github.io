@@ -292,6 +292,11 @@
             border-radius: 8px;
             object-fit: cover;
             flex-shrink: 0;
+            display: none;
+        }
+        
+        .activity-image.visible {
+            display: block;
         }
         
         .activity-details {
@@ -613,26 +618,23 @@
                         document.getElementById('lastSeen').style.display = 'block';
                     }
                     
-                    // Check for Spotify first
                     if (user.spotify && user.spotify.track_id) {
                         richPresence.className = 'rich-presence spotify-activity active';
                         document.getElementById('activityHeader').textContent = 'LISTENING TO SPOTIFY';
                         
+                        const spotifyImageEl = document.getElementById('activityImage');
                         const spotifyImage = user.spotify.album_art_url || 'https://cdn.discordapp.com/embed/avatars/0.png';
-                        document.getElementById('activityImage').src = spotifyImage;
-                        document.getElementById('activityImage').style.display = 'block';
+                        spotifyImageEl.src = spotifyImage;
+                        spotifyImageEl.className = 'activity-image visible';
                         
                         document.getElementById('activityName').textContent = user.spotify.song || 'Unknown';
                         document.getElementById('activityDetails').textContent = user.spotify.artist ? `by ${user.spotify.artist}` : '';
                         document.getElementById('activityState').textContent = user.spotify.album ? `on ${user.spotify.album}` : '';
                     }
-                    // Then check for other activities
                     else if (user.activities && user.activities.length > 0) {
-                        // Find the first non-custom activity
                         const activity = user.activities.find(a => a.type !== 4) || user.activities[0];
                         
                         if (activity.type === 0) {
-                            // Playing a game
                             richPresence.className = 'rich-presence active';
                             document.getElementById('activityHeader').textContent = 'PLAYING A GAME';
                             
@@ -647,19 +649,18 @@
                                     imageUrl = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${imageUrl}.png`;
                                 }
                                 activityImageEl.src = imageUrl;
-                                activityImageEl.style.display = 'block';
+                                activityImageEl.className = 'activity-image visible';
                                 activityImageEl.onerror = () => {
-                                    activityImageEl.style.display = 'none';
+                                    activityImageEl.className = 'activity-image';
                                 };
                             } else {
-                                activityImageEl.style.display = 'none';
+                                activityImageEl.className = 'activity-image';
                             }
                             
                             document.getElementById('activityName').textContent = activity.name || 'Unknown';
                             document.getElementById('activityDetails').textContent = activity.details || '';
                             document.getElementById('activityState').textContent = activity.state || '';
                         } else if (activity.type === 2) {
-                            // Listening to music
                             richPresence.className = 'rich-presence spotify-activity active';
                             document.getElementById('activityHeader').textContent = 'LISTENING TO';
                             
@@ -686,11 +687,9 @@
                             document.getElementById('activityDetails').textContent = activity.details || '';
                             document.getElementById('activityState').textContent = activity.state || '';
                         } else {
-                            // Hide rich presence for other activity types
                             richPresence.className = 'rich-presence';
                         }
                     } else {
-                        // No activities
                         richPresence.className = 'rich-presence';
                     }
                 } else {
@@ -704,9 +703,7 @@
             }
         }
         
-        // Initial update
         updateDiscordStatus();
-        // Update every 30 seconds
         setInterval(updateDiscordStatus, 30000);
     </script>
 </body>
