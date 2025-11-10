@@ -24,7 +24,7 @@
             font-family: 'Eurostile', Arial, sans-serif;
             min-height: 100vh;
             color: #ffffff;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
         
@@ -380,9 +380,18 @@
         }
         
         @media (max-width: 1024px) {
+            body {
+                overflow-y: auto;
+            }
+            
             .container {
                 align-items: center;
-                padding-right: 0;
+                padding: 40px 20px;
+                padding-bottom: 60px;
+            }
+            
+            .logo-section {
+                text-align: center;
             }
             
             .discord-widget {
@@ -392,43 +401,97 @@
                 transform: none;
                 margin: 40px auto 0;
             }
+            
+            .footer-note {
+                position: relative;
+                margin-top: 40px;
+                margin-bottom: 20px;
+            }
         }
         
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
+                padding-top: 40px;
             }
             
             .logo-section h1 {
-                font-size: 32px;
+                font-size: 28px;
             }
             
             .spinning-logo {
-                width: 80px;
-                height: 80px;
+                width: 70px;
+                height: 70px;
             }
             
             .selection-button {
                 width: 100%;
                 max-width: 380px;
-                padding: 20px 25px;
+                padding: 16px 20px;
             }
             
             .button-icon {
-                font-size: 36px;
+                font-size: 32px;
             }
             
             .button-title {
-                font-size: 22px;
+                font-size: 20px;
+            }
+            
+            .button-description {
+                font-size: 12px;
             }
             
             .overlay-frame {
-                height: 50%;
+                height: 40%;
             }
             
             .discord-widget {
                 width: 100%;
                 max-width: 320px;
+                padding: 20px;
+            }
+            
+            .discord-avatar {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .status-indicator {
+                width: 20px;
+                height: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-section h1 {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+            
+            .spinning-logo {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .selection-button {
+                padding: 14px 18px;
+            }
+            
+            .button-icon {
+                font-size: 28px;
+            }
+            
+            .button-title {
+                font-size: 18px;
+            }
+            
+            .button-arrow {
+                font-size: 20px;
+            }
+            
+            .discord-widget {
+                padding: 16px;
             }
         }
     </style>
@@ -466,49 +529,49 @@
                 </div>
             </a>
         </div>
-    </div>
-    
-    <div class="discord-widget">
-        <div class="discord-profile">
-            <div class="discord-avatar-container">
-                <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Discord Avatar" class="discord-avatar" id="discordAvatar">
-                <div class="status-indicator" id="statusIndicator"></div>
-            </div>
-            <div class="discord-username" id="discordUsername">mirza</div>
-            <div class="discord-status" id="discordStatus">Offline</div>
-            <div class="last-seen" id="lastSeen">Last seen: Unknown</div>
-        </div>
         
-        <div class="rich-presence" id="richPresence">
-            <div class="activity-header" id="activityHeader">PLAYING A GAME</div>
-            <div class="activity-content">
-                <img src="" alt="Activity" class="activity-image" id="activityImage">
-                <div class="activity-details">
-                    <div class="activity-name" id="activityName"></div>
-                    <div class="activity-details-text" id="activityDetails"></div>
-                    <div class="activity-state" id="activityState"></div>
+        <div class="discord-widget">
+            <div class="discord-profile">
+                <div class="discord-avatar-container">
+                    <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Discord Avatar" class="discord-avatar" id="discordAvatar">
+                    <div class="status-indicator" id="statusIndicator"></div>
+                </div>
+                <div class="discord-username" id="discordUsername">mirza</div>
+                <div class="discord-status" id="discordStatus">Offline</div>
+                <div class="last-seen" id="lastSeen">Last seen: Unknown</div>
+            </div>
+            
+            <div class="rich-presence" id="richPresence">
+                <div class="activity-header" id="activityHeader">PLAYING A GAME</div>
+                <div class="activity-content">
+                    <img src="" alt="Activity" class="activity-image" id="activityImage">
+                    <div class="activity-details">
+                        <div class="activity-name" id="activityName"></div>
+                        <div class="activity-details-text" id="activityDetails"></div>
+                        <div class="activity-state" id="activityState"></div>
+                    </div>
                 </div>
             </div>
+            
+            <div class="social-buttons">
+                <a href="https://instagram.com/tacmirza" target="_blank" class="social-button">
+                    <span class="social-icon">📷</span>
+                    <span>Instagram</span>
+                </a>
+                <a href="https://youtube.com/@sutd" target="_blank" class="social-button">
+                    <span class="social-icon">▶️</span>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://soundcloud.com/ccm1rza" target="_blank" class="social-button">
+                    <span class="social-icon">🎵</span>
+                    <span>SoundCloud</span>
+                </a>
+            </div>
         </div>
         
-        <div class="social-buttons">
-            <a href="https://instagram.com/tacmirza" target="_blank" class="social-button">
-                <span class="social-icon">📷</span>
-                <span>Instagram</span>
-            </a>
-            <a href="https://youtube.com/@sutd" target="_blank" class="social-button">
-                <span class="social-icon">▶️</span>
-                <span>YouTube</span>
-            </a>
-            <a href="https://soundcloud.com/ccm1rza" target="_blank" class="social-button">
-                <span class="social-icon">🎵</span>
-                <span>SoundCloud</span>
-            </a>
+        <div class="footer-note">
+            Press Ctrl+F5 to refresh if updates don't appear
         </div>
-    </div>
-    
-    <div class="footer-note">
-        Press Ctrl+F5 to refresh if updates don't appear
     </div>
     
     <script>
@@ -532,6 +595,7 @@
                     const statusText = document.getElementById('discordStatus');
                     const richPresence = document.getElementById('richPresence');
                     
+                    // Update status indicator
                     if (user.discord_status === 'online') {
                         statusIndicator.className = 'status-indicator online';
                         statusText.textContent = 'Online';
@@ -547,28 +611,29 @@
                     } else {
                         statusIndicator.className = 'status-indicator';
                         statusText.textContent = 'Offline';
-                        if (user.activities && user.activities.length > 0) {
-                            const lastActivity = new Date(user.activities[0].created_at);
-                            document.getElementById('lastSeen').textContent = `Last seen: ${lastActivity.toLocaleDateString()}`;
-                            document.getElementById('lastSeen').style.display = 'block';
-                        }
+                        document.getElementById('lastSeen').style.display = 'block';
                     }
                     
-                    if (user.activities && user.activities.length > 0) {
-                        const activity = user.activities[0];
+                    // Check for Spotify first
+                    if (user.spotify && user.spotify.track_id) {
+                        richPresence.className = 'rich-presence spotify-activity active';
+                        document.getElementById('activityHeader').textContent = 'LISTENING TO SPOTIFY';
                         
-                        if (user.spotify) {
-                            richPresence.className = 'rich-presence spotify-activity active';
-                            document.getElementById('activityHeader').textContent = 'LISTENING TO SPOTIFY';
-                            
-                            const spotifyImage = user.spotify.album_art_url || 'https://cdn.discordapp.com/embed/avatars/0.png';
-                            document.getElementById('activityImage').src = spotifyImage;
-                            document.getElementById('activityImage').style.display = 'block';
-                            
-                            document.getElementById('activityName').textContent = user.spotify.song;
-                            document.getElementById('activityDetails').textContent = `by ${user.spotify.artist}`;
-                            document.getElementById('activityState').textContent = `on ${user.spotify.album}`;
-                        } else if (activity.type === 0) {
+                        const spotifyImage = user.spotify.album_art_url || 'https://cdn.discordapp.com/embed/avatars/0.png';
+                        document.getElementById('activityImage').src = spotifyImage;
+                        document.getElementById('activityImage').style.display = 'block';
+                        
+                        document.getElementById('activityName').textContent = user.spotify.song || 'Unknown';
+                        document.getElementById('activityDetails').textContent = user.spotify.artist ? `by ${user.spotify.artist}` : '';
+                        document.getElementById('activityState').textContent = user.spotify.album ? `on ${user.spotify.album}` : '';
+                    }
+                    // Then check for other activities
+                    else if (user.activities && user.activities.length > 0) {
+                        // Find the first non-custom activity
+                        const activity = user.activities.find(a => a.type !== 4) || user.activities[0];
+                        
+                        if (activity.type === 0) {
+                            // Playing a game
                             richPresence.className = 'rich-presence active';
                             document.getElementById('activityHeader').textContent = 'PLAYING A GAME';
                             
@@ -585,10 +650,11 @@
                                 document.getElementById('activityImage').style.display = 'none';
                             }
                             
-                            document.getElementById('activityName').textContent = activity.name;
+                            document.getElementById('activityName').textContent = activity.name || 'Unknown';
                             document.getElementById('activityDetails').textContent = activity.details || '';
                             document.getElementById('activityState').textContent = activity.state || '';
                         } else if (activity.type === 2) {
+                            // Listening to music
                             richPresence.className = 'rich-presence spotify-activity active';
                             document.getElementById('activityHeader').textContent = 'LISTENING TO';
                             
@@ -603,13 +669,15 @@
                                 document.getElementById('activityImage').style.display = 'none';
                             }
                             
-                            document.getElementById('activityName').textContent = activity.name;
+                            document.getElementById('activityName').textContent = activity.name || 'Unknown';
                             document.getElementById('activityDetails').textContent = activity.details || '';
                             document.getElementById('activityState').textContent = activity.state || '';
                         } else {
+                            // Hide rich presence for other activity types
                             richPresence.className = 'rich-presence';
                         }
                     } else {
+                        // No activities
                         richPresence.className = 'rich-presence';
                     }
                 } else {
@@ -617,12 +685,15 @@
                     document.getElementById('lastSeen').style.display = 'block';
                 }
             } catch (error) {
-                document.getElementById('lastSeen').textContent = 'Join discord.gg/lanyard to enable live status';
+                console.error('Error fetching Discord status:', error);
+                document.getElementById('lastSeen').textContent = 'Unable to load status';
                 document.getElementById('lastSeen').style.display = 'block';
             }
         }
         
+        // Initial update
         updateDiscordStatus();
+        // Update every 30 seconds
         setInterval(updateDiscordStatus, 30000);
     </script>
 </body>
