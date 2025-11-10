@@ -28,7 +28,6 @@
             position: relative;
         }
         
-        /* Background */
         .background {
             position: fixed;
             top: 0;
@@ -39,7 +38,6 @@
             background: url('https://mirza.city/publicfiles/fakeminkbg.png') center/cover no-repeat;
         }
         
-        /* Dark overlay frame */
         .overlay-frame {
             position: fixed;
             bottom: 0;
@@ -50,7 +48,6 @@
             z-index: 0;
         }
         
-        /* Main container */
         .container {
             position: relative;
             z-index: 1;
@@ -63,7 +60,6 @@
             padding-top: 8%;
         }
         
-        /* Logo section */
         .logo-section {
             text-align: left;
             margin-bottom: 40px;
@@ -98,7 +94,6 @@
             letter-spacing: 3px;
         }
         
-        /* Buttons container */
         .buttons-container {
             display: flex;
             flex-direction: column;
@@ -186,7 +181,118 @@
             transform: translateX(5px);
         }
         
-        /* Footer note */
+        .discord-widget {
+            position: fixed;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            width: 280px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+        }
+        
+        .discord-profile {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .discord-avatar-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .discord-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .status-indicator {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 3px solid rgba(0, 0, 0, 0.8);
+            background: #747f8d;
+        }
+        
+        .status-indicator.online {
+            background: #23a55a;
+            box-shadow: 0 0 15px #23a55a;
+        }
+        
+        .status-indicator.idle {
+            background: #f0b232;
+            box-shadow: 0 0 15px #f0b232;
+        }
+        
+        .status-indicator.dnd {
+            background: #f23f43;
+            box-shadow: 0 0 15px #f23f43;
+        }
+        
+        .discord-username {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        
+        .discord-status {
+            font-size: 13px;
+            color: #b9bbbe;
+            margin-bottom: 8px;
+        }
+        
+        .last-seen {
+            font-size: 11px;
+            color: #8e9297;
+        }
+        
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .social-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .social-icon {
+            font-size: 18px;
+        }
+        
         .footer-note {
             position: fixed;
             bottom: 20px;
@@ -199,11 +305,24 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
         }
         
-        /* Responsive */
+        @media (max-width: 1400px) {
+            .discord-widget {
+                right: 3%;
+            }
+        }
+        
         @media (max-width: 1024px) {
             .container {
                 align-items: center;
                 padding-right: 0;
+            }
+            
+            .discord-widget {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin: 40px auto 0;
             }
         }
         
@@ -237,6 +356,11 @@
             
             .overlay-frame {
                 height: 50%;
+            }
+            
+            .discord-widget {
+                width: 100%;
+                max-width: 320px;
             }
         }
     </style>
@@ -276,8 +400,86 @@
         </div>
     </div>
     
+    <div class="discord-widget">
+        <div class="discord-profile">
+            <div class="discord-avatar-container">
+                <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Discord Avatar" class="discord-avatar" id="discordAvatar">
+                <div class="status-indicator" id="statusIndicator"></div>
+            </div>
+            <div class="discord-username" id="discordUsername">mirza</div>
+            <div class="discord-status" id="discordStatus">Offline</div>
+            <div class="last-seen" id="lastSeen">Last seen: Unknown</div>
+        </div>
+        
+        <div class="social-buttons">
+            <a href="https://instagram.com/tacmirza" target="_blank" class="social-button">
+                <span class="social-icon">📷</span>
+                <span>Instagram</span>
+            </a>
+            <a href="https://youtube.com/@sutd" target="_blank" class="social-button">
+                <span class="social-icon">▶️</span>
+                <span>YouTube</span>
+            </a>
+            <a href="https://soundcloud.com/ccm1rza" target="_blank" class="social-button">
+                <span class="social-icon">🎵</span>
+                <span>SoundCloud</span>
+            </a>
+        </div>
+    </div>
+    
     <div class="footer-note">
         Press Ctrl+F5 to refresh if updates don't appear
     </div>
+    
+    <script>
+        const DISCORD_USER_ID = '708693430523658322';
+        
+        async function updateDiscordStatus() {
+            try {
+                const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`);
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    const user = data.data;
+                    const discord = user.discord_user;
+                    
+                    const avatarUrl = `https://cdn.discordapp.com/avatars/${discord.id}/${discord.avatar}.png?size=256`;
+                    document.getElementById('discordAvatar').src = avatarUrl;
+                    
+                    document.getElementById('discordUsername').textContent = discord.display_name || discord.username;
+                    
+                    const statusIndicator = document.getElementById('statusIndicator');
+                    const statusText = document.getElementById('discordStatus');
+                    
+                    if (user.discord_status === 'online') {
+                        statusIndicator.className = 'status-indicator online';
+                        statusText.textContent = 'Online';
+                        document.getElementById('lastSeen').style.display = 'none';
+                    } else if (user.discord_status === 'idle') {
+                        statusIndicator.className = 'status-indicator idle';
+                        statusText.textContent = 'Idle';
+                        document.getElementById('lastSeen').style.display = 'none';
+                    } else if (user.discord_status === 'dnd') {
+                        statusIndicator.className = 'status-indicator dnd';
+                        statusText.textContent = 'Do Not Disturb';
+                        document.getElementById('lastSeen').style.display = 'none';
+                    } else {
+                        statusIndicator.className = 'status-indicator';
+                        statusText.textContent = 'Offline';
+                        if (user.activities && user.activities.length > 0) {
+                            const lastActivity = new Date(user.activities[0].created_at);
+                            document.getElementById('lastSeen').textContent = `Last seen: ${lastActivity.toLocaleDateString()}`;
+                            document.getElementById('lastSeen').style.display = 'block';
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching Discord status:', error);
+            }
+        }
+        
+        updateDiscordStatus();
+        setInterval(updateDiscordStatus, 30000);
+    </script>
 </body>
 </html>
