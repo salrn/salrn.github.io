@@ -259,6 +259,74 @@
             color: #8e9297;
         }
         
+        .rich-presence {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .rich-presence.active {
+            display: block;
+        }
+        
+        .activity-header {
+            font-size: 11px;
+            color: #b9bbbe;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .activity-content {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        
+        .activity-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .activity-details {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .activity-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .activity-state,
+        .activity-details-text {
+            font-size: 12px;
+            color: #b9bbbe;
+            margin-bottom: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .spotify-activity {
+            border-left: 3px solid #1DB954;
+        }
+        
+        .spotify-activity .activity-header {
+            color: #1DB954;
+        }
+        
         .social-buttons {
             display: flex;
             flex-direction: column;
@@ -411,6 +479,18 @@
             <div class="last-seen" id="lastSeen">Last seen: Unknown</div>
         </div>
         
+        <div class="rich-presence" id="richPresence">
+            <div class="activity-header" id="activityHeader">PLAYING A GAME</div>
+            <div class="activity-content">
+                <img src="" alt="Activity" class="activity-image" id="activityImage">
+                <div class="activity-details">
+                    <div class="activity-name" id="activityName"></div>
+                    <div class="activity-details-text" id="activityDetails"></div>
+                    <div class="activity-state" id="activityState"></div>
+                </div>
+            </div>
+        </div>
+        
         <div class="social-buttons">
             <a href="https://instagram.com/tacmirza" target="_blank" class="social-button">
                 <span class="social-icon">📷</span>
@@ -450,6 +530,7 @@
                     
                     const statusIndicator = document.getElementById('statusIndicator');
                     const statusText = document.getElementById('discordStatus');
+                    const richPresence = document.getElementById('richPresence');
                     
                     if (user.discord_status === 'online') {
                         statusIndicator.className = 'status-indicator online';
@@ -472,9 +553,72 @@
                             document.getElementById('lastSeen').style.display = 'block';
                         }
                     }
+                    
+                    if (user.activities && user.activities.length > 0) {
+                        const activity = user.activities[0];
+                        
+                        if (user.spotify) {
+                            richPresence.className = 'rich-presence spotify-activity active';
+                            document.getElementById('activityHeader').textContent = 'LISTENING TO SPOTIFY';
+                            
+                            const spotifyImage = user.spotify.album_art_url || 'https://cdn.discordapp.com/embed/avatars/0.png';
+                            document.getElementById('activityImage').src = spotifyImage;
+                            document.getElementById('activityImage').style.display = 'block';
+                            
+                            document.getElementById('activityName').textContent = user.spotify.song;
+                            document.getElementById('activityDetails').textContent = `by ${user.spotify.artist}`;
+                            document.getElementById('activityState').textContent = `on ${user.spotify.album}`;
+                        } else if (activity.type === 0) {
+                            richPresence.className = 'rich-presence active';
+                            document.getElementById('activityHeader').textContent = 'PLAYING A GAME';
+                            
+                            if (activity.assets && activity.assets.large_image) {
+                                let imageUrl = activity.assets.large_image;
+                                if (imageUrl.startsWith('mp:')) {
+                                    imageUrl = `https://media.discordapp.net/${imageUrl.replace('mp:', '')}`;
+                                } else if (!imageUrl.startsWith('http')) {
+                                    imageUrl = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${imageUrl}.png`;
+                                }
+                                document.getElementById('activityImage').src = imageUrl;
+                                document.getElementById('activityImage').style.display = 'block';
+                            } else {
+                                document.getElementById('activityImage').style.display = 'none';
+                            }
+                            
+                            document.getElementById('activityName').textContent = activity.name;
+                            document.getElementById('activityDetails').textContent = activity.details || '';
+                            document.getElementById('activityState').textContent = activity.state || '';
+                        } else if (activity.type === 2) {
+                            richPresence.className = 'rich-presence spotify-activity active';
+                            document.getElementById('activityHeader').textContent = 'LISTENING TO';
+                            
+                            if (activity.assets && activity.assets.large_image) {
+                                let imageUrl = activity.assets.large_image;
+                                if (!imageUrl.startsWith('http')) {
+                                    imageUrl = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${imageUrl}.png`;
+                                }
+                                document.getElementById('activityImage').src = imageUrl;
+                                document.getElementById('activityImage').style.display = 'block';
+                            } else {
+                                document.getElementById('activityImage').style.display = 'none';
+                            }
+                            
+                            document.getElementById('activityName').textContent = activity.name;
+                            document.getElementById('activityDetails').textContent = activity.details || '';
+                            document.getElementById('activityState').textContent = activity.state || '';
+                        } else {
+                            richPresence.className = 'rich-presence';
+                        }
+                    } else {
+                        richPresence.className = 'rich-presence';
+                    }
+                } else {
+                    document.getElementById('lastSeen').textContent = 'Join discord.gg/lanyard to enable live status';
+                    document.getElementById('lastSeen').style.display = 'block';
                 }
             } catch (error) {
-                console.error('Error fetching Discord status:', error);
+                document.getElementById('lastSeen').textContent = 'Join discord.gg/lanyard to enable live status';
+                document.getElementById('lastSeen').style.display = 'block';
             }
         }
         
