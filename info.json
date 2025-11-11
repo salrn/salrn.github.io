@@ -49,7 +49,7 @@
           "name": "TakeOwnershipPro",
           "description": "Take Ownership over files, to successfully delete, modify or replace them.",
           "guide": "Right-Click on a file and then select TakeOwnershipPro",
-          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "image": "https://salrn.github.io/publicfiles/top_logo.png",
           "download": "https://salrn.github.io/publicfiles/publicfiles/TakeOwnershipPro.exe"
         },
         {
@@ -242,6 +242,7 @@
     }
   ]
 }
+
 
 
 
