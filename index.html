@@ -255,16 +255,31 @@
         }
         
         .custom-status {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 18px;
+            padding: 12px 16px;
             margin-top: 12px;
             font-size: 13px;
             color: #dcddde;
             line-height: 1.4;
-            text-align: center;
+            text-align: left;
             display: none;
             word-wrap: break-word;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .custom-status::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid rgba(0, 0, 0, 0.4);
         }
         
         .custom-status.active {
