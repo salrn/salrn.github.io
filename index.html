@@ -254,6 +254,28 @@
             margin-bottom: 8px;
         }
         
+        .custom-status {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #dcddde;
+            line-height: 1.4;
+            text-align: center;
+            display: none;
+            word-wrap: break-word;
+        }
+        
+        .custom-status.active {
+            display: block;
+        }
+        
+        .custom-status-emoji {
+            margin-right: 6px;
+            font-size: 16px;
+        }
+        
         .last-seen {
             font-size: 11px;
             color: #8e9297;
@@ -363,7 +385,10 @@
         }
         
         .social-icon {
-            font-size: 18px;
+            width: 20px;
+            height: 20px;
+            fill: white;
+            flex-shrink: 0;
         }
         
         .footer-note {
@@ -543,6 +568,7 @@
                 </div>
                 <div class="discord-username" id="discordUsername">mirza</div>
                 <div class="discord-status" id="discordStatus">Offline</div>
+                <div class="custom-status" id="customStatus"></div>
                 <div class="last-seen" id="lastSeen">Last seen: Unknown</div>
             </div>
             
@@ -560,15 +586,21 @@
             
             <div class="social-buttons">
                 <a href="https://instagram.com/tacmirza" target="_blank" class="social-button">
-                    <span class="social-icon">📷</span>
+                    <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3z"/>
+                    </svg>
                     <span>Instagram</span>
                 </a>
                 <a href="https://youtube.com/@sutd" target="_blank" class="social-button">
-                    <span class="social-icon">▶️</span>
+                    <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9c.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83c-.25.9-.83 1.48-1.73 1.73c-.47.13-1.33.22-2.65.28c-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44c-.9-.25-1.48-.83-1.73-1.73c-.13-.47-.22-1.1-.28-1.9c-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83c.25-.9.83-1.48 1.73-1.73c.47-.13 1.33-.22 2.65-.28c1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44c.9.25 1.48.83 1.73 1.73z"/>
+                    </svg>
                     <span>YouTube</span>
                 </a>
                 <a href="https://soundcloud.com/ccm1rza" target="_blank" class="social-button">
-                    <span class="social-icon">🎵</span>
+                    <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.56 8.87V17h8.76c1.85 0 2.93-1.44 2.93-2.88c0-1.52-1.23-2.77-2.75-2.77c-.28 0-.54.04-.79.13c-.23-2.58-2.4-4.61-5.04-4.61c-.28 0-.55.02-.82.07c-.14.02-.25.15-.25.3M3.14 13.12c-.1 0-.18.08-.18.18v2.21c0 .1.08.18.18.18s.18-.08.18-.18V13.3c0-.1-.08-.18-.18-.18M1.25 12.23c-.14 0-.25.11-.25.25v2.04c0 .14.11.25.25.25s.25-.11.25-.25v-2.04c0-.14-.11-.25-.25-.25m1.89.71c-.1 0-.18.08-.18.18v2.39c0 .1.08.18.18.18s.18-.08.18-.18v-2.39c0-.1-.08-.18-.18-.18m1.89-.53c-.1 0-.18.08-.18.18v3.11c0 .1.08.18.18.18s.18-.08.18-.18V12.6c0-.11-.08-.19-.18-.19m1.89-1.6c-.1 0-.18.08-.18.18v5.52c0 .1.08.18.18.18s.18-.08.18-.18v-5.52c0-.1-.08-.18-.18-.18m1.89 0c-.1 0-.18.08-.18.18v5.52c0 .1.08.18.18.18s.18-.08.18-.18v-5.52c0-.1-.08-.18-.18-.18z"/>
+                    </svg>
                     <span>SoundCloud</span>
                 </a>
             </div>
@@ -599,6 +631,7 @@
                     const statusIndicator = document.getElementById('statusIndicator');
                     const statusText = document.getElementById('discordStatus');
                     const richPresence = document.getElementById('richPresence');
+                    const customStatusEl = document.getElementById('customStatus');
                     
                     if (user.discord_status === 'online') {
                         statusIndicator.className = 'status-indicator online';
@@ -618,6 +651,17 @@
                         document.getElementById('lastSeen').style.display = 'block';
                     }
                     
+                    const customStatus = user.activities.find(a => a.type === 4);
+                    if (customStatus && customStatus.state) {
+                        customStatusEl.className = 'custom-status active';
+                        const emoji = customStatus.emoji ? (customStatus.emoji.id ? 
+                            `<img src="https://cdn.discordapp.com/emojis/${customStatus.emoji.id}.${customStatus.emoji.animated ? 'gif' : 'png'}" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 6px;">` : 
+                            `<span class="custom-status-emoji">${customStatus.emoji.name}</span>`) : '';
+                        customStatusEl.innerHTML = emoji + customStatus.state;
+                    } else {
+                        customStatusEl.className = 'custom-status';
+                    }
+                    
                     if (user.spotify && user.spotify.track_id) {
                         richPresence.className = 'rich-presence spotify-activity active';
                         document.getElementById('activityHeader').textContent = 'LISTENING TO SPOTIFY';
@@ -630,13 +674,12 @@
                         document.getElementById('activityName').textContent = user.spotify.song || 'Unknown';
                         document.getElementById('activityDetails').textContent = user.spotify.artist ? `by ${user.spotify.artist}` : '';
                         document.getElementById('activityState').textContent = user.spotify.album ? `on ${user.spotify.album}` : '';
-                    }
-                    else if (user.activities && user.activities.length > 0) {
+                    } else if (user.activities && user.activities.length > 0) {
                         const activity = user.activities.find(a => a.type !== 4) || user.activities[0];
                         
-                        if (activity.type === 0) {
-                            richPresence.className = 'rich-presence active';
-                            document.getElementById('activityHeader').textContent = 'PLAYING A GAME';
+                        if (activity && (activity.type === 0 || activity.type === 2)) {
+                            richPresence.className = activity.type === 2 ? 'rich-presence spotify-activity active' : 'rich-presence active';
+                            document.getElementById('activityHeader').textContent = activity.type === 2 ? 'LISTENING TO' : 'PLAYING A GAME';
                             
                             const activityImageEl = document.getElementById('activityImage');
                             if (activity.assets && activity.assets.large_image) {
@@ -655,32 +698,6 @@
                                 };
                             } else {
                                 activityImageEl.className = 'activity-image';
-                            }
-                            
-                            document.getElementById('activityName').textContent = activity.name || 'Unknown';
-                            document.getElementById('activityDetails').textContent = activity.details || '';
-                            document.getElementById('activityState').textContent = activity.state || '';
-                        } else if (activity.type === 2) {
-                            richPresence.className = 'rich-presence spotify-activity active';
-                            document.getElementById('activityHeader').textContent = 'LISTENING TO';
-                            
-                            const activityImageEl = document.getElementById('activityImage');
-                            if (activity.assets && activity.assets.large_image) {
-                                let imageUrl = activity.assets.large_image;
-                                if (imageUrl.startsWith('mp:')) {
-                                    imageUrl = `https://media.discordapp.net/${imageUrl.replace('mp:', '')}`;
-                                } else if (imageUrl.startsWith('http')) {
-                                    imageUrl = imageUrl;
-                                } else {
-                                    imageUrl = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${imageUrl}.png`;
-                                }
-                                activityImageEl.src = imageUrl;
-                                activityImageEl.style.display = 'block';
-                                activityImageEl.onerror = () => {
-                                    activityImageEl.style.display = 'none';
-                                };
-                            } else {
-                                activityImageEl.style.display = 'none';
                             }
                             
                             document.getElementById('activityName').textContent = activity.name || 'Unknown';
