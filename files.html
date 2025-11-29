@@ -763,34 +763,99 @@
                 20%, 40%, 60%, 80% { transform: translate(-52%, -50%); }
             }
             */
+            function xorEncrypt(text, key) {
+                let result = '';
+                for (let i = 0; i < text.length; i++) {
+                    result += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+                }
+                return result;
+            }
+
+            function fromBase64(str) {
+                return decodeURIComponent(escape(atob(str)));
+            }
             
             async function loadProtectedContent() {
                 try {
+                    const ENCRYPTION_KEY = 'HMIF4HI66QCJRDTIEBBJQHCU45TOWIKQ';
+                    
+                    console.log('Loading protected content...');
+                    
+                    // Load the file
                     const response = await fetch('protected-info.json');
-                    const encryptedData = await response.json();
-                    const protectedData = encryptedData;
                     
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const jsonData = await response.json();
+                    console.log('Loaded JSON:', jsonData);
+                    
+                    let protectedData;
+                    if (jsonData.encrypted) {
+                        console.log('Decrypting data...');
+                        const decoded = fromBase64(jsonData.encrypted);
+                        const decrypted = xorEncrypt(decoded, ENCRYPTION_KEY);
+                        protectedData = JSON.parse(decrypted);
+                        console.log('Decrypted successfully');
+                    } else if (jsonData.items) {
+                        console.log('Using unencrypted data');
+                        protectedData = jsonData;
+                    } else {
+                        throw new Error('Invalid JSON format - missing "encrypted" or "items" property');
+                    }
+                    
+                    // Validate data structure
+                    if (!protectedData.items || !Array.isArray(protectedData.items)) {
+                        throw new Error('Invalid data structure: "items" must be an array');
+                    }
+                    
+                    if (protectedData.items.length === 0) {
+                        throw new Error('No items found in protected data');
+                    }
+                    
+                    console.log('Found', protectedData.items.length, 'items');
                     const section = document.getElementById(PROTECTED_SECTION_ID);
-                    const container = section.querySelector('.card-container');
-                    container.innerHTML = ''; // Clear locked message
+                    if (!section) {
+                        throw new Error('Protected section element not found');
+                    }
                     
-                    protectedData.items.forEach(item => {
+                    const container = section.querySelector('.card-container');
+                    if (!container) {
+                        throw new Error('Card container not found');
+                    }
+                    
+                    container.innerHTML = '';
+                    
+                    protectedData.items.forEach((item, index) => {
+                        console.log('Creating card', index + 1, ':', item.name);
                         const card = createCard(item);
                         container.appendChild(card);
                     });
+                    
+                    console.log('✅ Successfully loaded all protected content');
+                    
                 } catch (error) {
-                    console.error('Error loading protected content:', error);
-                }
-            }
-
-            function showAuthModal() {
-                if (authModal && authOverlay) {
-                    authModal.classList.add('show');
-                    authOverlay.classList.add('show');
-                    const authInput = authModal.querySelector('.auth-input');
-                    if (authInput) {
-                        authInput.focus();
+                    console.error('❌ Error loading protected content:', error);
+                    const section = document.getElementById(PROTECTED_SECTION_ID);
+                    if (section) {
+                        const container = section.querySelector('.card-container');
+                        if (container) {
+                            container.innerHTML = `
+                                <div class="locked-message">
+                                    <h2>❌</h2>
+                                    <p>Error loading content</p>
+                                    <p style="color: #ff6b6b; font-size: 14px; margin-top: 10px;">
+                                        ${error.message}
+                                    </p>
+                                    <p style="color: #aaa; font-size: 12px; margin-top: 10px;">
+                                        Check browser console (F12) for details
+                                    </p>
+                                </div>
+                            `;
+                        }
                     }
+                    throw error;
                 }
             }
 
@@ -1040,6 +1105,7 @@
     </div>
 </body>
 </html>
+
 
 
 
