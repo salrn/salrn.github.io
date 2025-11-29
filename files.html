@@ -645,6 +645,122 @@
             }
             // i knoo u can see totp code ion care stop telling me
             // all this shit vibe coded
+
+            const TOTP_SECRET = 'YOUR_SECRET_KEY_HERE'; // Replace with your generated secret
+
+function base32Decode(base32) {
+    const base32Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    let bits = '';
+    let value = 0;
+    
+    base32 = base32.toUpperCase().replace(/=+$/, '');
+    
+    for (let i = 0; i < base32.length; i++) {
+        const val = base32Chars.indexOf(base32[i]);
+        if (val === -1) continue;
+        bits += val.toString(2).padStart(5, '0');
+    }
+    
+    const bytes = [];
+    for (let i = 0; i + 8 <= bits.length; i += 8) {
+        bytes.push(parseInt(bits.substr(i, 8), 2));
+    }
+    
+    return new Uint8Array(bytes);
+}
+
+async function generateTOTP(secret, timeStep = 30) {
+    // Decode the base32 secret
+    const key = base32Decode(secret);
+    
+    // Get current time step
+    const now = Math.floor(Date.now() / 1000);
+    const timeCounter = Math.floor(now / timeStep);
+    
+    // Convert counter to 8-byte array
+    const buffer = new ArrayBuffer(8);
+    const view = new DataView(buffer);
+    view.setUint32(4, timeCounter, false);
+    
+    // Import key for HMAC
+    const cryptoKey = await crypto.subtle.importKey(
+        'raw',
+        key,
+        { name: 'HMAC', hash: 'SHA-1' },
+        false,
+        ['sign']
+    );
+    
+    // Generate HMAC
+    const signature = await crypto.subtle.sign('HMAC', cryptoKey, buffer);
+    const hmac = new Uint8Array(signature);
+    
+    // Dynamic truncation
+    const offset = hmac[hmac.length - 1] & 0x0f;
+    const code = (
+        ((hmac[offset] & 0x7f) << 24) |
+        ((hmac[offset + 1] & 0xff) << 16) |
+        ((hmac[offset + 2] & 0xff) << 8) |
+        (hmac[offset + 3] & 0xff)
+    );
+    
+    // Return 6-digit code
+    return (code % 1000000).toString().padStart(6, '0');
+}
+
+// Replace the existing verifyAccess function with this:
+async function verifyAccess() {
+    const authInput = authModal.querySelector('.auth-input');
+    const authError = authModal.querySelector('.auth-error');
+    const code = authInput.value.trim();
+
+    try {
+        // Generate current valid TOTP code
+        const validCode = await generateTOTP(TOTP_SECRET);
+        
+        // Also check previous time window (for clock drift)
+        const prevValidCode = await generateTOTP(TOTP_SECRET, 30, Math.floor(Date.now() / 1000) - 30);
+        
+        // Verify the code
+        if (code === validCode || code === prevValidCode) {
+            isProtectedSectionUnlocked = true;
+            authModal.classList.remove('show');
+            authOverlay.classList.remove('show');
+            authInput.value = '';
+            authError.classList.remove('show');
+            
+            // Update tab appearance
+            const protectedTab = document.querySelector(`[data-section="${PROTECTED_SECTION_ID}"]`);
+            if (protectedTab) {
+                protectedTab.classList.add('unlocked');
+            }
+            
+            // Load and display protected content
+            await loadProtectedContent();
+            showProtectedSection();
+        } else {
+            authError.textContent = 'Invalid code. Please check your authenticator app.';
+            authError.classList.add('show');
+            authInput.value = '';
+            
+            // Shake animation
+            authModal.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                authModal.style.animation = '';
+            }, 500);
+        }
+    } catch (error) {
+        console.error('TOTP verification error:', error);
+        authError.textContent = 'Error verifying code. Please try again.';
+        authError.classList.add('show');
+    }
+}
+
+            @keyframes shake {
+    0%, 100% { transform: translate(-50%, -50%); }
+    10%, 30%, 50%, 70%, 90% { transform: translate(-48%, -50%); }
+    20%, 40%, 60%, 80% { transform: translate(-52%, -50%); }
+}
             async function verifyAccess() {
                 const authInput = authModal.querySelector('.auth-input');
                 const authError = authModal.querySelector('.auth-error');
@@ -960,5 +1076,6 @@
     </div>
 </body>
 </html>
+
 
 
