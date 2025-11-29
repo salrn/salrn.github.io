@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "name": "FL Studio 21",
+      "description": "Professional DAW for music production",
+      "image": "https://example.com/fl-studio.png",
+      "download": "https://example.com/fl-studio.zip",
+      "guide": "Install FL Studio, run as administrator, and follow the activation instructions included in the download."
+    },
+    {
+      "name": "Serum VST",
+      "description": "Advanced wavetable synthesizer",
+      "image": "https://example.com/serum.png",
+      "download": "https://example.com/serum.zip",
+      "guide": "Extract the VST file to your plugins folder. Typical locations: C:\\Program Files\\VSTPlugins or C:\\Program Files\\Steinberg\\VSTPlugins"
+    },
+    {
+      "name": "Omnisphere 2",
+      "description": "Flagship synthesizer with vast sound library",
+      "image": "https://example.com/omnisphere.png",
+      "download": "https://example.com/omnisphere.zip",
+      "guide": "Run the installer, select your DAW's VST folder, and use the provided keymaker to activate."
+    }
+  ]
+}
