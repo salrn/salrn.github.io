@@ -800,12 +800,8 @@
 
             async function loadProtectedContent() {
                 try {
-                    // Try to load encrypted data (you'll need to create protected-info.json)
                     const response = await fetch('protected-info.json');
                     const encryptedData = await response.json();
-                    
-                    // Decrypt the data (you'll need to implement proper decryption)
-                    // For now, we'll assume the data is in plain format
                     const protectedData = encryptedData;
                     
                     const section = document.getElementById(PROTECTED_SECTION_ID);
@@ -1078,6 +1074,7 @@
     </div>
 </body>
 </html>
+
 
 
 
