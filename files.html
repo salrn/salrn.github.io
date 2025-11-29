@@ -69,6 +69,7 @@
             justify-content: center;
             background-color: #222;
             padding: 10px 0;
+            flex-wrap: wrap;
         }
         .tab {
             color: white;
@@ -87,6 +88,17 @@
         .tab:hover {
             background-color: #444;
             transform: translateY(-2px);
+        }
+        .tab.protected {
+            background: linear-gradient(45deg, #333, #555);
+            position: relative;
+        }
+        .tab.protected::after {
+            content: '🔒';
+            margin-left: 8px;
+        }
+        .tab.protected.unlocked::after {
+            content: '🔓';
         }
         
         /* Donation Banner Styles */
@@ -448,6 +460,126 @@
             letter-spacing: 1px;
             opacity: 0.6;
         }
+
+        /* Auth Modal Styles */
+        .auth-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            color: white;
+            width: 400px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .auth-modal.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%);
+        }
+
+        .auth-modal h3 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            text-align: center;
+            font-family: 'Eurostile', Arial, sans-serif;
+        }
+
+        .auth-modal p {
+            color: #aaa;
+            margin: 0 0 20px;
+            text-align: center;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #444;
+            border-radius: 8px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            font-family: monospace;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #666;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .auth-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Eurostile', Arial, sans-serif;
+        }
+
+        .auth-btn.submit {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .auth-btn.submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .auth-btn.cancel {
+            background: #555;
+            color: white;
+        }
+
+        .auth-btn.cancel:hover {
+            background: #666;
+        }
+
+        .auth-error {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .auth-error.show {
+            display: block;
+        }
+
+        .locked-message {
+            text-align: center;
+            padding: 50px 20px;
+            color: #aaa;
+        }
+
+        .locked-message h2 {
+            font-size: 48px;
+            margin: 0 0 20px;
+        }
+
+        .locked-message p {
+            font-size: 18px;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
@@ -455,11 +587,15 @@
             const tabsContainer = document.querySelector('.tabs');
             const contentContainer = document.querySelector('body');
             
-            let modal, overlay;
+            let modal, overlay, authModal, authOverlay;
+            let isProtectedSectionUnlocked = false;
+            const PROTECTED_SECTION_ID = 'sectionProtected';
             
             function initModalElements() {
                 modal = document.querySelector('.modal');
                 overlay = document.querySelector('.overlay');
+                authModal = document.querySelector('.auth-modal');
+                authOverlay = document.querySelector('.auth-overlay');
                 
                 if (modal && overlay) {
                     const closeBtn = document.querySelector('.close-btn');
@@ -470,6 +606,123 @@
                         });
                     }
                 }
+
+                if (authModal && authOverlay) {
+                    const cancelBtn = authModal.querySelector('.auth-btn.cancel');
+                    const submitBtn = authModal.querySelector('.auth-btn.submit');
+                    const authInput = authModal.querySelector('.auth-input');
+                    const authError = authModal.querySelector('.auth-error');
+
+                    cancelBtn.addEventListener('click', () => {
+                        authModal.classList.remove('show');
+                        authOverlay.classList.remove('show');
+                        authInput.value = '';
+                        authError.classList.remove('show');
+                    });
+
+                    submitBtn.addEventListener('click', () => verifyAccess());
+                    authInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') verifyAccess();
+                    });
+                }
+            }
+
+            // Simple XOR encryption/decryption
+            function xorEncryptDecrypt(data, key) {
+                const result = [];
+                for (let i = 0; i < data.length; i++) {
+                    result.push(String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length)));
+                }
+                return result.join('');
+            }
+
+            // SHA-256 hash function (simple implementation)
+            async function sha256(message) {
+                const msgBuffer = new TextEncoder().encode(message);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            async function verifyAccess() {
+                const authInput = authModal.querySelector('.auth-input');
+                const authError = authModal.querySelector('.auth-error');
+                const code = authInput.value.trim();
+
+                // Hash the entered code
+                const hashedCode = await sha256(code);
+                
+                // Compare with stored hash (you should replace this with your actual code hash)
+                // For example, if your code is "123456", generate its hash and use it here
+                const correctHash = 'YOUR_HASH_HERE'; // Replace with actual hash
+                
+                // For demo purposes, let's just check a simple code
+                if (code === '123456') { // Replace with your actual verification logic
+                    isProtectedSectionUnlocked = true;
+                    authModal.classList.remove('show');
+                    authOverlay.classList.remove('show');
+                    authInput.value = '';
+                    authError.classList.remove('show');
+                    
+                    // Update tab appearance
+                    const protectedTab = document.querySelector(`[data-section="${PROTECTED_SECTION_ID}"]`);
+                    if (protectedTab) {
+                        protectedTab.classList.add('unlocked');
+                    }
+                    
+                    // Load and display protected content
+                    await loadProtectedContent();
+                    showProtectedSection();
+                } else {
+                    authError.classList.add('show');
+                    authInput.value = '';
+                }
+            }
+
+            async function loadProtectedContent() {
+                try {
+                    // Try to load encrypted data (you'll need to create protected-info.json)
+                    const response = await fetch('protected-info.json');
+                    const encryptedData = await response.json();
+                    
+                    // Decrypt the data (you'll need to implement proper decryption)
+                    // For now, we'll assume the data is in plain format
+                    const protectedData = encryptedData;
+                    
+                    const section = document.getElementById(PROTECTED_SECTION_ID);
+                    const container = section.querySelector('.card-container');
+                    container.innerHTML = ''; // Clear locked message
+                    
+                    protectedData.items.forEach(item => {
+                        const card = createCard(item);
+                        container.appendChild(card);
+                    });
+                } catch (error) {
+                    console.error('Error loading protected content:', error);
+                }
+            }
+
+            function showAuthModal() {
+                if (authModal && authOverlay) {
+                    authModal.classList.add('show');
+                    authOverlay.classList.add('show');
+                    const authInput = authModal.querySelector('.auth-input');
+                    if (authInput) {
+                        authInput.focus();
+                    }
+                }
+            }
+
+            function showProtectedSection() {
+                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+                const protectedTab = document.querySelector(`[data-section="${PROTECTED_SECTION_ID}"]`);
+                if (protectedTab) {
+                    protectedTab.classList.add('active');
+                }
+
+                document.querySelectorAll('.cards').forEach(section => section.classList.add('hidden'));
+                activeSection = document.getElementById(PROTECTED_SECTION_ID);
+                activeSection.classList.remove('hidden');
             }
 
             let activeSection;
@@ -555,6 +808,26 @@
                         allContainer.appendChild(allCard);
                     });
                 });
+
+                // Add protected "VST and DAWs" tab at the end
+                const protectedTab = document.createElement('button');
+                protectedTab.className = 'tab protected';
+                protectedTab.textContent = 'VST and DAWs';
+                protectedTab.dataset.section = PROTECTED_SECTION_ID;
+                tabsContainer.appendChild(protectedTab);
+
+                const protectedSection = document.createElement('div');
+                protectedSection.className = 'cards hidden';
+                protectedSection.id = PROTECTED_SECTION_ID;
+                protectedSection.innerHTML = `
+                    <div class="card-container">
+                        <div class="locked-message">
+                            <h2>🔒</h2>
+                            <p>This section is protected. Please enter the access code.</p>
+                        </div>
+                    </div>
+                `;
+                contentContainer.appendChild(protectedSection);
             }
 
             function showModal(guideText) {
@@ -611,11 +884,19 @@
             tabsContainer.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('tab')) return;
 
+                const targetSection = e.target.dataset.section;
+
+                // Check if clicking on protected section
+                if (targetSection === PROTECTED_SECTION_ID && !isProtectedSectionUnlocked) {
+                    showAuthModal();
+                    return;
+                }
+
                 document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
                 e.target.classList.add('active');
 
                 document.querySelectorAll('.cards').forEach(section => section.classList.add('hidden'));
-                activeSection = document.getElementById(e.target.dataset.section);
+                activeSection = document.getElementById(targetSection);
                 activeSection.classList.remove('hidden');
             });
 
@@ -659,6 +940,18 @@
     <div class="modal">
         <p>Guide content here</p>
         <button class="close-btn">Close</button>
+    </div>
+
+    <div class="overlay auth-overlay"></div>
+    <div class="modal auth-modal">
+        <h3>🔒 Protected Section</h3>
+        <p>Enter your access code to view VST and DAWs content</p>
+        <input type="password" class="auth-input" placeholder="Enter code" maxlength="20">
+        <div class="auth-buttons">
+            <button class="auth-btn cancel">Cancel</button>
+            <button class="auth-btn submit">Unlock</button>
+        </div>
+        <div class="auth-error">Incorrect code. Please try again.</div>
     </div>
 
     <div class="footer">
