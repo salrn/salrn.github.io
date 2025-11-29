@@ -763,41 +763,7 @@
                 20%, 40%, 60%, 80% { transform: translate(-52%, -50%); }
             }
             */
-            async function verifyAccess() {
-                const authInput = authModal.querySelector('.auth-input');
-                const authError = authModal.querySelector('.auth-error');
-                const code = authInput.value.trim();
-
-                // Hash the entered code
-                const hashedCode = await sha256(code);
-                
-                // Compare with stored hash (you should replace this with your actual code hash)
-                // For example, if your code is "123456", generate its hash and use it here
-                const correctHash = 'YOUR_HASH_HERE'; // Replace with actual hash
-                
-                // For demo purposes, let's just check a simple code
-                if (code === '123456') { // Replace with your actual verification logic
-                    isProtectedSectionUnlocked = true;
-                    authModal.classList.remove('show');
-                    authOverlay.classList.remove('show');
-                    authInput.value = '';
-                    authError.classList.remove('show');
-                    
-                    // Update tab appearance
-                    const protectedTab = document.querySelector(`[data-section="${PROTECTED_SECTION_ID}"]`);
-                    if (protectedTab) {
-                        protectedTab.classList.add('unlocked');
-                    }
-                    
-                    // Load and display protected content
-                    await loadProtectedContent();
-                    showProtectedSection();
-                } else {
-                    authError.classList.add('show');
-                    authInput.value = '';
-                }
-            }
-
+            
             async function loadProtectedContent() {
                 try {
                     const response = await fetch('protected-info.json');
@@ -1074,6 +1040,7 @@
     </div>
 </body>
 </html>
+
 
 
 
