@@ -35,7 +35,26 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: url('https://mirza.city/publicfiles/fakeminkbg.png') center/cover no-repeat;
+            overflow: hidden;
+        }
+        
+        .background iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+        }
+        
+        .background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            pointer-events: none;
+            z-index: 1;
         }
         
         .overlay-frame {
@@ -542,7 +561,9 @@
     </style>
 </head>
 <body>
-    <div class="background"></div>
+    <div class="background">
+        <iframe src="https://gtbsg.tumblr.com/" title="Background"></iframe>
+    </div>
     <div class="overlay-frame"></div>
     
     <div class="container">
