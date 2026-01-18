@@ -138,8 +138,7 @@
         
         .selection-button {
             background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.08));
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-top-color: rgba(255, 255, 255, 0.5);
             border-left-color: rgba(255, 255, 255, 0.5);
@@ -160,6 +159,17 @@
                 inset 0 -1px 0 rgba(0,0,0,0.2);
         }
         
+        .selection-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+        
         .selection-button::after {
             content: '';
             position: absolute;
@@ -170,7 +180,6 @@
             background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%);
             border-radius: 20px 20px 0 0;
             pointer-events: none;
-            z-index: 1;
         }
         
         .selection-button:hover::before {
@@ -179,8 +188,6 @@
         
         .selection-button:hover {
             transform: translateY(-5px) scale(1.02);
-            backdrop-filter: blur(25px) saturate(200%);
-            -webkit-backdrop-filter: blur(25px) saturate(200%);
             box-shadow: 
                 0 12px 32px rgba(0, 0, 0, 0.5),
                 inset 0 1px 0 rgba(255,255,255,0.4),
@@ -188,18 +195,6 @@
                 0 0 40px rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.5);
             background: linear-gradient(145deg, rgba(255,255,255,0.25), rgba(255,255,255,0.12));
-        }
-        
-        .selection-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-            z-index: 2;
         }
         
         .selection-button:active {
@@ -215,7 +210,7 @@
             align-items: center;
             gap: 20px;
             position: relative;
-            z-index: 3;
+            z-index: 1;
         }
         
         .button-icon {
