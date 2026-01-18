@@ -147,6 +147,20 @@
           "guide": "HS USB Driver has a regular setup. For the Ports driver, you need to open up Device Manager, right click the Qualcomm device, (Which may have a warning symbol on it or be named Unknown Device) press on update drivers, and then press Search on my device. Select the folder with the Qualcomm Ports Driver.)",
           "image": "https://salrn.github.io/publicfiles/New Project (36).png",
           "download": "https://www.dropbox.com/scl/fi/0pu99os2koqczlno3sn6c/Qualcomm_PortsDriver-QDLoader_HS-USB_DriverSetup.rar?rlkey=rhjyu1cuc4ighb0gtysjx0oky&st=9wv9ubiz&dl=1"
+        },
+        {
+          "name": "Adlaz iCloud Bypass Tool",
+          "description": "Bypass iCloud on A12+ Devices from iOS 15 to 26.1",
+          "guide": "Incase there is a password while unzipping the file, it is 1234. Register your device under https://ialdaz-activator.com/Tools/en.php",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://www.mediafire.com/folder/y8wswxu9k4q80/AldazTool"
+        },
+        {
+          "name": "BobikActivator (A12+)",
+          "description": "Bypass iCloud on A12+ Devices on iOS Versions 18.7.2-26.1",
+          "guide": "Follow instructions on program. Alternative Link: https://www.mediafire.com/file/nlizi81lnn8uhlo/bobikactivator.zip/file",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://download2272.mediafire.com/1w8xvtmulygg1yIyYyXQo8J-tqC-BCJ3a3NtlCd0xsN5TsCYoOaAUucMaUdcXyoJAY_7iT9kICOiev2cF7P8MX-AT-HreMUCfztqdwnl8PRuLmdDbfPydYuH6QuALZfnoESJfB49_VBzRDDMK_sfKbdTwxx8FO8gFOkW2Xa5wbnEs2g/nlizi81lnn8uhlo/bobikactivator.zip"
         }
       ]
     },
@@ -256,6 +270,7 @@
     }
   ]
 }
+
 
 
 
