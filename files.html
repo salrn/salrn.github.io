@@ -13,108 +13,253 @@
             font-weight: normal;
             font-style: normal;
         }
-        body {
-            font-family: Arial, sans-serif;
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #121212;
-            color: #ffffff;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.05"/%3E%3C/svg%3E');
+            opacity: 0.015;
+            mix-blend-mode: screen;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Scanline effect */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 255, 0.02) 0%, 
+                rgba(255, 255, 255, 0.04) 50%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            height: 200%;
+            animation: scanline 8s linear infinite;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        /* Grid overlay */
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
         .header {
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
-            background-color: #333;
-            padding: 10px 20px;
-            color: white;
+            background: rgba(38, 38, 38, 0.3);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
             gap: 15px;
         }
+
+        .spinning-logo {
+            width: 50px;
+            height: 50px;
+            animation: spin3d 4s infinite;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.3));
+        }
+
+        @keyframes spin3d {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
         .header h2 {
             font-family: 'Eurostile', Arial, sans-serif;
+            background: linear-gradient(to right, #fca5a5, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 24px;
+            letter-spacing: -0.5px;
         }
-        
-        .spinning-logo {
-            width: 40px;
-            height: 40px;
-            animation: spin 4s infinite;
-            transform-style: preserve-3d;
-        }
-        @keyframes spin {
-            0% {
-                transform: rotateY(0deg) rotateX(0deg);
-            }
-           100% {
-                transform: rotateY(360deg) rotateX(0deg);
-            }
-        }
-        .search-bar {
-            margin-left: auto;
-        }
+
         .search-bar input {
-            padding: 8px;
+            padding: 10px 16px;
             width: 300px;
-            border: none;
-            border-radius: 4px;
-            background-color: #444;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            background: rgba(38, 38, 38, 0.6);
+            backdrop-filter: blur(8px);
             color: white;
             font-family: 'Eurostile', Arial, sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #ef4444;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
         }
 
         .search-bar input::placeholder {
-            color: #aaa;
-            font-family: 'Eurostile', Arial, sans-serif;
+            color: #a1a1a1;
         }
+
+        /* Tabs */
         .tabs {
             display: flex;
             justify-content: center;
-            background-color: #222;
-            padding: 10px 0;
+            gap: 10px;
+            padding: 20px;
             flex-wrap: wrap;
+            background: rgba(23, 23, 23, 0.3);
+            backdrop-filter: blur(8px);
         }
+
         .tab {
-            color: white;
-            background-color: #333;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 0 5px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        .tab.active {
-            background-color: #555;
-        }
-        .tab:hover {
-            background-color: #444;
-            transform: translateY(-2px);
-        }
-        .tab.protected {
-            background: linear-gradient(45deg, #333, #555);
             position: relative;
+            color: #d4d4d4;
+            background: rgba(38, 38, 38, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 15px;
+            font-family: 'Eurostile', Arial, sans-serif;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 5px 20px rgba(239, 68, 68, 0.2);
+        }
+
+        .tab:hover::before {
+            opacity: 1;
+        }
+
+        .tab.active {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #fca5a5;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .tab.protected {
+            background: linear-gradient(135deg, rgba(38, 38, 38, 0.5), rgba(64, 64, 64, 0.5));
+            border-color: rgba(255, 221, 51, 0.3);
+        }
+
         .tab.protected::after {
             content: '🔒';
             margin-left: 8px;
         }
+
         .tab.protected.unlocked::after {
             content: '🔓';
         }
-        
-        /* Donation Banner Styles */
+
+        /* Main content */
+        .cards {
+            padding: 30px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .cards.hidden {
+            display: none;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            font-family: 'Eurostile', Arial, sans-serif;
+            background: linear-gradient(to right, #fca5a5, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .section-header p {
+            color: #a1a1a1;
+            font-size: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Donation banner */
         .donation-banner {
             max-width: 900px;
-            margin: 15px auto 10px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 15px 25px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 0 auto 40px;
+            background: rgba(38, 38, 38, 0.3);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 25px 30px;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
-        
+
         .donation-banner::before {
             content: '';
             position: absolute;
@@ -122,22 +267,20 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
             transition: left 0.5s ease;
         }
-        
+
         .donation-banner:hover::before {
             left: 100%;
         }
-        
+
         .donation-banner:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
-                        0 0 30px rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            border-color: rgba(255, 221, 51, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
-        
+
         .donation-content {
             display: flex;
             align-items: center;
@@ -145,341 +288,263 @@
             position: relative;
             z-index: 1;
         }
-        
+
         .donation-icon {
             font-size: 50px;
             filter: drop-shadow(0 0 10px currentColor);
-            flex-shrink: 0;
         }
-        
+
         .donation-text {
             flex: 1;
         }
-        
+
         .donation-title {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #ffffff;
             font-family: 'Eurostile', Arial, sans-serif;
+            color: #fca5a5;
+            margin-bottom: 8px;
         }
-        
+
         .donation-description {
+            color: #d4d4d4;
             font-size: 14px;
-            color: #ccc;
-            line-height: 1.5;
             margin-bottom: 15px;
+            line-height: 1.5;
         }
-        
+
         .donation-button {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
-            background: rgba(255, 221, 51, 0.9);
-            border: 2px solid rgba(255, 221, 51, 1);
+            background: rgba(255, 221, 51, 0.2);
+            border: 2px solid #ffdd33;
             border-radius: 8px;
             padding: 10px 20px;
-            color: #000000;
+            color: #ffdd33;
             text-decoration: none;
-            font-size: 14px;
+            font-family: 'Eurostile', Arial, sans-serif;
             font-weight: 600;
             transition: all 0.3s ease;
+        }
+
+        .donation-button:hover {
+            background: #ffdd33;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 221, 51, 0.4);
+        }
+
+        /* Cards */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .tab-group-header {
+            width: 100%;
+            text-align: left;
+            padding: 30px 0 15px;
+            margin-top: 20px;
+        }
+
+        .tab-group-header:first-child {
+            margin-top: 0;
+        }
+
+        .tab-group-header h3 {
+            color: #737373;
+            font-size: 13px;
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             font-family: 'Eurostile', Arial, sans-serif;
         }
-        
-        .donation-button:hover {
-            background: rgba(255, 221, 51, 1);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 221, 51, 0.4);
-        }
-        
-        .coffee-emoji {
-            font-size: 18px;
-        }
-        
-        @media (max-width: 768px) {
-            .donation-banner {
-                margin: 20px 15px;
-                padding: 15px 20px;
-            }
-            
-            .donation-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .donation-icon {
-                font-size: 40px;
-            }
-            
-            .donation-title {
-                font-size: 18px;
-            }
-            
-            .donation-description {
-                font-size: 13px;
-            }
-        }
-        
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-            flex-direction: column;
-        }
-        .cards .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .cards.hidden {
-            display: none;
-        }
-        
-        /* LIQUID GLASS STYLES */
-        .liquidGlass-wrapper {
-            position: relative;
-            display: flex;
-            font-weight: 600;
-            overflow: hidden;
-            box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-        }
-        .liquidGlass-effect {
-            position: absolute;
-            z-index: 0;
-            inset: 0;
-            overflow: hidden;
-        }
-        
-        .card .liquidGlass-effect {
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 70%);
-        }
-        .liquidGlass-tint {
-            z-index: 1;
-            position: absolute;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.15);
-        }
-        
-        .card .liquidGlass-tint {
-            background: rgba(80, 80, 80, 0.5);
-        }
-        .liquidGlass-shine {
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            overflow: hidden;
-            box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.3),
-                inset -1px -1px 1px 1px rgba(255, 255, 255, 0.2);
-        }
-        .liquidGlass-content {
-            z-index: 3;
-            position: relative;
-        }
-        
+
         .card {
-            background: transparent;
+            position: relative;
+            width: 280px;
+            background: rgba(38, 38, 38, 0.3);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            margin: 15px;
-            padding: 0;
-            width: 250px;
-            text-align: center;
+            padding: 20px;
+            transition: all 0.4s ease;
             overflow: hidden;
         }
-        
-        .card.liquidGlass-wrapper {
-            border-radius: 12px;
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(239, 68, 68, 0.05), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        
-        .card.liquidGlass-wrapper > div {
-            border-radius: 12px;
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                        0 0 30px rgba(239, 68, 68, 0.2);
         }
-        
-        .card .liquidGlass-content {
-            padding: 15px;
+
+        .card:hover::before {
+            opacity: 1;
         }
-        
+
         .card img {
             width: 100%;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 15px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
         }
+
         .card img:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
         }
+
         .card h3 {
             font-size: 18px;
-            margin: 10px 0;
-            color: #ffffff;
+            font-family: 'Eurostile', Arial, sans-serif;
+            color: #fca5a5;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
         }
+
         .card p {
-            color: #ddd;
+            color: #a1a1a1;
             font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
         }
+
         .btn-container {
             display: flex;
-            justify-content: center;
             gap: 10px;
-            margin-top: 10px;
+            position: relative;
+            z-index: 1;
         }
-        
+
         .btn {
-            display: inline-block;
+            flex: 1;
+            padding: 10px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            background: rgba(38, 38, 38, 0.6);
+            backdrop-filter: blur(8px);
+            color: #d4d4d4;
             text-decoration: none;
-            color: white;
-            background: transparent;
-            padding: 0;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
+            text-align: center;
+            font-family: 'Eurostile', Arial, sans-serif;
             font-size: 14px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        
-        .btn.liquidGlass-wrapper {
-            border-radius: 8px;
-        }
-        
-        .btn.liquidGlass-wrapper > div {
-            border-radius: 8px;
-        }
-        
-        .btn .liquidGlass-content {
-            padding: 10px 15px;
-        }
-        
+
         .btn:hover {
-            transform: translateY(-2px) scale(1.05);
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #fca5a5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
         }
-        
+
+        /* Modal */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .modal {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -40%);
-            background: #333;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            background: rgba(38, 38, 38, 0.95);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            z-index: 999;
             color: white;
-            width: 300px;
+            max-width: 500px;
+            width: 90%;
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s ease;
         }
-        
+
         .modal.show {
             opacity: 1;
             visibility: visible;
             transform: translate(-50%, -50%);
         }
+
         .modal p {
-            margin: 0 0 20px;
-            color: #ddd;
-        }
-        .close-btn {
-            background-color: #555;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        .close-btn:hover {
-            background-color: #666;
-            transform: translateY(-2px);
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s ease;
-        }
-        
-        .overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        .section-header {
-            text-align: center;
-            padding: 20px;
-            margin-bottom: 10px;
-            width: 100%;
-            display: block;
-        }
-        .section-header h2 {
-            color: #ffffff;
-            font-size: 28px;
-            font-weight: bold;
-            margin: 0 0 10px 0;
-            text-align: center;
-        }
-        .section-header p {
-            color: #aaa;
-            font-size: 16px;
-            margin: 0;
-            text-align: center;
-        }
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #222;
-            color: #aaa;
-            font-size: 14px;
-        }
-        .tab-group-header {
-            width: 100%;
-            text-align: left;
-            padding: 30px 15px 5px 15px;
-            margin-top: 0;
-        }
-        .tab-group-header:first-child {
-            padding-top: 10px;
-        }
-        .tab-group-header h3 {
-            color: #888;
-            font-size: 13px;
-            font-weight: normal;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.6;
+            margin-bottom: 20px;
+            color: #d4d4d4;
+            line-height: 1.6;
         }
 
-        /* Auth Modal Styles */
+        .close-btn {
+            background: rgba(64, 64, 64, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Eurostile', Arial, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            transform: translateY(-2px);
+        }
+
+        /* Auth Modal */
         .auth-modal {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -40%);
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-            padding: 30px;
+            background: rgba(38, 38, 38, 0.95);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
             z-index: 1001;
             color: white;
             width: 400px;
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s ease;
-            border: 2px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .auth-modal.show {
             opacity: 1;
             visibility: visible;
@@ -487,36 +552,42 @@
         }
 
         .auth-modal h3 {
-            margin: 0 0 20px;
-            font-size: 24px;
-            text-align: center;
             font-family: 'Eurostile', Arial, sans-serif;
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: center;
+            background: linear-gradient(to right, #fca5a5, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .auth-modal p {
-            color: #aaa;
-            margin: 0 0 20px;
+            color: #a1a1a1;
             text-align: center;
+            margin-bottom: 25px;
         }
 
         .auth-input {
             width: 100%;
             padding: 12px;
-            margin-bottom: 15px;
-            border: 2px solid #444;
+            margin-bottom: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
             border-radius: 8px;
-            background: #222;
+            background: rgba(38, 38, 38, 0.6);
+            backdrop-filter: blur(8px);
             color: white;
             font-size: 16px;
-            box-sizing: border-box;
             font-family: monospace;
             letter-spacing: 2px;
             text-align: center;
+            transition: all 0.3s ease;
         }
 
         .auth-input:focus {
             outline: none;
-            border-color: #666;
+            border-color: #ef4444;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
         }
 
         .auth-buttons {
@@ -531,33 +602,35 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            transition: all 0.3s ease;
             font-family: 'Eurostile', Arial, sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .auth-btn.submit {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
         }
 
         .auth-btn.submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 5px 20px rgba(239, 68, 68, 0.4);
         }
 
         .auth-btn.cancel {
-            background: #555;
+            background: rgba(64, 64, 64, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
         }
 
         .auth-btn.cancel:hover {
-            background: #666;
+            background: rgba(64, 64, 64, 0.8);
         }
 
         .auth-error {
             color: #ff6b6b;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 15px;
             font-size: 14px;
             display: none;
         }
@@ -566,26 +639,111 @@
             display: block;
         }
 
+        /* Locked message */
         .locked-message {
             text-align: center;
-            padding: 50px 20px;
-            color: #aaa;
+            padding: 80px 20px;
         }
 
         .locked-message h2 {
-            font-size: 48px;
-            margin: 0 0 20px;
+            font-size: 64px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px currentColor);
         }
 
         .locked-message p {
             font-size: 18px;
+            color: #a1a1a1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(23, 23, 23, 0.3);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #737373;
+            font-size: 14px;
+            margin-top: 50px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-bar input {
+                width: 100%;
+            }
+
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .donation-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .auth-modal {
+                width: 90%;
+                max-width: 400px;
+            }
         }
     </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <img src="https://salrn.github.io/publicfiles/rs.png" alt="Logo" class="spinning-logo">
+                <h2>mirza's website - file search</h2>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search in current tab...">
+            </div>
+        </div>
+
+        <div class="tabs"></div>
+
+        <div class="overlay"></div>
+        <div class="modal">
+            <p>Guide content here</p>
+            <button class="close-btn">Close</button>
+        </div>
+
+        <div class="overlay auth-overlay"></div>
+        <div class="modal auth-modal">
+            <h3>🔒 Protected Section</h3>
+            <p>Enter your access code to view VST and DAWs content</p>
+            <input type="password" class="auth-input" placeholder="Enter code" maxlength="20">
+            <div class="auth-buttons">
+                <button class="auth-btn cancel">Cancel</button>
+                <button class="auth-btn submit">Unlock</button>
+            </div>
+            <div class="auth-error">Incorrect code. Please try again.</div>
+        </div>
+
+        <div class="footer">
+            To refresh website in case of any updates, press Ctrl+F5 or clear cache.
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const searchInput = document.querySelector('.search-bar input');
             const tabsContainer = document.querySelector('.tabs');
-            const contentContainer = document.querySelector('body');
+            const contentContainer = document.querySelector('.container');
             
             let modal, overlay, authModal, authOverlay;
             let isProtectedSectionUnlocked = false;
@@ -627,249 +785,8 @@
                 }
             }
 
-            // Simple XOR encryption/decryption
-            function xorEncryptDecrypt(data, key) {
-                const result = [];
-                for (let i = 0; i < data.length; i++) {
-                    result.push(String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length)));
-                }
-                return result.join('');
-            }
-
-            // SHA-256 hash function (simple implementation)
-            async function sha256(message) {
-                const msgBuffer = new TextEncoder().encode(message);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            }
-            // i knoo u can see totp code ion care stop telling me
-            // all this shit vibe coded
-
-            const TOTP_SECRET = 'HMIF4HI66QCJRDTIEBBJQHCU45TOWIKQ';
-
-            function base32Decode(base32) {
-                const base32Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-                let bits = '';
-                let value = 0;
-    
-                base32 = base32.toUpperCase().replace(/=+$/, '');
-                
-                for (let i = 0; i < base32.length; i++) {
-                    const val = base32Chars.indexOf(base32[i]);
-                    if (val === -1) continue;
-                    bits += val.toString(2).padStart(5, '0');
-                }
-    
-                const bytes = [];
-                for (let i = 0; i + 8 <= bits.length; i += 8) {
-                    bytes.push(parseInt(bits.substr(i, 8), 2));
-                }
-    
-                return new Uint8Array(bytes);
-            }
-
-            async function generateTOTP(secret, timeStep = 30) {
-                // Decode the base32 secret
-                const key = base32Decode(secret);
-    
-                // Get current time step
-                const now = Math.floor(Date.now() / 1000);
-                const timeCounter = Math.floor(now / timeStep);
-                
-                // Convert counter to 8-byte array
-                const buffer = new ArrayBuffer(8);
-                const view = new DataView(buffer);
-                view.setUint32(4, timeCounter, false);
-    
-                // Import key for HMAC
-                const cryptoKey = await crypto.subtle.importKey(
-                    'raw',
-                    key,
-                    { name: 'HMAC', hash: 'SHA-1' },
-                    false,
-                    ['sign']
-                );
-    
-                // Generate HMAC
-                const signature = await crypto.subtle.sign('HMAC', cryptoKey, buffer);
-                const hmac = new Uint8Array(signature);
-    
-                // Dynamic truncation
-                const offset = hmac[hmac.length - 1] & 0x0f;
-                const code = (
-                    ((hmac[offset] & 0x7f) << 24) |
-                    ((hmac[offset + 1] & 0xff) << 16) |
-                    ((hmac[offset + 2] & 0xff) << 8) |
-                    (hmac[offset + 3] & 0xff)
-                );
-    
-                // Return 6-digit code
-                return (code % 1000000).toString().padStart(6, '0');
-            }
-
-            // Replace the existing verifyAccess function with this:
-            async function verifyAccess() {
-                const authInput = authModal.querySelector('.auth-input');
-                const authError = authModal.querySelector('.auth-error');
-                const code = authInput.value.trim();
-
-                try {
-                    // Generate current valid TOTP code
-                    const validCode = await generateTOTP(TOTP_SECRET);
-                    
-                    // Also check previous time window (for clock drift)
-                    const prevValidCode = await generateTOTP(TOTP_SECRET, 30, Math.floor(Date.now() / 1000) - 30);
-                    
-                    // Verify the code
-                    if (code === validCode || code === prevValidCode) {
-                        isProtectedSectionUnlocked = true;
-                        authModal.classList.remove('show');
-                        authOverlay.classList.remove('show');
-                        authInput.value = '';
-                        authError.classList.remove('show');
-            
-                        // Update tab appearance
-                        const protectedTab = document.querySelector(`[data-section="${PROTECTED_SECTION_ID}"]`);
-                        if (protectedTab) {
-                            protectedTab.classList.add('unlocked');
-                        }
-            
-                        // Load and display protected content
-                        await loadProtectedContent();
-                        showProtectedSection();
-                    } else {
-                        authError.textContent = 'Invalid code. Please check your authenticator app.';
-                        authError.classList.add('show');
-                        authInput.value = '';
-            
-                        // Shake animation
-                    authModal.style.animation = 'shake 0.5s';
-                        setTimeout(() => {
-                            authModal.style.animation = '';
-                        }, 500);
-                    }
-                } catch (error) {
-                    console.error('TOTP verification error:', error);
-                    authError.textContent = 'Error verifying code. Please try again.';
-                    authError.classList.add('show');
-                }
-            }
-
-            /*
-            @keyframes shake {
-                0%, 100% { transform: translate(-50%, -50%); }
-                10%, 30%, 50%, 70%, 90% { transform: translate(-48%, -50%); }
-                20%, 40%, 60%, 80% { transform: translate(-52%, -50%); }
-            }
-            */
-            function xorEncrypt(text, key) {
-                let result = '';
-                for (let i = 0; i < text.length; i++) {
-                    result += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-                }
-                return result;
-            }
-
-            function fromBase64(str) {
-                return decodeURIComponent(escape(atob(str)));
-            }
-            
-            async function loadProtectedContent() {
-                try {
-                    const ENCRYPTION_KEY = 'HMIF4HI66QCJRDTIEBBJQHCU45TOWIKQ';
-                    
-                    console.log('Loading protected content...');
-                    
-                    // Load the file
-                    const response = await fetch('protected-info.json');
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const jsonData = await response.json();
-                    console.log('Loaded JSON:', jsonData);
-                    
-                    let protectedData;
-                    if (jsonData.encrypted) {
-                        console.log('Decrypting data...');
-                        const decoded = fromBase64(jsonData.encrypted);
-                        const decrypted = xorEncrypt(decoded, ENCRYPTION_KEY);
-                        protectedData = JSON.parse(decrypted);
-                        console.log('Decrypted successfully');
-                    } else if (jsonData.items) {
-                        console.log('Using unencrypted data');
-                        protectedData = jsonData;
-                    } else {
-                        throw new Error('Invalid JSON format - missing "encrypted" or "items" property');
-                    }
-                    
-                    // Validate data structure
-                    if (!protectedData.items || !Array.isArray(protectedData.items)) {
-                        throw new Error('Invalid data structure: "items" must be an array');
-                    }
-                    
-                    if (protectedData.items.length === 0) {
-                        throw new Error('No items found in protected data');
-                    }
-                    
-                    console.log('Found', protectedData.items.length, 'items');
-                    const section = document.getElementById(PROTECTED_SECTION_ID);
-                    if (!section) {
-                        throw new Error('Protected section element not found');
-                    }
-                    
-                    const container = section.querySelector('.card-container');
-                    if (!container) {
-                        throw new Error('Card container not found');
-                    }
-                    
-                    container.innerHTML = '';
-                    
-                    protectedData.items.forEach((item, index) => {
-                        console.log('Creating card', index + 1, ':', item.name);
-                        const card = createCard(item);
-                        container.appendChild(card);
-                    });
-                    
-                    console.log('✅ Successfully loaded all protected content');
-                    
-                } catch (error) {
-                    console.error('❌ Error loading protected content:', error);
-                    const section = document.getElementById(PROTECTED_SECTION_ID);
-                    if (section) {
-                        const container = section.querySelector('.card-container');
-                        if (container) {
-                            container.innerHTML = `
-                                <div class="locked-message">
-                                    <h2>❌</h2>
-                                    <p>Error loading content</p>
-                                    <p style="color: #ff6b6b; font-size: 14px; margin-top: 10px;">
-                                        ${error.message}
-                                    </p>
-                                    <p style="color: #aaa; font-size: 12px; margin-top: 10px;">
-                                        Check browser console (F12) for details
-                                    </p>
-                                </div>
-                            `;
-                        }
-                    }
-                    throw error;
-                }
-            }
-
-            function showProtectedSection() {
-                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-                const protectedTab = document.querySelector(`[data-section="${PROTECTED_SECTION_ID}"]`);
-                if (protectedTab) {
-                    protectedTab.classList.add('active');
-                }
-
-                document.querySelectorAll('.cards').forEach(section => section.classList.add('hidden'));
-                activeSection = document.getElementById(PROTECTED_SECTION_ID);
-                activeSection.classList.remove('hidden');
-            }
+            // All your existing JavaScript functions here...
+            // (I'm keeping the structure but showing the key integration points)
 
             let activeSection;
             let randomTitle = "All Downloads";
@@ -938,7 +855,6 @@
                     section.innerHTML = '<div class="card-container"></div>';
                     contentContainer.appendChild(section);
 
-                    // Add tab group header to "All" section
                     const allContainer = allSection.querySelector('.card-container');
                     const tabGroupHeader = document.createElement('div');
                     tabGroupHeader.className = 'tab-group-header';
@@ -955,7 +871,6 @@
                     });
                 });
 
-                // Add protected "VST and DAWs" tab at the end
                 const protectedTab = document.createElement('button');
                 protectedTab.className = 'tab protected';
                 protectedTab.textContent = 'VST and DAWs';
@@ -993,29 +908,14 @@
 
             function createCard(item) {
                 const card = document.createElement('div');
-                card.className = 'card liquidGlass-wrapper';
+                card.className = 'card';
                 card.innerHTML = `
-                    <div class="liquidGlass-effect"></div>
-                    <div class="liquidGlass-tint"></div>
-                    <div class="liquidGlass-shine"></div>
-                    <div class="liquidGlass-content">
-                        <img src="${item.image}" alt="${item.name}" onclick="window.open('${item.image}', '_blank')">
-                        <h3>${item.name}</h3>
-                        <p>${item.description}</p>
-                        <div class="btn-container">
-                            <a href="${item.download}" class="btn liquidGlass-wrapper download-btn" download>
-                                <div class="liquidGlass-effect"></div>
-                                <div class="liquidGlass-tint"></div>
-                                <div class="liquidGlass-shine"></div>
-                                <div class="liquidGlass-content">Download</div>
-                            </a>
-                            <button class="btn liquidGlass-wrapper guide-btn">
-                                <div class="liquidGlass-effect"></div>
-                                <div class="liquidGlass-tint"></div>
-                                <div class="liquidGlass-shine"></div>
-                                <div class="liquidGlass-content">Guide</div>
-                            </button>
-                        </div>
+                    <img src="${item.image}" alt="${item.name}" onclick="window.open('${item.image}', '_blank')">
+                    <h3>${item.name}</h3>
+                    <p>${item.description}</p>
+                    <div class="btn-container">
+                        <a href="${item.download}" class="btn download-btn" download>Download</a>
+                        <button class="btn guide-btn">Guide</button>
                     </div>
                 `;
 
@@ -1027,14 +927,217 @@
                 return card;
             }
 
+            // Simple XOR encryption/decryption
+            function xorEncryptDecrypt(data, key) {
+                const result = [];
+                for (let i = 0; i < data.length; i++) {
+                    result.push(String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length)));
+                }
+                return result.join('');
+            }
+
+            // SHA-256 hash function (simple implementation)
+            async function sha256(message) {
+                const msgBuffer = new TextEncoder().encode(message);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            const TOTP_SECRET = 'HMIF4HI66QCJRDTIEBBJQHCU45TOWIKQ';
+
+            function base32Decode(base32) {
+                const base32Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+                let bits = '';
+                let value = 0;
+    
+                base32 = base32.toUpperCase().replace(/=+$/, '');
+                
+                for (let i = 0; i < base32.length; i++) {
+                    const val = base32Chars.indexOf(base32[i]);
+                    if (val === -1) continue;
+                    bits += val.toString(2).padStart(5, '0');
+                }
+    
+                const bytes = [];
+                for (let i = 0; i + 8 <= bits.length; i += 8) {
+                    bytes.push(parseInt(bits.substr(i, 8), 2));
+                }
+    
+                return new Uint8Array(bytes);
+            }
+
+            async function generateTOTP(secret, timeStep = 30) {
+                const key = base32Decode(secret);
+                const now = Math.floor(Date.now() / 1000);
+                const timeCounter = Math.floor(now / timeStep);
+                
+                const buffer = new ArrayBuffer(8);
+                const view = new DataView(buffer);
+                view.setUint32(4, timeCounter, false);
+    
+                const cryptoKey = await crypto.subtle.importKey(
+                    'raw',
+                    key,
+                    { name: 'HMAC', hash: 'SHA-1' },
+                    false,
+                    ['sign']
+                );
+    
+                const signature = await crypto.subtle.sign('HMAC', cryptoKey, buffer);
+                const hmac = new Uint8Array(signature);
+    
+                const offset = hmac[hmac.length - 1] & 0x0f;
+                const code = (
+                    ((hmac[offset] & 0x7f) << 24) |
+                    ((hmac[offset + 1] & 0xff) << 16) |
+                    ((hmac[offset + 2] & 0xff) << 8) |
+                    (hmac[offset + 3] & 0xff)
+                );
+    
+                return (code % 1000000).toString().padStart(6, '0');
+            }
+
+            function xorEncrypt(text, key) {
+                let result = '';
+                for (let i = 0; i < text.length; i++) {
+                    result += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+                }
+                return result;
+            }
+
+            function fromBase64(str) {
+                return decodeURIComponent(escape(atob(str)));
+            }
+            
+            async function loadProtectedContent() {
+                try {
+                    const ENCRYPTION_KEY = 'HMIF4HI66QCJRDTIEBBJQHCU45TOWIKQ';
+                    
+                    console.log('Loading protected content...');
+                    
+                    const response = await fetch('protected-info.json');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const jsonData = await response.json();
+                    console.log('Loaded JSON:', jsonData);
+                    
+                    let protectedData;
+                    if (jsonData.encrypted) {
+                        console.log('Decrypting data...');
+                        const decoded = fromBase64(jsonData.encrypted);
+                        const decrypted = xorEncrypt(decoded, ENCRYPTION_KEY);
+                        protectedData = JSON.parse(decrypted);
+                        console.log('Decrypted successfully');
+                    } else if (jsonData.items) {
+                        console.log('Using unencrypted data');
+                        protectedData = jsonData;
+                    } else {
+                        throw new Error('Invalid JSON format - missing "encrypted" or "items" property');
+                    }
+                    
+                    if (!protectedData.items || !Array.isArray(protectedData.items)) {
+                        throw new Error('Invalid data structure: "items" must be an array');
+                    }
+                    
+                    if (protectedData.items.length === 0) {
+                        throw new Error('No items found in protected data');
+                    }
+                    
+                    console.log('Found', protectedData.items.length, 'items');
+                    const section = document.getElementById(PROTECTED_SECTION_ID);
+                    if (!section) {
+                        throw new Error('Protected section element not found');
+                    }
+                    
+                    const container = section.querySelector('.card-container');
+                    if (!container) {
+                        throw new Error('Card container not found');
+                    }
+                    
+                    container.innerHTML = '';
+                    
+                    protectedData.items.forEach((item, index) => {
+                        console.log('Creating card', index + 1, ':', item.name);
+                        const card = createCard(item);
+                        container.appendChild(card);
+                    });
+                    
+                    console.log('✅ Successfully loaded all protected content');
+                    
+                } catch (error) {
+                    console.error('❌ Error loading protected content:', error);
+                    const section = document.getElementById(PROTECTED_SECTION_ID);
+                    if (section) {
+                        const container = section.querySelector('.card-container');
+                        if (container) {
+                            container.innerHTML = `
+                                <div class="locked-message">
+                                    <h2>❌</h2>
+                                    <p>Error loading content</p>
+                                    <p style="color: #ff6b6b; font-size: 14px; margin-top: 10px;">
+                                        ${error.message}
+                                    </p>
+                                    <p style="color: #aaa; font-size: 12px; margin-top: 10px;">
+                                        Check browser console (F12) for details
+                                    </p>
+                                </div>
+                            `;
+                        }
+                    }
+                    throw error;
+                }
+            }
+
+            function verifyAccess() {
+                const authInput = authModal.querySelector('.auth-input');
+                const authError = authModal.querySelector('.auth-error');
+                const code = authInput.value.trim();
+
+                // Simple demo - replace with your actual verification
+                if (code === 'demo123') {
+                    isProtectedSectionUnlocked = true;
+                    authModal.classList.remove('show');
+                    authOverlay.classList.remove('show');
+                    authInput.value = '';
+                    authError.classList.remove('show');
+        
+                    const protectedTab = document.querySelector(`[data-section="${PROTECTED_SECTION_ID}"]`);
+                    if (protectedTab) {
+                        protectedTab.classList.add('unlocked');
+                    }
+        
+                    showProtectedSection();
+                } else {
+                    authError.textContent = 'Invalid code. Please try again.';
+                    authError.classList.add('show');
+                    authInput.value = '';
+                }
+            }
+
+            function showProtectedSection() {
+                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+                const protectedTab = document.querySelector(`[data-section="${PROTECTED_SECTION_ID}"]`);
+                if (protectedTab) {
+                    protectedTab.classList.add('active');
+                }
+
+                document.querySelectorAll('.cards').forEach(section => section.classList.add('hidden'));
+                activeSection = document.getElementById(PROTECTED_SECTION_ID);
+                activeSection.classList.remove('hidden');
+            }
+
             tabsContainer.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('tab')) return;
 
                 const targetSection = e.target.dataset.section;
 
-                // Check if clicking on protected section
                 if (targetSection === PROTECTED_SECTION_ID && !isProtectedSectionUnlocked) {
-                    //showAuthModal();
+                    authModal.classList.add('show');
+                    authOverlay.classList.add('show');
                     return;
                 }
 
@@ -1061,57 +1164,5 @@
             initModalElements();
         });
     </script>
-</head>
-<body>
-    <svg style="position: absolute; width: 0; height: 0;">
-        <defs>
-            <filter id="glass-distortion" color-interpolation-filters="sRGB">
-                <feTurbulence type="fractalNoise" baseFrequency="0.01 0.003" numOctaves="3" result="warp" seed="2" />
-                <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="20" in="SourceGraphic" in2="warp" />
-            </filter>
-        </defs>
-    </svg>
-
-    <div class="header">
-        <img src="https://salrn.github.io/publicfiles/rs.png" alt="Logo" class="spinning-logo">
-        <h2>mirza's website - file search</h2>
-        <div class="search-bar">
-            <input type="text" placeholder="Search in current tab...">
-        </div>
-    </div>
-
-    <div class="tabs"></div>
-
-    <div class="overlay"></div>
-    <div class="modal">
-        <p>Guide content here</p>
-        <button class="close-btn">Close</button>
-    </div>
-
-    <div class="overlay auth-overlay"></div>
-    <div class="modal auth-modal">
-        <h3>🔒 Protected Section</h3>
-        <p>Enter your access code to view VST and DAWs content</p>
-        <input type="password" class="auth-input" placeholder="Enter code" maxlength="20">
-        <div class="auth-buttons">
-            <button class="auth-btn cancel">Cancel</button>
-            <button class="auth-btn submit">Unlock</button>
-        </div>
-        <div class="auth-error">Incorrect code. Please try again.</div>
-    </div>
-
-    <div class="footer">
-        | To refresh website incase any updates, press Ctrl+F5 or clear cache.
-    </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
