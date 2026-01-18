@@ -26,6 +26,7 @@
             color: #ffffff;
             overflow-x: hidden;
             position: relative;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
         }
         
         .background {
@@ -52,24 +53,27 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.3);
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%);
             pointer-events: none;
             z-index: 1;
         }
         
-        .overlay-frame {
+        .glass-texture {
             position: fixed;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 50%;
-            background: rgba(0, 0, 0, 0.1);
-            z-index: 0;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.03) 3px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.03) 3px);
+            pointer-events: none;
+            z-index: 1;
         }
         
         .container {
             position: relative;
-            z-index: 1;
+            z-index: 2;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -81,7 +85,22 @@
         
         .logo-section {
             text-align: left;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            border-radius: 25px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -1px 0 rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
         }
         
         .spinning-logo {
@@ -89,8 +108,7 @@
             height: 80px;
             animation: spin3d 6s infinite ease-in-out;
             transform-style: preserve-3d;
-            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
-            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
         }
         
         @keyframes spin3d {
@@ -108,33 +126,45 @@
         .logo-section h1 {
             font-size: 36px;
             font-weight: 600;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8),
-                         0 4px 10px rgba(0, 0, 0, 0.8);
+            text-shadow: 
+                0 1px 0 rgba(255,255,255,0.3),
+                0 2px 4px rgba(0,0,0,0.8),
+                0 4px 12px rgba(0,0,0,0.5);
             letter-spacing: 3px;
+            background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .buttons-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
             align-items: stretch;
         }
         
         .selection-button {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.08));
+            backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 12px 30px;
-            width: 320px;
+            border-top-color: rgba(255, 255, 255, 0.5);
+            border-left-color: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 20px 30px;
+            width: 380px;
             text-align: left;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             position: relative;
             overflow: hidden;
             text-decoration: none;
             color: white;
             display: block;
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -1px 0 rgba(0,0,0,0.2);
         }
         
         .selection-button::before {
@@ -144,8 +174,20 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .selection-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+            border-radius: 20px 20px 0 0;
+            pointer-events: none;
         }
         
         .selection-button:hover::before {
@@ -153,11 +195,22 @@
         }
         
         .selection-button:hover {
-            transform: translateX(-10px) scale(1.05);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
-                        0 0 30px rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.6);
-            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 
+                0 12px 32px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255,255,255,0.4),
+                inset 0 -1px 0 rgba(0,0,0,0.3),
+                0 0 40px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(145deg, rgba(255,255,255,0.25), rgba(255,255,255,0.12));
+        }
+        
+        .selection-button:active {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 
+                0 6px 16px rgba(0, 0, 0, 0.4),
+                inset 0 2px 4px rgba(0,0,0,0.2),
+                inset 0 -1px 0 rgba(255,255,255,0.2);
         }
         
         .button-content {
@@ -169,8 +222,10 @@
         }
         
         .button-icon {
-            font-size: 40px;
-            filter: drop-shadow(0 0 10px currentColor);
+            font-size: 50px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6)) 
+                    drop-shadow(0 0 15px currentColor);
+            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
         }
         
         .button-text {
@@ -180,24 +235,29 @@
         .button-title {
             font-size: 22px;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             display: block;
+            text-shadow: 
+                0 1px 0 rgba(255,255,255,0.2),
+                0 2px 4px rgba(0,0,0,0.8);
         }
         
         .button-description {
             font-size: 13px;
-            color: #ccc;
+            color: #e0e0e0;
             display: block;
             line-height: 1.4;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
         
         .button-arrow {
-            font-size: 24px;
+            font-size: 28px;
             transition: transform 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
         }
         
         .selection-button:hover .button-arrow {
-            transform: translateX(5px);
+            transform: translateX(8px);
         }
         
         .discord-widget {
@@ -205,100 +265,152 @@
             right: 5%;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
+            background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.08));
+            backdrop-filter: blur(25px);
             border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            width: 280px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border-top-color: rgba(255, 255, 255, 0.5);
+            border-left-color: rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            padding: 35px;
+            width: 300px;
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -1px 0 rgba(0,0,0,0.2);
             z-index: 10;
+        }
+        
+        .discord-widget::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            border-radius: 25px 25px 0 0;
+            pointer-events: none;
         }
         
         .discord-profile {
             text-align: center;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
         }
         
         .discord-avatar-container {
             position: relative;
             display: inline-block;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            padding: 8px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(0,0,0,0.2));
+            border-radius: 50%;
+            box-shadow: 
+                0 6px 20px rgba(0, 0, 0, 0.6),
+                inset 0 2px 4px rgba(255,255,255,0.3),
+                inset 0 -2px 4px rgba(0,0,0,0.3);
         }
         
         .discord-avatar {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.6),
+                inset 0 2px 4px rgba(0,0,0,0.3);
         }
         
         .status-indicator {
             position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 24px;
-            height: 24px;
+            bottom: 8px;
+            right: 8px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
-            border: 3px solid rgba(0, 0, 0, 0.8);
+            border: 4px solid rgba(20, 20, 40, 0.9);
             background: #747f8d;
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.8),
+                inset 0 1px 2px rgba(255,255,255,0.3),
+                inset 0 -1px 2px rgba(0,0,0,0.5);
         }
         
         .status-indicator.online {
-            background: #23a55a;
-            box-shadow: 0 0 15px #23a55a;
+            background: linear-gradient(145deg, #2ecc71, #23a55a);
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(35, 165, 90, 0.8),
+                inset 0 1px 2px rgba(255,255,255,0.4),
+                inset 0 -1px 2px rgba(0,0,0,0.4);
         }
         
         .status-indicator.idle {
-            background: #f0b232;
-            box-shadow: 0 0 15px #f0b232;
+            background: linear-gradient(145deg, #f39c12, #f0b232);
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(240, 178, 50, 0.8),
+                inset 0 1px 2px rgba(255,255,255,0.4),
+                inset 0 -1px 2px rgba(0,0,0,0.4);
         }
         
         .status-indicator.dnd {
-            background: #f23f43;
-            box-shadow: 0 0 15px #f23f43;
+            background: linear-gradient(145deg, #e74c3c, #f23f43);
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(242, 63, 67, 0.8),
+                inset 0 1px 2px rgba(255,255,255,0.4),
+                inset 0 -1px 2px rgba(0,0,0,0.4);
         }
         
         .discord-username {
             font-size: 20px;
             font-weight: 600;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+            margin-bottom: 6px;
+            text-shadow: 
+                0 1px 0 rgba(255,255,255,0.2),
+                0 2px 6px rgba(0, 0, 0, 0.8);
         }
         
         .discord-status {
             font-size: 13px;
-            color: #b9bbbe;
+            color: #d0d0d0;
             margin-bottom: 8px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
         
         .custom-status {
-            background: rgba(0, 0, 0, 0.4);
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 18px;
-            padding: 12px 16px;
+            padding: 14px 18px;
             margin-top: 12px;
             font-size: 13px;
-            color: #dcddde;
-            line-height: 1.4;
+            color: #e8e8e8;
+            line-height: 1.5;
             text-align: left;
             display: none;
             word-wrap: break-word;
             position: relative;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                inset 0 -1px 0 rgba(0,0,0,0.3);
         }
         
         .custom-status::before {
             content: '';
             position: absolute;
-            top: -8px;
+            top: -10px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 10px solid rgba(0, 0, 0, 0.4);
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 12px solid rgba(0, 0, 0, 0.5);
+            filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.3));
         }
         
         .custom-status.active {
@@ -312,15 +424,23 @@
         
         .last-seen {
             font-size: 11px;
-            color: #8e9297;
+            color: #999;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
         
         .rich-presence {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 12px;
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.25));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 15px;
             margin-top: 15px;
             display: none;
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                inset 0 -1px 0 rgba(0,0,0,0.4);
+            position: relative;
+            z-index: 1;
         }
         
         .rich-presence.active {
@@ -329,26 +449,31 @@
         
         .activity-header {
             font-size: 11px;
-            color: #b9bbbe;
+            color: #c0c0c0;
             text-transform: uppercase;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
         
         .activity-content {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: flex-start;
         }
         
         .activity-image {
             width: 60px;
             height: 60px;
-            border-radius: 8px;
+            border-radius: 10px;
             object-fit: cover;
             flex-shrink: 0;
             display: none;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.6),
+                inset 0 1px 2px rgba(255,255,255,0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
         
         .activity-image.visible {
@@ -364,35 +489,41 @@
             font-size: 14px;
             font-weight: 600;
             color: #ffffff;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
         
         .activity-state,
         .activity-details-text {
             font-size: 12px;
-            color: #b9bbbe;
+            color: #c8c8c8;
             margin-bottom: 2px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
         
         .spotify-activity {
-            border-left: 3px solid #1DB954;
+            border-left: 4px solid #1DB954;
+            background: linear-gradient(145deg, rgba(29, 185, 84, 0.15), rgba(29, 185, 84, 0.05));
         }
         
         .spotify-activity .activity-header {
             color: #1DB954;
+            text-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
         }
         
         .social-buttons {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             margin-top: 20px;
+            position: relative;
+            z-index: 1;
         }
         
         .social-button {
@@ -400,22 +531,52 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-top-color: rgba(255, 255, 255, 0.4);
+            border-left-color: rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
             padding: 12px;
             color: white;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.2),
+                inset 0 -1px 0 rgba(0,0,0,0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+        }
+        
+        .social-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            border-radius: 12px 12px 0 0;
+            pointer-events: none;
         }
         
         .social-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            border-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 
+                0 6px 16px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255,255,255,0.3),
+                inset 0 -1px 0 rgba(0,0,0,0.2);
+        }
+        
+        .social-button:active {
+            transform: translateY(0);
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px rgba(0,0,0,0.2);
         }
         
         .social-icon {
@@ -423,18 +584,26 @@
             height: 20px;
             fill: white;
             flex-shrink: 0;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
         }
         
         .footer-note {
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 12px;
             text-align: center;
             z-index: 2;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            text-shadow: 
+                0 1px 0 rgba(255,255,255,0.2),
+                0 2px 6px rgba(0, 0, 0, 0.9);
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
         }
         
         @media (max-width: 1400px) {
@@ -491,11 +660,11 @@
             .selection-button {
                 width: 100%;
                 max-width: 380px;
-                padding: 16px 20px;
+                padding: 18px 24px;
             }
             
             .button-icon {
-                font-size: 32px;
+                font-size: 42px;
             }
             
             .button-title {
@@ -506,14 +675,10 @@
                 font-size: 12px;
             }
             
-            .overlay-frame {
-                height: 40%;
-            }
-            
             .discord-widget {
                 width: 100%;
                 max-width: 320px;
-                padding: 20px;
+                padding: 25px;
             }
             
             .discord-avatar {
@@ -522,8 +687,8 @@
             }
             
             .status-indicator {
-                width: 20px;
-                height: 20px;
+                width: 22px;
+                height: 22px;
             }
         }
         
@@ -539,11 +704,11 @@
             }
             
             .selection-button {
-                padding: 14px 18px;
+                padding: 16px 20px;
             }
             
             .button-icon {
-                font-size: 28px;
+                font-size: 36px;
             }
             
             .button-title {
@@ -551,11 +716,11 @@
             }
             
             .button-arrow {
-                font-size: 20px;
+                font-size: 24px;
             }
             
             .discord-widget {
-                padding: 16px;
+                padding: 20px;
             }
         }
     </style>
@@ -564,11 +729,13 @@
     <div class="background">
         <iframe src="https://gtbsg.tumblr.com/" title="Background"></iframe>
     </div>
-    <div class="overlay-frame"></div>
+    <div class="glass-texture"></div>
     
     <div class="container">
         <div class="logo-section">
-            <img src="https://salrn.github.io/publicfiles/rs.png" alt="Logo" class="spinning-logo">
+            <div class="logo-container">
+                <img src="https://salrn.github.io/publicfiles/rs.png" alt="Logo" class="spinning-logo">
+            </div>
             <h1>mirza's website</h1>
         </div>
         
