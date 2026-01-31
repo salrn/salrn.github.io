@@ -257,7 +257,7 @@
         {
           "name": "Minecraft Bedrock Version Downgrader",
           "description": "Downgrade your Bedrock Version",
-          "guide": "Extrract zip and open the exe then select the version u want to downgrade to. make sure developer mode is enabled in settings!!!",
+          "guide": "Extrract zip and open the exe then select the version u want to downgrade to. make sure developer mode is enabled in settings!!! after the version u want is downloaded, there sohuld be a .appx file in the directory of the .exe downgrader. run that .appx and install minecraft.",
           "image": "https://salrn.github.io/publicfiles/New Project (36).png",
           "download": "https://salrn.github.io/publicfiles/MCLauncher.zip"
         }
@@ -277,6 +277,7 @@
     }
   ]
 }
+
 
 
 
