@@ -253,6 +253,13 @@
           "guide": "text file available with a guide there. TAKE OWNERSHIP TO THE FILES USING TAKEOWNERSHIPPRO BEFORE YOU ARE GOING TO REPLACE THEM!!! You can download TakeOwnershipPro in the Utilities Tab. Note: TechoZ got banned on YouTube, locked down most of his Discord server and more. This is legit one of the only places where you can get this mod from. Everytime you update Windows, youll have to redo everything since the files get replaced again. I have only used this on Windows 10, ive never tested this on Windows 11 before but it should work.",
           "image": "https://salrn.github.io/publicfiles/Screenshot 2025-11-22 200015.png",
           "download": "https://salrn.github.io/publicfiles/Minecraft MOD.rar"
+        },
+        {
+          "name": "Minecraft Bedrock Version Downgrader",
+          "description": "Downgrade your Bedrock Version",
+          "guide": "Extrract zip and open the exe then select the version u want to downgrade to. make sure developer mode is enabled in settings!!!",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/MCLauncher.zip"
         }
       ]
     },
@@ -270,6 +277,7 @@
     }
   ]
 }
+
 
 
 
