@@ -58,6 +58,13 @@
           "guide": "Just run the installer and install. Programm will automatically start up and update your Discord RPC when using FL Studio.",
           "image": "https://salrn.github.io/publicfiles/New Project.png",
           "download": "https://github.com/zfi2/FL-Studio-Discord-RPC/releases/download/v1.0.2/FL-Studio-RPC-Release-1.0.2.rar"
+        },
+        {
+          "name": "Custom Resolution Utility 1.5.2",
+          "description": "Overclock your monitor or add missing refresh rates for inside windows settings.",
+          "guide": "https://www.monitortests.com/forum/Thread-Custom-Resolution-Utility-CRU",
+          "image": "https://salrn.github.io/publicfiles/New Project (36).png",
+          "download": "https://salrn.github.io/publicfiles/cru-1.5.2.zip"
         }
       ]
     },
@@ -277,6 +284,7 @@
     }
   ]
 }
+
 
 
 
