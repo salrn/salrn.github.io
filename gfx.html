@@ -32,40 +32,29 @@
       overflow-x: hidden;
     }
 
-    /* ─── AERO HELPER CLASS ──────────────────────────────────────────────────────
-       Any element with class="aero" gets position:relative and a pseudo-element
-       that is slightly LARGER (offset by 4px each side = 8px total, matching
-       Roblox: Position {0,-4},{0,-4} Size {1,8},{1,8}).
-
-       We use border-image with the fill keyword to do true 9-slice scaling
-       (ScaleType:Slice, SliceCenter:10,10,10,10).
+    /* ─── AERO HELPER CLASS ─────────────────────────────────────────────────────
+       .aero elements get a real <img class="aero-img"> injected by JS.
+       That img is absolutely positioned -4px outside every edge (matching
+       Roblox: Position {0,-4},{0,-4}  Size {1,8},{1,8}).
+       object-fit:fill + image-rendering:pixelated = ScaleType:Slice behaviour.
        opacity:0.5 = ImageTransparency:0.5
-       No border-radius anywhere so the texture fills sharp corners.
     ────────────────────────────────────────────────────────────────────────────── */
     .aero {
       position: relative;
     }
 
-    /* The pseudo-element IS the aero frame — sits outside the element by 4px */
-    .aero::after {
-      content: '';
+    /* The injected aero image — bleeds 4px outside every edge */
+    .aero-img {
       position: absolute;
-      /* offset: 4px outside on every edge */
       top:    -4px;
       left:   -4px;
-      right:  -4px;
-      bottom: -4px;
-      /* 9-slice via border-image fill so the center also gets textured */
-      border-image-source: var(--aero-url);
-      border-image-slice: 10 10 10 10 fill;   /* SliceCenter 10,10,10,10 */
-      border-image-width: 10px;
-      border-image-outset: 0px;
-      border-image-repeat: stretch stretch;
-      opacity: 0.5;                            /* ImageTransparency 0.5 */
-      pointer-events: none;
+      width:  calc(100% + 8px);
+      height: calc(100% + 8px);
+      object-fit: fill;          /* stretch to fill like ScaleType:Slice */
       image-rendering: pixelated;
-      z-index: 10;
-      /* NO border-radius — sharp corners like Roblox frames */
+      opacity: 0.5;              /* ImageTransparency 0.5 */
+      pointer-events: none;
+      z-index: 20;
     }
 
     /* ─── HEADER ─── */
@@ -220,40 +209,43 @@
       box-shadow: 0 40px 120px rgba(0,0,0,0.8);
     }
 
-    /* Lightbox close & nav buttons — NO border-radius */
-    .lightbox-close {
+    /* Lightbox close & nav buttons — hidden until lightbox is active */
+    .lightbox-close,
+    .lightbox-nav {
+      display: none;   /* hidden by default */
       position: fixed;
-      top: 24px;
-      right: 28px;
       background: var(--surface2);
       border: 1px solid var(--border);
-      /* border-radius removed */
       color: var(--text);
+      cursor: pointer;
+      z-index: 1010;
+    }
+
+    /* Only show when lightbox is open */
+    .lightbox.active .lightbox-close,
+    .lightbox.active .lightbox-nav {
+      display: flex;
+    }
+
+    .lightbox-close {
+      top: 24px;
+      right: 28px;
       font-size: 22px;
       width: 40px;
       height: 40px;
-      cursor: pointer;
-      display: flex;
       align-items: center;
       justify-content: center;
       transition: background 0.2s, transform 0.2s;
-      z-index: 1010;
     }
     .lightbox-close:hover { background: #2a2a2a; transform: rotate(90deg); }
 
     .lightbox-nav {
-      position: fixed;
       top: 50%;
       transform: translateY(-50%);
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      /* border-radius removed */
-      color: var(--text);
       font-size: 26px;
       padding: 14px 12px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-      z-index: 1010;
+      align-items: center;
+      transition: background 0.2s;
       line-height: 1;
     }
     .lightbox-nav:hover { background: #2a2a2a; }
@@ -512,6 +504,9 @@
         item.addEventListener('mouseup',   () => { springs.scale.t = 1.04; });
         item.onclick = () => openLightbox(i);
 
+        // Inject aero overlay onto the card
+        injectAero(item);
+
         cards.push({ el: item, springs, idlePhase, hoverRot, visible: false });
       });
     }
@@ -593,6 +588,21 @@
       if (e.key === 'ArrowLeft')  navigateLightbox(-1);
       if (e.key === 'ArrowRight') navigateLightbox(1);
     });
+
+    // ─── AERO INJECTION ──────────────────────────────────────────────────────────
+    // Mirrors Roblox: a real img child sized calc(100%+8px) at -4px each edge.
+    const AERO_SRC = 'projectsite-resources/0579cdc9d0db3077bed6ae2484d6a51f (2).png';
+
+    function injectAero(el) {
+      const img = document.createElement('img');
+      img.src = AERO_SRC;
+      img.className = 'aero-img';
+      img.alt = '';
+      el.appendChild(img);
+    }
+
+    // Inject into all static .aero elements in the HTML (back-btn, lb buttons)
+    document.querySelectorAll('.aero').forEach(injectAero);
 
     lastTime = performance.now();
     loadGallery();
