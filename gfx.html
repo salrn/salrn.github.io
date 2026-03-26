@@ -18,8 +18,7 @@
       --text: #e8e8e8;
       --muted: #666;
       --accent: #c8ff40;
-      --radius-card: 16px;
-      --radius-card-hover: 6px;
+      /* Aero image URL — same as original */
       --aero-url: url('projectsite-resources/0579cdc9d0db3077bed6ae2484d6a51f (2).png');
     }
 
@@ -33,24 +32,40 @@
       overflow-x: hidden;
     }
 
-    /* ─── AERO MIXIN ─── */
+    /* ─── AERO HELPER CLASS ──────────────────────────────────────────────────────
+       Any element with class="aero" gets position:relative and a pseudo-element
+       that is slightly LARGER (offset by 4px each side = 8px total, matching
+       Roblox: Position {0,-4},{0,-4} Size {1,8},{1,8}).
+
+       We use border-image with the fill keyword to do true 9-slice scaling
+       (ScaleType:Slice, SliceCenter:10,10,10,10).
+       opacity:0.5 = ImageTransparency:0.5
+       No border-radius anywhere so the texture fills sharp corners.
+    ────────────────────────────────────────────────────────────────────────────── */
     .aero {
       position: relative;
     }
+
+    /* The pseudo-element IS the aero frame — sits outside the element by 4px */
     .aero::after {
       content: '';
       position: absolute;
-      inset: -4px;
-      background-image: var(--aero-url);
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      /* 9-slice via border-image so it tiles like SliceType */
-      border-image: var(--aero-url) 10 fill / 10px / 0px stretch;
-      opacity: 0.5;
+      /* offset: 4px outside on every edge */
+      top:    -4px;
+      left:   -4px;
+      right:  -4px;
+      bottom: -4px;
+      /* 9-slice via border-image fill so the center also gets textured */
+      border-image-source: var(--aero-url);
+      border-image-slice: 10 10 10 10 fill;   /* SliceCenter 10,10,10,10 */
+      border-image-width: 10px;
+      border-image-outset: 0px;
+      border-image-repeat: stretch stretch;
+      opacity: 0.5;                            /* ImageTransparency 0.5 */
       pointer-events: none;
       image-rendering: pixelated;
-      z-index: 2;
-      border-radius: inherit;
+      z-index: 10;
+      /* NO border-radius — sharp corners like Roblox frames */
     }
 
     /* ─── HEADER ─── */
@@ -89,11 +104,12 @@
       text-shadow: 0 0 40px rgba(200,255,64,0.25);
     }
 
+    /* Back button — NO border-radius, aero overlay will add the texture */
     .back-btn {
       padding: 9px 20px;
       background: var(--surface2);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      /* border-radius removed */
       color: var(--text);
       text-decoration: none;
       font-family: 'DM Sans', sans-serif;
@@ -102,7 +118,6 @@
       transition: background 0.2s, border-color 0.2s, transform 0.15s;
       position: relative;
     }
-    .back-btn.aero::after { border-radius: 10px; }
     .back-btn:hover {
       background: var(--surface);
       border-color: rgba(255,255,255,0.15);
@@ -118,28 +133,29 @@
       margin: 0 auto;
     }
 
+    /* Gallery cards — NO border-radius */
     .gallery-item {
       break-inside: avoid;
       margin-bottom: 18px;
       position: relative;
       cursor: pointer;
-      overflow: hidden;
-      border-radius: var(--radius-card);
+      overflow: visible;   /* must be visible so the ::after can bleed outside */
+      /* border-radius removed */
       background: var(--surface);
       will-change: transform;
-      /* spring transform set via JS */
-      transition: border-radius 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      transition: none; /* spring-driven */
     }
 
-    .gallery-item:hover {
-      border-radius: var(--radius-card-hover);
+    /* Clip the actual image to the card bounds (not the ::after) */
+    .gallery-item .img-wrap {
+      overflow: hidden;
+      /* NO border-radius */
     }
 
     .gallery-item img {
       width: 100%;
       height: auto;
       display: block;
-      /* blur-up placeholder */
       filter: blur(12px) brightness(0.7);
       transition: filter 0.6s ease;
     }
@@ -147,7 +163,7 @@
       filter: none;
     }
 
-    /* dark overlay on hover — handled by JS spring opacity */
+    /* dark overlay on hover */
     .gallery-item .overlay {
       position: absolute;
       inset: 0;
@@ -199,18 +215,19 @@
       max-width: 90vw;
       max-height: 90vh;
       object-fit: contain;
-      border-radius: 14px;
+      /* NO border-radius */
       display: block;
       box-shadow: 0 40px 120px rgba(0,0,0,0.8);
     }
 
+    /* Lightbox close & nav buttons — NO border-radius */
     .lightbox-close {
       position: fixed;
       top: 24px;
       right: 28px;
       background: var(--surface2);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      /* border-radius removed */
       color: var(--text);
       font-size: 22px;
       width: 40px;
@@ -230,7 +247,7 @@
       transform: translateY(-50%);
       background: var(--surface2);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      /* border-radius removed */
       color: var(--text);
       font-size: 26px;
       padding: 14px 12px;
@@ -257,7 +274,6 @@
 
   <div class="header">
     <div class="header-title">
-      <!-- Art palette SVG icon -->
       <svg class="header-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="18" cy="18" r="16" fill="#1a1a1a" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
         <path d="M18 8C12.477 8 8 12.477 8 18c0 2.21 1.79 4 4 4a2 2 0 0 1 2 2c0 1.105.895 2 2 2 5.523 0 10-4.477 10-10S23.523 8 18 8Z" fill="#c8ff40" opacity="0.85"/>
@@ -275,17 +291,16 @@
   <div id="gallery" class="gallery"></div>
 
   <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lbClose">✕</button>
-    <button class="lightbox-nav lightbox-prev" id="lbPrev">‹</button>
+    <button class="lightbox-close aero" id="lbClose">✕</button>
+    <button class="lightbox-nav lightbox-prev aero" id="lbPrev">‹</button>
     <div class="lightbox-content" id="lbContent">
       <img id="lightboxImg" src="" alt="Gallery Image">
     </div>
-    <button class="lightbox-nav lightbox-next" id="lbNext">›</button>
+    <button class="lightbox-nav lightbox-next aero" id="lbNext">›</button>
   </div>
 
   <script>
-    // ─── SPRING SYSTEM (ported from Lua spring module) ─────────────────────────
-    // Underdamped/critically-damped spring solver, same math as the roblox module
+    // ─── SPRING SYSTEM ──────────────────────────────────────────────────────────
     const E = Math.E;
 
     function makeSpring(init, damping, speed) {
@@ -385,13 +400,10 @@
     let currentIdx = 0;
     let lbOpen = false;
 
-    // Per-card spring state
-    const cards = []; // { el, springs: {y, rot, scale}, idlePhase, idleRot }
+    const cards = [];
 
-    // Lightbox springs
     const lbScale   = makeSpring(0.88, 0.55, 14);
     const lbOpacity = makeSpring(0,    0.7,  16);
-    let lbRafId = null;
 
     // ─── RAF LOOP ────────────────────────────────────────────────────────────────
     let rafId = null;
@@ -399,16 +411,13 @@
 
     function tick(now) {
       rafId = requestAnimationFrame(tick);
-      const dt = (now - lastTime) / 1000;
-      lastTime = now;
 
       const idle = now / 1000;
 
       for (const card of cards) {
         if (!card.visible) continue;
 
-        // Idle sway — very subtle Lissajous wobble
-        const sway = Math.sin(idle * 0.55 + card.idlePhase) * 1.2;
+        const sway    = Math.sin(idle * 0.55 + card.idlePhase) * 1.2;
         const swayRot = Math.sin(idle * 0.4  + card.idlePhase + 1) * 0.4;
 
         const sy = card.springs.y.p;
@@ -417,9 +426,6 @@
 
         card.el.style.transform =
           `translateY(${sy + sway}px) rotate(${sr + swayRot}deg) scale(${ss})`;
-
-        // Settle check — if hovered keep going, if idle check if we can skip
-        // (keep running regardless; idle sway never settles intentionally)
       }
 
       // Lightbox
@@ -452,6 +458,7 @@
         buildCards(imgs);
         setupIntersectionObserver();
 
+        lastTime = performance.now();
         rafId = requestAnimationFrame(tick);
 
       } catch(e) {
@@ -468,19 +475,22 @@
         const overlay = document.createElement('div');
         overlay.className = 'overlay';
 
+        // Wrap the image so overflow:hidden clips the img without affecting ::after
+        const wrap = document.createElement('div');
+        wrap.className = 'img-wrap';
+
         const img = document.createElement('img');
-        // data-src for lazy loading; src is a tiny transparent gif placeholder
         img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
         img.dataset.src = file.download_url;
         img.alt = file.name;
 
+        wrap.appendChild(img);
         item.appendChild(overlay);
-        item.appendChild(img);
+        item.appendChild(wrap);
         galleryEl.appendChild(item);
 
-        // Per-card random idle phase and hover rotation
-        const idlePhase  = Math.random() * Math.PI * 2;
-        const hoverRot   = (Math.random() - 0.5) * 4.5; // -2.25 .. +2.25 deg
+        const idlePhase = Math.random() * Math.PI * 2;
+        const hoverRot  = (Math.random() - 0.5) * 4.5;
 
         const springs = {
           y:     makeSpring(0,   0.52, 13),
@@ -498,20 +508,15 @@
           springs.rot.t   = 0;
           springs.scale.t = 1;
         });
-        item.addEventListener('mousedown', () => {
-          springs.scale.t = 0.97;
-        });
-        item.addEventListener('mouseup', () => {
-          springs.scale.t = 1.04;
-        });
-
+        item.addEventListener('mousedown', () => { springs.scale.t = 0.97; });
+        item.addEventListener('mouseup',   () => { springs.scale.t = 1.04; });
         item.onclick = () => openLightbox(i);
 
         cards.push({ el: item, springs, idlePhase, hoverRot, visible: false });
       });
     }
 
-    // ─── LAZY LOAD VIA INTERSECTION OBSERVER ────────────────────────────────────
+    // ─── LAZY LOAD ───────────────────────────────────────────────────────────────
     function setupIntersectionObserver() {
       const obs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -523,7 +528,6 @@
           if (entry.isIntersecting) {
             const img = entry.target.querySelector('img');
             if (img && img.dataset.src && img.src !== img.dataset.src) {
-              // Load image
               const real = new Image();
               real.onload = () => {
                 img.src = img.dataset.src;
@@ -549,10 +553,8 @@
       lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';
 
-      // Spring in
-      lbScale.t   = 0.88; // start low instantly
+      lbScale.t   = 0.88;
       lbOpacity.t = 0;
-      // force position reset then spring to 1
       setTimeout(() => {
         lbScale.t   = 1;
         lbOpacity.t = 1;
@@ -572,34 +574,26 @@
 
     function navigateLightbox(dir) {
       currentIdx = (currentIdx + dir + imageUrls.length) % imageUrls.length;
-
-      // Bounce spring
       const bounce = dir > 0 ? 0.88 : 1.12;
       lbScale.t = bounce;
       setTimeout(() => { lbScale.t = 1; }, 30);
-
       lbImg.classList.remove('loaded');
       lbImg.src = imageUrls[currentIdx];
       lbImg.onload = () => lbImg.classList.add('loaded');
     }
 
-    // Close on backdrop click
-    lightbox.addEventListener('click', e => {
-      if (e.target === lightbox) closeLightbox();
-    });
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
     lbClose.onclick = closeLightbox;
     lbPrev.onclick  = e => { e.stopPropagation(); navigateLightbox(-1); };
     lbNext.onclick  = e => { e.stopPropagation(); navigateLightbox(1); };
 
-    // Keyboard nav
     document.addEventListener('keydown', e => {
       if (!lightbox.classList.contains('active')) return;
-      if (e.key === 'Escape')      closeLightbox();
-      if (e.key === 'ArrowLeft')   navigateLightbox(-1);
-      if (e.key === 'ArrowRight')  navigateLightbox(1);
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowLeft')  navigateLightbox(-1);
+      if (e.key === 'ArrowRight') navigateLightbox(1);
     });
 
-    // ─── BOOT ────────────────────────────────────────────────────────────────────
     lastTime = performance.now();
     loadGallery();
   </script>
