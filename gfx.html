@@ -18,8 +18,7 @@
       --text: #e8e8e8;
       --muted: #666;
       --accent: #c8ff40;
-      /* Aero image URL — same as original */
-      --aero-url: url('projectsite-resources/0579cdc9d0db3077bed6ae2484d6a51f (2).png');
+      --aero-b64: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAERSURBVDhPrdNBagIxGMXxabWlQmkL3RQq9Q4uepPewbUn8A6C6GVn+n4hcTUuhAT+Y8j33psknzPU8VB5DIuwDE83UKOhbb4yWgDBc1iF1/AW3sNHxdyaGg0tTwssDwsvgegzfIXv8BM2FXNrajS0PLwlSKJ0hW3Yh2M4hXO4VMytqdHQ8vDKKOe1VW/ZT9N0GMdxl9+/OWrtQFs9vDLK1iTb8pEw/Ib1DdR2tNXDK6N0wiU6/6m+da0wN9RoMnVMHl4Z5aEjLvN8R5A74+G9BmmvzlzuCNIAHt7+Qd2O1uWyu7W/2x+y2yfS7aP1kGhBuq0SuUQd0V6YW1OjoeXhLUGGSQt0XgKdmEONpgWEYfgHTSjufe+VRvcAAAAASUVORK5CYII=");
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,28 +31,32 @@
       overflow-x: hidden;
     }
 
-    /* ─── AERO HELPER CLASS ─────────────────────────────────────────────────────
-       .aero elements get a real <img class="aero-img"> injected by JS.
-       That img is absolutely positioned -4px outside every edge (matching
-       Roblox: Position {0,-4},{0,-4}  Size {1,8},{1,8}).
-       object-fit:fill + image-rendering:pixelated = ScaleType:Slice behaviour.
-       opacity:0.5 = ImageTransparency:0.5
+    /* ─── AERO 9-SLICE ──────────────────────────────────────────────────────────
+       18×18px texture, glow border = outer 6px, center transparent.
+       border-image-outset:4px bleeds outside the element (Roblox -4px offset).
+       border-image-slice:6 fill paints corners+edges+center correctly.
+       opacity:0.5 = ImageTransparency 0.5
     ────────────────────────────────────────────────────────────────────────────── */
+
     .aero {
       position: relative;
     }
 
-    /* The injected aero image — bleeds 4px outside every edge */
-    .aero-img {
+    .aero::after {
+      content: '';
       position: absolute;
-      top:    -4px;
-      left:   -4px;
-      width:  calc(100% + 8px);
-      height: calc(100% + 8px);
-      object-fit: fill;          /* stretch to fill like ScaleType:Slice */
-      image-rendering: pixelated;
-      opacity: 0.5;              /* ImageTransparency 0.5 */
+      inset: 0;
+      /* A transparent border gives border-image a region to paint into.
+         border-image-outset then pushes that painted region outside the box. */
+      border: 6px solid transparent;
+      border-image-source: var(--aero-b64);
+      border-image-slice: 6 fill;   /* 6px slice on all sides, fill center */
+      border-image-width: 6px;
+      border-image-outset: 4px;     /* bleeds 4px outside the element */
+      border-image-repeat: stretch;
+      opacity: 0.5;
       pointer-events: none;
+      image-rendering: pixelated;
       z-index: 20;
     }
 
@@ -504,9 +507,6 @@
         item.addEventListener('mouseup',   () => { springs.scale.t = 1.04; });
         item.onclick = () => openLightbox(i);
 
-        // Inject aero overlay onto the card
-        injectAero(item);
-
         cards.push({ el: item, springs, idlePhase, hoverRot, visible: false });
       });
     }
@@ -588,21 +588,6 @@
       if (e.key === 'ArrowLeft')  navigateLightbox(-1);
       if (e.key === 'ArrowRight') navigateLightbox(1);
     });
-
-    // ─── AERO INJECTION ──────────────────────────────────────────────────────────
-    // Mirrors Roblox: a real img child sized calc(100%+8px) at -4px each edge.
-    const AERO_SRC = 'projectsite-resources/0579cdc9d0db3077bed6ae2484d6a51f (2).png';
-
-    function injectAero(el) {
-      const img = document.createElement('img');
-      img.src = AERO_SRC;
-      img.className = 'aero-img';
-      img.alt = '';
-      el.appendChild(img);
-    }
-
-    // Inject into all static .aero elements in the HTML (back-btn, lb buttons)
-    document.querySelectorAll('.aero').forEach(injectAero);
 
     lastTime = performance.now();
     loadGallery();
