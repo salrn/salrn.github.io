@@ -62,38 +62,38 @@
 
     /* ─── HEADER ─── */
     .header {
-      padding: 28px 44px;
+      padding: 14px 36px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(8,8,8,0.85);
-      backdrop-filter: blur(18px);
+      background: rgba(8,8,8,0.80);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
 
     .header-title {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .header-icon {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       flex-shrink: 0;
     }
 
     .header h1 {
       font-family: 'Dela Gothic One', cursive;
-      font-size: 26px;
-      letter-spacing: -0.5px;
-      transform: rotate(-2.5deg);
+      font-size: 34px;
+      letter-spacing: -1px;
+      transform: rotate(-1.5deg);
       display: inline-block;
-      color: var(--accent);
-      text-shadow: 0 0 40px rgba(200,255,64,0.25);
+      color: #ffffff;
+      text-shadow: 0 0 60px rgba(255,255,255,0.15);
     }
 
     /* Back button — NO border-radius, aero overlay will add the texture */
@@ -168,6 +168,27 @@
     .gallery-item:hover .overlay {
       opacity: 1;
     }
+
+    /* ─── LIGHTBOX IMAGE SLIDE TRANSITION ─── */
+    @keyframes lb-slide-in-right {
+      from { opacity: 0; transform: translateX(48px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes lb-slide-in-left {
+      from { opacity: 0; transform: translateX(-48px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes lb-slide-out-left {
+      from { opacity: 1; transform: translateX(0); }
+      to   { opacity: 0; transform: translateX(-48px); }
+    }
+    @keyframes lb-slide-out-right {
+      from { opacity: 1; transform: translateX(0); }
+      to   { opacity: 0; transform: translateX(48px); }
+    }
+
+    .lightbox-content img.anim-in-right  { animation: lb-slide-in-right  0.22s cubic-bezier(0.25,1,0.5,1) forwards; }
+    .lightbox-content img.anim-in-left   { animation: lb-slide-in-left   0.22s cubic-bezier(0.25,1,0.5,1) forwards; }
 
     /* ─── LOADING / ERROR ─── */
     .status {
@@ -269,13 +290,11 @@
 
   <div class="header">
     <div class="header-title">
-      <svg class="header-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="18" cy="18" r="16" fill="#1a1a1a" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-        <path d="M18 8C12.477 8 8 12.477 8 18c0 2.21 1.79 4 4 4a2 2 0 0 1 2 2c0 1.105.895 2 2 2 5.523 0 10-4.477 10-10S23.523 8 18 8Z" fill="#c8ff40" opacity="0.85"/>
-        <circle cx="13" cy="16" r="1.5" fill="#080808"/>
-        <circle cx="18" cy="12" r="1.5" fill="#080808"/>
-        <circle cx="23" cy="16" r="1.5" fill="#080808"/>
-        <circle cx="21" cy="21.5" r="1.5" fill="#080808"/>
+      <svg class="header-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 4-point star / spark -->
+        <path d="M16 2 L18.5 13.5 L30 16 L18.5 18.5 L16 30 L13.5 18.5 L2 16 L13.5 13.5 Z" fill="white" opacity="0.95"/>
+        <!-- small accent dot -->
+        <circle cx="25" cy="7" r="2" fill="white" opacity="0.4"/>
       </svg>
       <h1>GFX Gallery</h1>
     </div>
@@ -569,12 +588,25 @@
 
     function navigateLightbox(dir) {
       currentIdx = (currentIdx + dir + imageUrls.length) % imageUrls.length;
-      const bounce = dir > 0 ? 0.88 : 1.12;
-      lbScale.t = bounce;
-      setTimeout(() => { lbScale.t = 1; }, 30);
-      lbImg.classList.remove('loaded');
-      lbImg.src = imageUrls[currentIdx];
-      lbImg.onload = () => lbImg.classList.add('loaded');
+
+      // Slide the current image out instantly by cutting opacity,
+      // then load the new one and slide it in
+      lbImg.style.opacity = '0';
+      lbImg.style.transition = 'opacity 0.08s ease';
+
+      setTimeout(() => {
+        lbImg.classList.remove('loaded', 'anim-in-right', 'anim-in-left');
+        lbImg.style.opacity = '';
+        lbImg.style.transition = '';
+        lbImg.src = imageUrls[currentIdx];
+
+        const animClass = dir > 0 ? 'anim-in-right' : 'anim-in-left';
+        lbImg.onload = () => {
+          lbImg.classList.add('loaded', animClass);
+          // clean up class after animation so it can replay next time
+          lbImg.addEventListener('animationend', () => lbImg.classList.remove(animClass), { once: true });
+        };
+      }, 90);
     }
 
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
