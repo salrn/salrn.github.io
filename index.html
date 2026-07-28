@@ -5,30 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="mirza's personal website - Choose between file browser and portfolio">
     <link rel="icon" href="https://salrn.github.io/publicfiles/rs.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <title>mirza's website</title>
     <style>
-        @font-face {
-            font-family: 'Eurostile';
-            src: url('https://salrn.github.io/publicfiles/eurostile.TTF') format('truetype');
-            font-weight: normal;
-            font-style: normal;
+        :root {
+            --aero-b64: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAERSURBVDhPrdNBagIxGMXxabWlQmkL3RQq9Q4uepPewbUn8A6C6GVn+n4hcTUuhAT+Y8j33psknzPU8VB5DIuwDE83UKOhbb4yWgDBc1iF1/AW3sNHxdyaGg0tTwssDwsvgegzfIXv8BM2FXNrajS0PLwlSKJ0hW3Yh2M4hXO4VMytqdHQ8vDKKOe1VW/ZT9N0GMdxl9+/OWrtQFs9vDLK1iTb8pEw/Ib1DdR2tNXDK6N0wiU6/6m+da0wN9RoMnVMHl4Z5aEjLvN8R5A74+G9BmmvzlzuCNIAHt7+Qd2O1uWyu7W/2x+y2yfS7aP1kGhBuq0SuUQd0V6YW1OjoeXhLUGGSQt0XgKdmEONpgWEYfgHTSjufe+VRvcAAAAASUVORK5CYII=");
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Eurostile', Arial, sans-serif;
+            font-family: 'Source Sans 3', Arial, sans-serif;
             min-height: 100vh;
             color: #ffffff;
             overflow-x: hidden;
             position: relative;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
         }
-        
+
         .background {
             position: fixed;
             top: 0;
@@ -38,14 +38,14 @@
             z-index: -1;
             overflow: hidden;
         }
-        
+
         .background iframe {
             width: 100%;
             height: 100%;
             border: none;
             pointer-events: none;
         }
-        
+
         .background::after {
             content: '';
             position: absolute;
@@ -57,20 +57,20 @@
             pointer-events: none;
             z-index: 1;
         }
-        
+
         .glass-texture {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
+            background-image:
                 repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.03) 3px),
                 repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0px, transparent 1px, transparent 2px, rgba(255,255,255,0.03) 3px);
             pointer-events: none;
             z-index: 1;
         }
-        
+
         .container {
             position: relative;
             z-index: 2;
@@ -82,19 +82,19 @@
             padding-left: 5%;
             padding-top: 8%;
         }
-        
+
         .logo-section {
             text-align: left;
             margin-bottom: 50px;
             position: relative;
         }
-        
+
         .logo-container {
             position: relative;
             display: inline-block;
             margin-bottom: 20px;
         }
-        
+
         .spinning-logo {
             width: 80px;
             height: 80px;
@@ -102,7 +102,7 @@
             transform-style: preserve-3d;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
         }
-        
+
         @keyframes spin3d {
             0% {
                 transform: rotateY(0deg) rotateX(0deg);
@@ -114,11 +114,11 @@
                 transform: rotateY(360deg) rotateX(0deg);
             }
         }
-        
+
         .logo-section h1 {
             font-size: 36px;
             font-weight: 600;
-            text-shadow: 
+            text-shadow:
                 0 1px 0 rgba(255,255,255,0.3),
                 0 2px 4px rgba(0,0,0,0.8),
                 0 4px 12px rgba(0,0,0,0.5);
@@ -128,38 +128,42 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .buttons-container {
             display: flex;
             flex-direction: column;
             gap: 25px;
             align-items: stretch;
         }
-        
+
         .selection-button {
             background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.08));
             backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-top-color: rgba(255, 255, 255, 0.5);
             border-left-color: rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 20px 30px;
             width: 380px;
             text-align: left;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             text-decoration: none;
             color: white;
             display: block;
-            box-shadow: 
+            box-shadow:
                 0 8px 24px rgba(0, 0, 0, 0.4),
                 inset 0 1px 0 rgba(255,255,255,0.3),
                 inset 0 -1px 0 rgba(0,0,0,0.2);
         }
-        
-        .selection-button::before {
+
+        .button-clip {
+            position: relative;
+            overflow: hidden;
+            padding: 20px 30px;
+        }
+
+        .button-clip::before {
             content: '';
             position: absolute;
             top: 0;
@@ -169,26 +173,30 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.6s ease;
         }
-        
+
         .selection-button::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%);
-            border-radius: 20px 20px 0 0;
+            inset: 0;
+            border: 6px solid transparent;
+            border-image-source: var(--aero-b64);
+            border-image-slice: 6 fill;
+            border-image-width: 6px;
+            border-image-outset: 4px;
+            border-image-repeat: stretch;
+            opacity: 0.5;
             pointer-events: none;
+            image-rendering: pixelated;
+            z-index: 20;
         }
-        
-        .selection-button:hover::before {
+
+        .selection-button:hover .button-clip::before {
             left: 100%;
         }
-        
+
         .selection-button:hover {
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 
+            box-shadow:
                 0 12px 32px rgba(0, 0, 0, 0.5),
                 inset 0 1px 0 rgba(255,255,255,0.4),
                 inset 0 -1px 0 rgba(0,0,0,0.3),
@@ -196,15 +204,15 @@
             border-color: rgba(255, 255, 255, 0.5);
             background: linear-gradient(145deg, rgba(255,255,255,0.25), rgba(255,255,255,0.12));
         }
-        
+
         .selection-button:active {
             transform: translateY(-3px) scale(1.01);
-            box-shadow: 
+            box-shadow:
                 0 6px 16px rgba(0, 0, 0, 0.4),
                 inset 0 2px 4px rgba(0,0,0,0.2),
                 inset 0 -1px 0 rgba(255,255,255,0.2);
         }
-        
+
         .button-content {
             display: flex;
             align-items: center;
@@ -212,28 +220,30 @@
             position: relative;
             z-index: 1;
         }
-        
+
         .button-icon {
-            font-size: 50px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6)) 
-                    drop-shadow(0 0 15px currentColor);
-            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            fill: white;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6))
+                    drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
         }
-        
+
         .button-text {
             flex: 1;
         }
-        
+
         .button-title {
             font-size: 22px;
             font-weight: 600;
             margin-bottom: 6px;
             display: block;
-            text-shadow: 
+            text-shadow:
                 0 1px 0 rgba(255,255,255,0.2),
                 0 2px 4px rgba(0,0,0,0.8);
         }
-        
+
         .button-description {
             font-size: 13px;
             color: #e0e0e0;
@@ -241,17 +251,17 @@
             line-height: 1.4;
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
-        
+
         .button-arrow {
             font-size: 28px;
             transition: transform 0.3s ease;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
         }
-        
+
         .selection-button:hover .button-arrow {
             transform: translateX(8px);
         }
-        
+
         .discord-widget {
             position: fixed;
             right: 5%;
@@ -262,16 +272,31 @@
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-top-color: rgba(255, 255, 255, 0.5);
             border-left-color: rgba(255, 255, 255, 0.5);
-            border-radius: 25px;
             padding: 35px;
             width: 300px;
-            box-shadow: 
+            box-shadow:
                 0 12px 40px rgba(0, 0, 0, 0.5),
                 inset 0 1px 0 rgba(255,255,255,0.3),
                 inset 0 -1px 0 rgba(0,0,0,0.2);
             z-index: 10;
         }
-        
+
+        .discord-widget::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 6px solid transparent;
+            border-image-source: var(--aero-b64);
+            border-image-slice: 6 fill;
+            border-image-width: 6px;
+            border-image-outset: 4px;
+            border-image-repeat: stretch;
+            opacity: 0.5;
+            pointer-events: none;
+            image-rendering: pixelated;
+            z-index: 20;
+        }
+
         .discord-widget::after {
             content: '';
             position: absolute;
@@ -280,17 +305,16 @@
             width: 100%;
             height: 50%;
             background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-            border-radius: 25px 25px 0 0;
             pointer-events: none;
         }
-        
+
         .discord-profile {
             text-align: center;
             margin-bottom: 20px;
             position: relative;
             z-index: 1;
         }
-        
+
         .discord-avatar-container {
             position: relative;
             display: inline-block;
@@ -298,22 +322,22 @@
             padding: 8px;
             background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(0,0,0,0.2));
             border-radius: 50%;
-            box-shadow: 
+            box-shadow:
                 0 6px 20px rgba(0, 0, 0, 0.6),
                 inset 0 2px 4px rgba(255,255,255,0.3),
                 inset 0 -2px 4px rgba(0,0,0,0.3);
         }
-        
+
         .discord-avatar {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             border: 3px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 
+            box-shadow:
                 0 4px 12px rgba(0, 0, 0, 0.6),
                 inset 0 2px 4px rgba(0,0,0,0.3);
         }
-        
+
         .status-indicator {
             position: absolute;
             bottom: 8px;
@@ -323,55 +347,55 @@
             border-radius: 50%;
             border: 4px solid rgba(20, 20, 40, 0.9);
             background: #747f8d;
-            box-shadow: 
+            box-shadow:
                 0 2px 8px rgba(0, 0, 0, 0.8),
                 inset 0 1px 2px rgba(255,255,255,0.3),
                 inset 0 -1px 2px rgba(0,0,0,0.5);
         }
-        
+
         .status-indicator.online {
             background: linear-gradient(145deg, #2ecc71, #23a55a);
-            box-shadow: 
+            box-shadow:
                 0 2px 8px rgba(0, 0, 0, 0.8),
                 0 0 20px rgba(35, 165, 90, 0.8),
                 inset 0 1px 2px rgba(255,255,255,0.4),
                 inset 0 -1px 2px rgba(0,0,0,0.4);
         }
-        
+
         .status-indicator.idle {
             background: linear-gradient(145deg, #f39c12, #f0b232);
-            box-shadow: 
+            box-shadow:
                 0 2px 8px rgba(0, 0, 0, 0.8),
                 0 0 20px rgba(240, 178, 50, 0.8),
                 inset 0 1px 2px rgba(255,255,255,0.4),
                 inset 0 -1px 2px rgba(0,0,0,0.4);
         }
-        
+
         .status-indicator.dnd {
             background: linear-gradient(145deg, #e74c3c, #f23f43);
-            box-shadow: 
+            box-shadow:
                 0 2px 8px rgba(0, 0, 0, 0.8),
                 0 0 20px rgba(242, 63, 67, 0.8),
                 inset 0 1px 2px rgba(255,255,255,0.4),
                 inset 0 -1px 2px rgba(0,0,0,0.4);
         }
-        
+
         .discord-username {
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 6px;
-            text-shadow: 
+            text-shadow:
                 0 1px 0 rgba(255,255,255,0.2),
                 0 2px 6px rgba(0, 0, 0, 0.8);
         }
-        
+
         .discord-status {
             font-size: 13px;
             color: #d0d0d0;
             margin-bottom: 8px;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
-        
+
         .custom-status {
             background: linear-gradient(145deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -385,12 +409,12 @@
             display: none;
             word-wrap: break-word;
             position: relative;
-            box-shadow: 
+            box-shadow:
                 0 4px 12px rgba(0, 0, 0, 0.6),
                 inset 0 1px 0 rgba(255,255,255,0.1),
                 inset 0 -1px 0 rgba(0,0,0,0.3);
         }
-        
+
         .custom-status::before {
             content: '';
             position: absolute;
@@ -404,41 +428,56 @@
             border-bottom: 12px solid rgba(0, 0, 0, 0.5);
             filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.3));
         }
-        
+
         .custom-status.active {
             display: block;
         }
-        
+
         .custom-status-emoji {
             margin-right: 6px;
             font-size: 16px;
         }
-        
+
         .last-seen {
             font-size: 11px;
             color: #999;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
-        
+
         .rich-presence {
             background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.25));
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
             padding: 15px;
             margin-top: 15px;
             display: none;
-            box-shadow: 
+            box-shadow:
                 0 4px 16px rgba(0, 0, 0, 0.6),
                 inset 0 1px 0 rgba(255,255,255,0.1),
                 inset 0 -1px 0 rgba(0,0,0,0.4);
             position: relative;
             z-index: 1;
         }
-        
+
+        .rich-presence::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 6px solid transparent;
+            border-image-source: var(--aero-b64);
+            border-image-slice: 6 fill;
+            border-image-width: 6px;
+            border-image-outset: 4px;
+            border-image-repeat: stretch;
+            opacity: 0.5;
+            pointer-events: none;
+            image-rendering: pixelated;
+            z-index: 20;
+        }
+
         .rich-presence.active {
             display: block;
         }
-        
+
         .activity-header {
             font-size: 11px;
             color: #c0c0c0;
@@ -448,13 +487,13 @@
             letter-spacing: 0.5px;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
-        
+
         .activity-content {
             display: flex;
             gap: 12px;
             align-items: flex-start;
         }
-        
+
         .activity-image {
             width: 60px;
             height: 60px;
@@ -462,21 +501,21 @@
             object-fit: cover;
             flex-shrink: 0;
             display: none;
-            box-shadow: 
+            box-shadow:
                 0 4px 12px rgba(0, 0, 0, 0.6),
                 inset 0 1px 2px rgba(255,255,255,0.2);
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .activity-image.visible {
             display: block;
         }
-        
+
         .activity-details {
             flex: 1;
             min-width: 0;
         }
-        
+
         .activity-name {
             font-size: 14px;
             font-weight: 600;
@@ -487,7 +526,7 @@
             white-space: nowrap;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
-        
+
         .activity-state,
         .activity-details-text {
             font-size: 12px;
@@ -498,17 +537,17 @@
             white-space: nowrap;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
-        
+
         .spotify-activity {
             border-left: 4px solid #1DB954;
             background: linear-gradient(145deg, rgba(29, 185, 84, 0.15), rgba(29, 185, 84, 0.05));
         }
-        
+
         .spotify-activity .activity-header {
             color: #1DB954;
             text-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
         }
-        
+
         .social-buttons {
             display: flex;
             flex-direction: column;
@@ -517,7 +556,7 @@
             position: relative;
             z-index: 1;
         }
-        
+
         .social-button {
             display: flex;
             align-items: center;
@@ -527,7 +566,6 @@
             border: 2px solid rgba(255, 255, 255, 0.25);
             border-top-color: rgba(255, 255, 255, 0.4);
             border-left-color: rgba(255, 255, 255, 0.4);
-            border-radius: 12px;
             padding: 12px;
             color: white;
             text-decoration: none;
@@ -535,13 +573,29 @@
             font-weight: 500;
             transition: all 0.3s ease;
             position: relative;
-            box-shadow: 
+            box-shadow:
                 0 4px 12px rgba(0, 0, 0, 0.4),
                 inset 0 1px 0 rgba(255,255,255,0.2),
                 inset 0 -1px 0 rgba(0,0,0,0.2);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
         }
-        
+
+        .social-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 6px solid transparent;
+            border-image-source: var(--aero-b64);
+            border-image-slice: 6 fill;
+            border-image-width: 6px;
+            border-image-outset: 4px;
+            border-image-repeat: stretch;
+            opacity: 0.5;
+            pointer-events: none;
+            image-rendering: pixelated;
+            z-index: 20;
+        }
+
         .social-button .tooltip {
             position: absolute;
             bottom: 100%;
@@ -558,12 +612,12 @@
             opacity: 0;
             pointer-events: none;
             transition: all 0.3s ease;
-            box-shadow: 
+            box-shadow:
                 0 8px 20px rgba(0, 0, 0, 0.5),
                 inset 0 1px 0 rgba(255,255,255,0.3);
             z-index: 100;
         }
-        
+
         .social-button .tooltip::after {
             content: '';
             position: absolute;
@@ -577,12 +631,12 @@
             border-top: 8px solid rgba(255, 255, 255, 0.25);
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
-        
+
         .social-button:hover .tooltip {
             opacity: 1;
             transform: translateX(-50%) translateY(-15px);
         }
-        
+
         .social-button::after {
             content: '';
             position: absolute;
@@ -591,27 +645,26 @@
             width: 100%;
             height: 50%;
             background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-            border-radius: 12px 12px 0 0;
             pointer-events: none;
         }
-        
+
         .social-button:hover {
             background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
             border-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-2px);
-            box-shadow: 
+            box-shadow:
                 0 6px 16px rgba(0, 0, 0, 0.5),
                 inset 0 1px 0 rgba(255,255,255,0.3),
                 inset 0 -1px 0 rgba(0,0,0,0.2);
         }
-        
+
         .social-button:active {
             transform: translateY(0);
-            box-shadow: 
+            box-shadow:
                 0 2px 8px rgba(0, 0, 0, 0.4),
                 inset 0 1px 2px rgba(0,0,0,0.2);
         }
-        
+
         .social-icon {
             width: 20px;
             height: 20px;
@@ -619,7 +672,7 @@
             flex-shrink: 0;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
         }
-        
+
         .footer-note {
             position: fixed;
             bottom: 25px;
@@ -629,7 +682,7 @@
             font-size: 12px;
             text-align: center;
             z-index: 2;
-            text-shadow: 
+            text-shadow:
                 0 1px 0 rgba(255,255,255,0.2),
                 0 2px 6px rgba(0, 0, 0, 0.9);
             background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
@@ -638,28 +691,28 @@
             border: 1px solid rgba(255,255,255,0.2);
             backdrop-filter: blur(10px);
         }
-        
+
         @media (max-width: 1400px) {
             .discord-widget {
                 right: 3%;
             }
         }
-        
+
         @media (max-width: 1024px) {
             body {
                 overflow-y: auto;
             }
-            
+
             .container {
                 align-items: center;
                 padding: 40px 20px;
                 padding-bottom: 60px;
             }
-            
+
             .logo-section {
                 text-align: center;
             }
-            
+
             .discord-widget {
                 position: relative;
                 right: auto;
@@ -667,91 +720,96 @@
                 transform: none;
                 margin: 40px auto 0;
             }
-            
+
             .footer-note {
                 position: relative;
                 margin-top: 40px;
                 margin-bottom: 20px;
             }
         }
-        
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
                 padding-top: 40px;
             }
-            
+
             .logo-section h1 {
                 font-size: 28px;
             }
-            
+
             .spinning-logo {
                 width: 70px;
                 height: 70px;
             }
-            
+
             .selection-button {
                 width: 100%;
                 max-width: 380px;
+            }
+
+            .button-clip {
                 padding: 18px 24px;
             }
-            
+
             .button-icon {
-                font-size: 42px;
+                width: 36px;
+                height: 36px;
             }
-            
+
             .button-title {
                 font-size: 20px;
             }
-            
+
             .button-description {
                 font-size: 12px;
             }
-            
+
             .discord-widget {
                 width: 100%;
                 max-width: 320px;
                 padding: 25px;
             }
-            
+
             .discord-avatar {
                 width: 80px;
                 height: 80px;
             }
-            
+
             .status-indicator {
                 width: 22px;
                 height: 22px;
             }
         }
-        
+
         @media (max-width: 480px) {
             .logo-section h1 {
                 font-size: 24px;
                 letter-spacing: 2px;
             }
-            
+
             .spinning-logo {
                 width: 60px;
                 height: 60px;
             }
-            
-            .selection-button {
+
+            .button-clip {
                 padding: 16px 20px;
             }
-            
+
             .button-icon {
-                font-size: 36px;
+                width: 30px;
+                height: 30px;
             }
-            
+
             .button-title {
                 font-size: 18px;
             }
-            
+
             .button-arrow {
                 font-size: 24px;
             }
-            
+
             .discord-widget {
                 padding: 20px;
             }
@@ -763,7 +821,7 @@
         <iframe src="https://gtbsg.tumblr.com/" title="Background"></iframe>
     </div>
     <div class="glass-texture"></div>
-    
+
     <div class="container">
         <div class="logo-section">
             <div class="logo-container">
@@ -771,31 +829,39 @@
             </div>
             <h1>mirza's website</h1>
         </div>
-        
+
         <div class="buttons-container">
             <a href="files.html" class="selection-button">
+              <div class="button-clip">
                 <div class="button-content">
-                    <div class="button-icon">📁</div>
+                    <svg class="button-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 6a2 2 0 0 1 2-2h4.5l2 2H19a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6z"/>
+                    </svg>
                     <div class="button-text">
                         <span class="button-title">File Browser</span>
                         <span class="button-description">Browse and download tools & resources</span>
                     </div>
                     <div class="button-arrow">→</div>
                 </div>
+              </div>
             </a>
-            
+
             <a href="portfolio.html" class="selection-button">
+              <div class="button-clip">
                 <div class="button-content">
-                    <div class="button-icon">💼</div>
+                    <svg class="button-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 4a2 2 0 0 0-2 2v1H4.5a2 2 0 0 0-2 2v9.5a2 2 0 0 0 2 2h15a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H17V6a2 2 0 0 0-2-2H9zm0 3V6h6v1H9zM4.5 9h15v9.5h-15V9z"/>
+                    </svg>
                     <div class="button-text">
                         <span class="button-title">Portfolio</span>
                         <span class="button-description">Explore my projects & experience</span>
                     </div>
                     <div class="button-arrow">→</div>
                 </div>
+              </div>
             </a>
         </div>
-        
+
         <div class="discord-widget">
             <div class="discord-profile">
                 <div class="discord-avatar-container">
@@ -807,7 +873,7 @@
                 <div class="custom-status" id="customStatus"></div>
                 <div class="last-seen" id="lastSeen">Last seen: Unknown</div>
             </div>
-            
+
             <div class="rich-presence" id="richPresence">
                 <div class="activity-header" id="activityHeader">PLAYING A GAME</div>
                 <div class="activity-content">
@@ -819,7 +885,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="social-buttons">
                 <a href="https://instagram.com/killmirzaa" target="_blank" class="social-button">
                     <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -849,34 +915,34 @@
                 </a>
             </div>
         </div>
-        
+
         <div class="footer-note">
             Press Ctrl+F5 to refresh if updates don't appear
         </div>
     </div>
-    
+
     <script>
         const DISCORD_USER_ID = '708693430523658322';
-        
+
         async function updateDiscordStatus() {
             try {
                 const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`);
                 const data = await response.json();
-                
+
                 if (data.success && data.data) {
                     const user = data.data;
                     const discord = user.discord_user;
-                    
+
                     const avatarUrl = `https://cdn.discordapp.com/avatars/${discord.id}/${discord.avatar}.png?size=256`;
                     document.getElementById('discordAvatar').src = avatarUrl;
-                    
+
                     document.getElementById('discordUsername').textContent = discord.display_name || discord.username;
-                    
+
                     const statusIndicator = document.getElementById('statusIndicator');
                     const statusText = document.getElementById('discordStatus');
                     const richPresence = document.getElementById('richPresence');
                     const customStatusEl = document.getElementById('customStatus');
-                    
+
                     if (user.discord_status === 'online') {
                         statusIndicator.className = 'status-indicator online';
                         statusText.textContent = 'Online';
@@ -894,37 +960,37 @@
                         statusText.textContent = 'Offline';
                         document.getElementById('lastSeen').style.display = 'block';
                     }
-                    
+
                     const customStatus = user.activities.find(a => a.type === 4);
                     if (customStatus && customStatus.state) {
                         customStatusEl.className = 'custom-status active';
-                        const emoji = customStatus.emoji ? (customStatus.emoji.id ? 
-                            `<img src="https://cdn.discordapp.com/emojis/${customStatus.emoji.id}.${customStatus.emoji.animated ? 'gif' : 'png'}" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 6px;">` : 
+                        const emoji = customStatus.emoji ? (customStatus.emoji.id ?
+                            `<img src="https://cdn.discordapp.com/emojis/${customStatus.emoji.id}.${customStatus.emoji.animated ? 'gif' : 'png'}" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; margin-right: 6px;">` :
                             `<span class="custom-status-emoji">${customStatus.emoji.name}</span>`) : '';
                         customStatusEl.innerHTML = emoji + customStatus.state;
                     } else {
                         customStatusEl.className = 'custom-status';
                     }
-                    
+
                     if (user.spotify && user.spotify.track_id) {
                         richPresence.className = 'rich-presence spotify-activity active';
                         document.getElementById('activityHeader').textContent = 'LISTENING TO SPOTIFY';
-                        
+
                         const spotifyImageEl = document.getElementById('activityImage');
                         const spotifyImage = user.spotify.album_art_url || 'https://cdn.discordapp.com/embed/avatars/0.png';
                         spotifyImageEl.src = spotifyImage;
                         spotifyImageEl.className = 'activity-image visible';
-                        
+
                         document.getElementById('activityName').textContent = user.spotify.song || 'Unknown';
                         document.getElementById('activityDetails').textContent = user.spotify.artist ? `by ${user.spotify.artist}` : '';
                         document.getElementById('activityState').textContent = user.spotify.album ? `on ${user.spotify.album}` : '';
                     } else if (user.activities && user.activities.length > 0) {
                         const activity = user.activities.find(a => a.type !== 4) || user.activities[0];
-                        
+
                         if (activity && (activity.type === 0 || activity.type === 2)) {
                             richPresence.className = activity.type === 2 ? 'rich-presence spotify-activity active' : 'rich-presence active';
                             document.getElementById('activityHeader').textContent = activity.type === 2 ? 'LISTENING TO' : 'PLAYING A GAME';
-                            
+
                             const activityImageEl = document.getElementById('activityImage');
                             if (activity.assets && activity.assets.large_image) {
                                 let imageUrl = activity.assets.large_image;
@@ -943,7 +1009,7 @@
                             } else {
                                 activityImageEl.className = 'activity-image';
                             }
-                            
+
                             document.getElementById('activityName').textContent = activity.name || 'Unknown';
                             document.getElementById('activityDetails').textContent = activity.details || '';
                             document.getElementById('activityState').textContent = activity.state || '';
@@ -963,7 +1029,7 @@
                 document.getElementById('lastSeen').style.display = 'block';
             }
         }
-        
+
         updateDiscordStatus();
         setInterval(updateDiscordStatus, 30000);
     </script>
