@@ -1,317 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mirza's Portfolio">
-    <link rel="icon" href="https://salrn.github.io/publicfiles/rs.png" type="image/png">
-    <title>mirza's portfolio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-        }
-        
-        .back-link {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-        
-        .back-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(-3px);
-        }
-        
-        .container {
-            text-align: center;
-            max-width: 800px;
-        }
-        
-        .logo {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 30px;
-            animation: spin 4s infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
-        
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: #ffffff;
-        }
-        
-        .subtitle {
-            font-size: 18px;
-            color: #aaa;
-            margin-bottom: 50px;
-        }
-        
-        .buttons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .portfolio-btn {
-            padding: 30px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .portfolio-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .btn-icon {
-            font-size: 48px;
-        }
-        
-        .btn-text {
-            font-size: 22px;
-            font-weight: 600;
-        }
-        
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .modal-overlay.active {
-            display: flex;
-        }
-        
-        .modal {
-            background: #2a2a2a;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .modal-title {
-            font-size: 28px;
-            font-weight: 600;
-        }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            color: #ffffff;
-            font-size: 28px;
-            cursor: pointer;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        
-        .close-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(90deg);
-        }
-        
-        .contact-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .contact-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
-        }
-        
-        .contact-icon {
-            font-size: 32px;
-            min-width: 40px;
-            text-align: center;
-        }
-        
-        .contact-info {
-            flex: 1;
-            text-align: left;
-        }
-        
-        .contact-label {
-            font-size: 12px;
-            color: #888;
-            display: block;
-            margin-bottom: 3px;
-        }
-        
-        .contact-value {
-            font-size: 16px;
-            color: #ffffff;
-            word-break: break-all;
-        }
-        
-        .contact-link {
-            color: #4a9eff;
-            text-decoration: none;
-        }
-        
-        .contact-link:hover {
-            text-decoration: underline;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 36px;
-            }
-            
-            .buttons-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mirza's portfolio</title>
+<meta name="description" content="Mirza — art &amp; graphics portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Fira+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <a href="index.html" class="back-link">← Back</a>
-    
-    <div class="container">
-        <img src="https://salrn.github.io/publicfiles/rs.png" alt="Logo" class="logo">
-        <h1>mirza's portfolio</h1>
-        <p class="subtitle">Explore my work and get in touch</p>
-        
-        <div class="buttons-grid">
-            <button class="portfolio-btn" onclick="openContactModal()">
-                <div class="btn-icon">📧</div>
-                <div class="btn-text">Contact</div>
-            </button>
-            
-            <a href="gfx.html" class="portfolio-btn">
-                <div class="btn-icon">🎨</div>
-                <div class="btn-text">GFX</div>
-            </a>
-            
-            <a href="projects.html" class="portfolio-btn">
-                <div class="btn-icon">💼</div>
-                <div class="btn-text">Projects</div>
-            </a>
-        </div>
-    </div>
-    
-    <div class="modal-overlay" id="contactModal" onclick="closeModalOnOutside(event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <h2 class="modal-title">Contact</h2>
-                <button class="close-btn" onclick="closeContactModal()">×</button>
-            </div>
-            <ul class="contact-list">
-                <li class="contact-item">
-                    <div class="contact-icon">💬</div>
-                    <div class="contact-info">
-                        <span class="contact-label">Discord</span>
-                        <span class="contact-value">@sjs7</span>
-                    </div>
-                </li>
-                <li class="contact-item">
-                    <div class="contact-icon">🌐</div>
-                    <div class="contact-info">
-                        <span class="contact-label">Discord Server</span>
-                        <a href="https://discord.gg/etvf4fbHAr" class="contact-value contact-link" target="_blank">Join Server</a>
-                    </div>
-                </li>
-                <li class="contact-item">
-                    <div class="contact-icon">📧</div>
-                    <div class="contact-info">
-                        <span class="contact-label">Email</span>
-                        <a href="mailto:contact@mirza.city" class="contact-value contact-link">contact@mirza.city</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    
-    <script>
-        function openContactModal() {
-            document.getElementById('contactModal').classList.add('active');
-        }
-        
-        function closeContactModal() {
-            document.getElementById('contactModal').classList.remove('active');
-        }
-        
-        function closeModalOnOutside(event) {
-            if (event.target.id === 'contactModal') {
-                closeContactModal();
-            }
-        }
-    </script>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="agrad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#C2181C"/>
+      <stop offset=".55" stop-color="#E00A0A"/>
+      <stop offset="1" stop-color="#F50000"/>
+    </linearGradient>
+    <path id="agarrow" d="M8 962C120 640 480 300 1180 242L1180 22L1995 420L1180 806L1180 566C700 566 260 700 8 962Z"/>
+  </defs>
+</svg>
+
+
+<div class="stage">
+
+  <h1 class="title">
+    <span class="line line--discover" data-rv><b class="fit">DISCOVER</b></span>
+    <span class="line line--learn" data-rv><b class="fit">LEARN</b></span>
+    <span class="line line--create" data-rv><b class="fit">CREATE</b></span>
+  </h1>
+
+  <span class="my" data-rv>my</span>
+  <em class="click" data-rv><span class="click__t">click!!!</span></em>
+  <a class="projects" href="portfolio.html" data-rv><b class="fit">PROJECTS</b></a>
+  <svg class="arrow" viewBox="0 0 2000 970" aria-hidden="true" data-rv><use href="#agarrow" fill="url(#agrad)"/></svg>
+
+  <nav class="actions" aria-label="Main">
+    <a class="card" href="gfx.html" data-rv>
+      <span class="card__title">Art &amp; GFX</span>
+      <span class="card__sub">Click to visit Gallery</span>
+    </a>
+    <button class="card" type="button" id="contactBtn" data-rv>
+      <span class="card__title">Contact</span>
+      <span class="card__sub">Click to get in touch</span>
+    </button>
+  </nav>
+
+  <aside class="about">
+    <h2 class="about__title" data-rv>Hi, im Mirza!</h2>
+    <p class="about__body" data-rv>i liek life maybe<br>tons of words about me<br>come here and gather together<br>to tell stuff aobut me that maybe<br>is cool</p>
+  </aside>
+
+  <p class="note" data-rv>very unfinished site :)</p>
+  <div class="watermark" aria-hidden="true">papoy</div>
+</div>
+
+<dialog class="modal" id="contactModal" aria-labelledby="contactTitle">
+  <button class="modal__close" type="button" data-close aria-label="Close">&times;</button>
+  <h2 class="modal__title" id="contactTitle">Contact</h2>
+  <ul class="modal__list">
+    <li>
+      <span class="modal__k">Discord</span>
+      <button class="modal__v" type="button" data-copy="sjs7">@sjs7</button>
+    </li>
+    <li>
+      <span class="modal__k">Instagram</span>
+      <a class="modal__v" href="https://instagram.com/killmirzaa" target="_blank" rel="noopener">@killmirzaa</a>
+    </li>
+    <li>
+      <span class="modal__k">Email</span>
+      <a class="modal__v" href="mailto:otherpc103@gmail.com">otherpc103@gmail.com</a>
+    </li>
+  </ul>
+</dialog>
+
+<script src="script.js"></script>
 </body>
 </html>
