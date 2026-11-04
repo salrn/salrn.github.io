@@ -278,7 +278,7 @@
           "guide": "This plugin is standalone and has a built in wrapper, meaning you can use this in DAWs other than FL Studio. Works with APO Equalizer aswell.",
           "image": "https://salrn.github.io/publicfiles/New Project.png",
           "download": "https://salrn.github.io/publicfiles/FruityCompressorBridge_x64.dll"
-        },
+        }
       ]
     },
     {
