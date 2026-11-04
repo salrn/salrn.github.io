@@ -172,7 +172,7 @@
       ]
     },
     {
-      "name": "Drum Kits & Presets",
+      "name": "Music",
       "items": [
         {
           "name": "##ceolifestyle Drum Kit (@hshsmarian)",
@@ -229,7 +229,56 @@
           "guide": "No available guide.",
           "image": "https://salrn.github.io/publicfiles/New Project.png",
           "download": "https://drive.usercontent.google.com/download?id=1c2EYZiE0U2PIk0vfaG7LOgBxpyO-OgZ5&export=download&authuser=0&confirm=t&uuid=905f44a8-7833-42f6-8a1f-714a918218cc&at=ALWLOp6Uic1P7XQMG0ErOGuVs1ua%3A1763838684028"
-        }
+        },
+        {
+          "name": "Soundgoodizer (Standalone, x64)",
+          "description": "Standalone",
+          "guide": "This plugin is standalone and has a built in wrapper, meaning you can use this in DAWs other than FL Studio. Works with APO Equalizer aswell.",
+          "image": "https://salrn.github.io/publicfiles/New Project.png",
+          "download": "https://salrn.github.io/publicfiles/SoundgoodizerBridge_x64.dll"
+        },
+        {
+          "name": "Fruity Reeverb 2 (Standalone, x64)",
+          "description": "Standalone",
+          "guide": "This plugin is standalone and has a built in wrapper, meaning you can use this in DAWs other than FL Studio. Works with APO Equalizer aswell.",
+          "image": "https://salrn.github.io/publicfiles/New Project.png",
+          "download": "https://salrn.github.io/publicfiles/FruityReeverb2Bridge_x64.dll"
+        },
+        {
+          "name": "Fruity Delay 2 (Standalone, x64)",
+          "description": "Standalone",
+          "guide": "This plugin is standalone and has a built in wrapper, meaning you can use this in DAWs other than FL Studio. Works with APO Equalizer aswell.",
+          "image": "https://salrn.github.io/publicfiles/New Project.png",
+          "download": "https://salrn.github.io/publicfiles/FruityDelay2Bridge_x64.dll"
+        },
+        {
+          "name": "Fruity Parametric EQ 2 (Standalone, x64)",
+          "description": "Standalone",
+          "guide": "This plugin is standalone and has a built in wrapper, meaning you can use this in DAWs other than FL Studio. Works with APO Equalizer aswell.",
+          "image": "https://salrn.github.io/publicfiles/New Project.png",
+          "download": "https://salrn.github.io/publicfiles/FruityParametricEQ2Bridge_x64.dll"
+        },
+        {
+          "name": "Fruity Limiter (Standalone, x64)",
+          "description": "Standalone",
+          "guide": "This plugin is standalone and has a built in wrapper, meaning you can use this in DAWs other than FL Studio. Works with APO Equalizer aswell.",
+          "image": "https://salrn.github.io/publicfiles/New Project.png",
+          "download": "https://salrn.github.io/publicfiles/FruityLimiterBridge_x64.dll"
+        },
+        {
+          "name": "Fruity Compressor (Standalone, x64)",
+          "description": "Standalone",
+          "guide": "This plugin is standalone and has a built in wrapper, meaning you can use this in DAWs other than FL Studio. Works with APO Equalizer aswell.",
+          "image": "https://salrn.github.io/publicfiles/New Project.png",
+          "download": "https://salrn.github.io/publicfiles/FruityCompressorBridge_x64.dll"
+        },
+        {
+          "name": "Fruity Compressor (Standalone, x64)",
+          "description": "Standalone",
+          "guide": "This plugin is standalone and has a built in wrapper, meaning you can use this in DAWs other than FL Studio. Works with APO Equalizer aswell.",
+          "image": "https://salrn.github.io/publicfiles/New Project.png",
+          "download": "https://salrn.github.io/publicfiles/FruityCompressorBridge_x64.dll"
+        },
       ]
     },
     {
