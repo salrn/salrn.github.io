@@ -7,6 +7,10 @@
 <link rel="icon" href="https://salrn.github.io/publicfiles/rs.png" type="image/png">
 <title>mirza's file browser</title>
 <style>
+:root{
+  --frame:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAERSURBVDhPrdNBagIxGMXxabWlQmkL3RQq9Q4uepPewbUn8A6C6GVn+n4hcTUuhAT+Y8j33psknzPU8VB5DIuwDE83UKOhbb4yWgDBc1iF1/AW3sNHxdyaGg0tTwssDwsvgegzfIXv8BM2FXNrajS0PLwlSKJ0hW3Yh2M4hXO4VMytqdHQ8vDKKOe1VW/ZT9N0GMdxl9+/OWrtQFs9vDLK1iTb8pEw/Ib1DdR2tNXDK6N0wiU6/6m+da0wN9RoMnVMHl4Z5aEjLvN8R5A74+G9BmmvzlzuCNIAHt7+Qd2O1uWyu7W/2x+y2yfS7aP1kGhBuq0SuUQd0V6YW1OjoeXhLUGGSQt0XgKdmEONpgWEYfgHTSjufe+VRvcAAAAASUVORK5CYII=");
+}
+.win::before{content:"";position:absolute;inset:0;border:6px solid transparent;border-image:var(--frame) 6 fill / 6px / 4px stretch;opacity:.45;pointer-events:none}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:#0f2238;color:#fff;font:14px/1.45 "Segoe UI",Tahoma,sans-serif}
 a{color:#cfe6ff}button,input{font:inherit}button,a,input{-webkit-tap-highlight-color:transparent}
@@ -69,28 +73,161 @@ const $ = id => document.getElementById(id);
 const viewport = document.querySelector('.viewport');
 const mosaic = document.querySelector('.mosaic');
 const tabsElement = document.querySelector('.tabs');
-const INVALID_JSON = 'invalid json file providen, mirza is stupid';
-const GAP = 10;
+const invalidMsg = 'invalid json file providen, mirza is stupid';
+const gap = 10;
 let tabs = [], allItems = [], protectedItems = null, filtered = [], columns = [];
 let active = 'all', unlocked = false, randomTitle = 'All Downloads', frame = 0, searchTimer;
 let protectedLoading = false, protectedError = '';
 const mounted = new Map();
-class InvalidJSON extends Error { constructor() { super(INVALID_JSON); } }
+class InvalidJSON extends Error { constructor(detail) { super(invalidMsg); if (detail) console.error('json problem:', detail); } }
 function safeURL(value) {
   if (typeof value !== 'string' || !value.trim()) return '';
   try { const url = new URL(value, document.baseURI); return ['http:', 'https:'].includes(url.protocol) ? url.href : ''; } catch { return ''; }
 }
 function validateItems(items) {
-  if (!Array.isArray(items)) throw new InvalidJSON();
+  if (!Array.isArray(items)) throw new InvalidJSON('items is not an array');
   for (const item of items) {
-    if (!item || typeof item !== 'object' || typeof item.name !== 'string' || !item.name.trim() || !safeURL(item.download)) throw new InvalidJSON();
-    for (const key of ['image','description','guide']) if (item[key] !== undefined && typeof item[key] !== 'string') throw new InvalidJSON();
-    if (item.image && !safeURL(item.image)) throw new InvalidJSON();
+    if (!item || typeof item !== 'object' || typeof item.name !== 'string' || !item.name.trim() || !safeURL(item.download)) throw new InvalidJSON(item);
+    for (const key of ['image','description','guide']) if (item[key] !== undefined && typeof item[key] !== 'string') throw new InvalidJSON(item);
+    if (item.image && !safeURL(item.image)) throw new InvalidJSON(item);
   }
   return items;
 }
 async function readJSON(path) {
-  const response = await fetch(path);
+  let response;
+  try { response = await fetch(path, {cache:'no-cache'}); } catch { throw new Error('Could not reach ' + path + '. Open the page over http(s), not file://.'); }
   if (!response.ok) throw new Error('Could not load ' + path + ' (HTTP ' + response.status + ').');
-  try { return await response.json(); } catch { throw new InvalidJSON(); }
+  try { return await response.json(); } catch { throw new InvalidJSON(path + ' is not valid JSON'); }
 }
+function showError(error) { $('error').textContent = error instanceof InvalidJSON ? invalidMsg : error.message || 'Could not load files. Please try again.'; $('error').hidden = false; }
+function records(items, category, prefix) { return items.map((item,index) => ({...item, category, id:prefix + index, search:item.name.toLowerCase()})); }
+function createTabs() {
+  const entries = [{id:'all',name:'All',count:allItems.length}, ...tabs.map((tab,index) => ({id:String(index),name:tab.name,count:tab.items.length})), {id:'protected',name:'VST and DAWs',count:'access code required'}];
+  for (const entry of entries) {
+    const button = document.createElement('button');
+    button.type = 'button'; button.className = 'tab' + (entry.id === 'protected' ? ' protected' : ''); button.dataset.section = entry.id;
+    button.setAttribute('aria-pressed', String(entry.id === active));
+    button.append(document.createTextNode(entry.name));
+    const count = document.createElement('span'); count.textContent = typeof entry.count === 'number' ? entry.count + ' files' : entry.count; button.append(count);
+    tabsElement.append(button);
+  }
+}
+function selectSection(id) {
+  if (id === 'protected' && !unlocked) { $('auth-error').hidden = true; $('auth-dialog').showModal(); return; }
+  active = id;
+  for (const button of tabsElement.children) button.setAttribute('aria-pressed', String(button.dataset.section === id));
+  $('section-title').textContent = id === 'all' ? randomTitle : id === 'protected' ? 'VST and DAWs' : tabs[Number(id)].name;
+  applyFilter();
+  if (id === 'protected' && protectedItems === null && !protectedLoading) loadProtected();
+}
+function applyFilter() {
+  const source = active === 'all' ? allItems : active === 'protected' ? protectedItems || [] : tabs[Number(active)].items;
+  const query = $('search').value.trim().toLowerCase();
+  filtered = query ? source.filter(item => item.search.includes(query)) : source;
+  $('count').textContent = filtered.length + (filtered.length === 1 ? ' file' : ' files') + (query ? ' found' : '');
+  $('message').textContent = active === 'protected' && protectedLoading ? 'Loading files…' : active === 'protected' && protectedError ? protectedError : query ? 'No files match your search.' : 'No files here yet.';
+  $('message').hidden = filtered.length > 0;
+  viewport.scrollTop = 0;
+  mosaic.replaceChildren(); mounted.clear(); layout();
+}
+function layout() {
+  const width = mosaic.clientWidth;
+  const number = Math.max(1, Math.floor((width + gap) / 230));
+  const cardWidth = (width - gap * (number - 1)) / number;
+  columns = Array.from({length:number}, () => []);
+  const bottoms = Array(number).fill(gap);
+  for (const item of filtered) {
+    const column = bottoms.indexOf(Math.min(...bottoms));
+    const lines = Math.min(5, Math.max(2, Math.ceil((item.description || '').length / Math.max(20, Math.floor((cardWidth - 24) / 7)))));
+    const height = 132 + lines * 19 + (item.image ? 138 : 0);
+    const cell = {item,top:bottoms[column],height,width:cardWidth,left:column * (cardWidth + gap),lines};
+    columns[column].push(cell); bottoms[column] += height + gap;
+  }
+  mosaic.style.height = Math.max(...bottoms) + 'px';
+  render();
+}
+function createCard(item) {
+  const card = document.createElement('article'); card.className = 'card'; card.setAttribute('role','listitem');
+  if (item.image) {
+    const link = document.createElement('a'); link.className = 'preview'; link.href = safeURL(item.image); link.target = '_blank'; link.rel = 'noopener'; link.setAttribute('aria-label','View image for ' + item.name);
+    const img = document.createElement('img'); img.alt = item.name; img.loading = 'lazy'; img.decoding = 'async'; img.src = safeURL(item.image); link.append(img); card.append(link);
+  }
+  const category = document.createElement('div'); category.className = 'category'; category.textContent = item.category;
+  const title = document.createElement('h3'); title.textContent = item.name; title.title = item.name;
+  const description = document.createElement('p'); description.textContent = item.description || ''; description.title = item.description || '';
+  const actions = document.createElement('div'); actions.className = 'actions';
+  const download = document.createElement('a'); download.className = 'btn'; download.textContent = 'Download'; download.href = safeURL(item.download); download.setAttribute('download','');
+  const guide = document.createElement('button'); guide.className = 'btn'; guide.textContent = 'Guide'; guide.addEventListener('click',() => { $('guide-title').textContent = item.name; $('guide-text').textContent = item.guide || 'No guide provided for this file.'; $('guide-dialog').showModal(); });
+  actions.append(download,guide); card.append(category,title,description,actions); return card;
+}
+function render() {
+  const top = Math.max(0,viewport.scrollTop - 220), bottom = viewport.scrollTop + viewport.clientHeight + 220;
+  const visible = new Set();
+  for (const column of columns) {
+    let lo = 0, hi = column.length;
+    while (lo < hi) { const mid = (lo + hi) >>> 1; if (column[mid].top + column[mid].height < top) lo = mid + 1; else hi = mid; }
+    for (let i = lo; i < column.length && column[i].top < bottom; i++) {
+      const cell = column[i]; visible.add(cell.item.id);
+      let card = mounted.get(cell.item.id);
+      if (!card) { card = createCard(cell.item); mounted.set(cell.item.id,card); mosaic.append(card); }
+      Object.assign(card.style,{top:cell.top+'px',left:cell.left+'px',width:cell.width+'px',height:cell.height+'px'});
+      card.querySelector('p').style.webkitLineClamp = String(cell.lines);
+    }
+  }
+  for (const [id,card] of mounted) if (!visible.has(id) && !card.contains(document.activeElement)) { card.remove(); mounted.delete(id); }
+  const ordered = [...mounted.values()].sort((a,b) => parseFloat(a.style.top)-parseFloat(b.style.top) || parseFloat(a.style.left)-parseFloat(b.style.left));
+  for (let i=0; i<ordered.length; i++) if (mosaic.children[i] !== ordered[i]) mosaic.insertBefore(ordered[i],mosaic.children[i] || null);
+}
+function scheduleRender() { if (!frame) frame = requestAnimationFrame(() => { frame = 0; render(); }); }
+viewport.addEventListener('scroll',scheduleRender,{passive:true});
+viewport.addEventListener('focusout',scheduleRender);
+new ResizeObserver(layout).observe(mosaic);
+tabsElement.addEventListener('click',event => { const button = event.target.closest('button[data-section]'); if (button) selectSection(button.dataset.section); });
+$('search').addEventListener('input',() => { clearTimeout(searchTimer); searchTimer = setTimeout(applyFilter,100); });
+$('cancel-auth').addEventListener('click',() => $('auth-dialog').close());
+$('auth-dialog').addEventListener('close',() => { $('access-code').value = ''; });
+$('auth-form').addEventListener('submit',event => {
+  event.preventDefault();
+  if ($('access-code').value.trim() !== 'demo123') { $('auth-error').hidden = false; $('access-code').value = ''; return; }
+  unlocked = true; $('auth-dialog').close();
+  tabsElement.querySelector('[data-section="protected"] span').textContent = 'unlocked'; selectSection('protected');
+});
+async function loadProtected() {
+  protectedLoading = true; protectedError = ''; applyFilter();
+  try {
+    let data = await readJSON('protected-info.json');
+    if (data && Object.hasOwn(data,'encrypted')) {
+      try {
+        if (typeof data.encrypted !== 'string') throw new InvalidJSON('encrypted is not a string');
+        const bytes = Uint8Array.from(atob(data.encrypted),char => char.charCodeAt(0));
+        const decoded = new TextDecoder('utf-8',{fatal:true}).decode(bytes);
+        const key = 'HMIF4HI66QCJRDTIEBBJQHCU45TOWIKQ';
+        let plain = ''; for (let i=0;i<decoded.length;i++) plain += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        data = JSON.parse(plain);
+      } catch(error) { throw error instanceof InvalidJSON ? error : new InvalidJSON('could not decrypt protected-info.json'); }
+    }
+    protectedItems = records(validateItems(data?.items),'VST and DAWs','p');
+  } catch(error) { protectedError = error instanceof InvalidJSON ? invalidMsg : error.message || 'Could not load protected files.'; }
+  finally { protectedLoading = false; if (active === 'protected') applyFilter(); }
+}
+async function init() {
+  try {
+    const data = await readJSON('info.json');
+    if (!data || !Array.isArray(data.tabs)) throw new InvalidJSON('info.json needs a "tabs" array');
+    tabs = data.tabs.map((tab,index) => {
+      if (!tab || typeof tab.name !== 'string' || !tab.name.trim()) throw new InvalidJSON(tab);
+      return {name:tab.name,items:records(validateItems(tab.items),tab.name,'t'+index+'-')};
+    });
+    allItems = tabs.flatMap(tab => tab.items); createTabs(); applyFilter();
+  } catch(error) { console.error(error); showError(error); $('count').textContent = 'Files unavailable'; $('search').disabled = true; return; }
+  try {
+    const response = await fetch('titles.json',{cache:'no-cache'}); if (!response.ok) return;
+    let data; try { data = await response.json(); } catch { throw new InvalidJSON('titles.json is not valid JSON'); }
+    if (!data || !Array.isArray(data.titles) || !data.titles.length || !data.titles.every(title => typeof title === 'string' && title.trim())) throw new InvalidJSON('titles.json needs a non-empty "titles" array of strings');
+    randomTitle = data.titles[Math.floor(Math.random()*data.titles.length)]; if (active === 'all') $('section-title').textContent = randomTitle;
+  } catch(error) { if (error instanceof InvalidJSON) showError(error); }
+}
+init();
+</script>
+</body>
+</html>
